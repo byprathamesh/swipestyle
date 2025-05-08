@@ -23,19 +23,26 @@ const SwipeStyleLogo = ({ className = "", size = "md", withText = true }: LogoPr
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <div className={`relative ${sizes[size]}`}>
-        <div className="absolute inset-0 bg-white rounded-full animate-pulse opacity-75" />
-        <div className={`${sizes[size]} rounded-full bg-black overflow-hidden flex items-center justify-center relative z-10`}>
-          {/* Stylized S with swipe curve */}
+        {/* Logo container with animation */}
+        <div className="absolute inset-0 bg-white/10 rounded-full animate-pulse" />
+        <div className={`${sizes[size]} rounded-full bg-black border-2 border-white overflow-hidden flex items-center justify-center relative z-10`}>
+          {/* Stylized S with swipe motion */}
           <svg 
-            className="w-2/3 h-2/3" 
+            className="w-3/4 h-3/4" 
             viewBox="0 0 24 24" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
           >
             <path 
-              d="M18 7C16.5 4 14 3 12 3C8.5 3 7 6 7 8C7 10 8 12 11 13L14 14C17 15 18 16 18 18C18 20 16.5 21 14 21C11.5 21 10 19.5 9 17" 
+              d="M18 7C16 4 12.5 3 10 3C6.5 3 4 5.5 4 8.5C4 11.5 6 13 10 14L14 15C18 16 20 17.5 20 20.5C20 23.5 17.5 26 14 26C11.5 26 8 25 6 22" 
               stroke="white" 
-              strokeWidth="2.5" 
+              strokeWidth="3" 
+              strokeLinecap="round"
+            />
+            <path 
+              d="M6 18L3 21M18 6L21 3" 
+              stroke="white" 
+              strokeWidth="2" 
               strokeLinecap="round"
             />
           </svg>
@@ -43,7 +50,7 @@ const SwipeStyleLogo = ({ className = "", size = "md", withText = true }: LogoPr
       </div>
       {withText && (
         <h1 className={`font-bold ${textSizes[size]} text-white`}>
-          <span>SwipeStyle</span>
+          SwipeStyle
         </h1>
       )}
     </div>

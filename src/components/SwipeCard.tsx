@@ -60,11 +60,12 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
       exit={{ x: exitX, opacity: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       style={{ transformOrigin: "center center" }}
-      whileDrag={(values) => {
-        if (values && values.x) {
-          return { rotate: getRotation(values.x) };
+      // Fix: Changed whileDrag to properly handle the type requirements of framer-motion
+      whileDrag={{ rotate: 0 }}
+      dragTransition={{
+        modifyTarget: (target) => {
+          return getRotation(target.x);
         }
-        return {};
       }}
       ref={dragConstraints}
     >
