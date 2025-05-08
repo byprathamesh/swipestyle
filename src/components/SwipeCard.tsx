@@ -57,6 +57,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
       onDragEnd={handleDragEnd}
       animate={controls}
       initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1, transition: { duration: 0.3 } }}
       exit={{ x: exitX, opacity: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       style={{ transformOrigin: "center center" }}
@@ -64,11 +65,11 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
       dragTransition={{
         power: 0.2,
         timeConstant: 200,
-        modifyTarget: (target: number) => getRotation(target)
+        modifyTarget: (target) => getRotation(target)
       }}
       ref={dragConstraints}
     >
-      {/* Background Image */}
+      {/* Background Image with enhanced overlay */}
       <div className="w-full h-full relative">
         <img 
           src={image} 
@@ -76,24 +77,26 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
           className="w-full h-full object-cover"
         />
         
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        {/* Enhanced gradient overlay with animated border */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
+          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-white/0 via-white/50 to-white/0 animate-pulse"></div>
+        </div>
         
-        {/* Content */}
+        {/* Content with improved styling */}
         <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
           {isDesign ? (
-            <div className="inline-block px-2 py-1 bg-primary rounded-full text-xs font-medium mb-2">
+            <div className="inline-block px-3 py-1 bg-white text-black rounded-full text-xs font-medium mb-2 shadow-lg">
               Design
             </div>
           ) : (
-            <div className="inline-block px-2 py-1 bg-secondary rounded-full text-xs font-medium mb-2">
+            <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm text-white rounded-full text-xs font-medium mb-2 shadow-lg border border-white/30">
               Outfit
             </div>
           )}
           
-          <h2 className="text-2xl font-bold mb-2">{title}</h2>
+          <h2 className="text-3xl font-bold mb-2 drop-shadow-md">{title}</h2>
           
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-3 backdrop-blur-sm bg-black/30 p-2 rounded-lg">
             <Link to={`/creator/${creator.id}`} className="flex items-center gap-2">
               <img 
                 src={creator.avatar} 
@@ -105,66 +108,66 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
                 <span className="bg-white text-black rounded-full p-0.5 w-4 h-4 flex items-center justify-center text-[10px]">✓</span>
               )}
             </Link>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 bg-white/10 px-2 py-1 rounded-full">
               <Heart className="w-4 h-4 text-white" />
               <span className="text-sm">{likes.toLocaleString()}</span>
             </div>
           </div>
           
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-xl font-bold">${price.toFixed(2)}</span>
-            <Link to={detailPath} className="bg-white text-black font-semibold py-2 px-4 rounded-full hover:bg-white/90 transition-colors">
+          <div className="flex justify-between items-center mt-4 backdrop-blur-sm bg-black/40 p-3 rounded-lg">
+            <span className="text-xl font-bold bg-white/10 px-3 py-1 rounded-full">${price.toFixed(2)}</span>
+            <Link to={detailPath} className="bg-white text-black font-semibold py-2 px-6 rounded-full hover:bg-white/90 transition-colors shadow-lg">
               View Details
             </Link>
           </div>
         </div>
 
-        {/* Swipe indicators */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-6 bg-white/20 backdrop-blur-md p-4 rounded-full opacity-0 transition-opacity duration-300" id="swipe-left">
+        {/* Enhanced swipe indicators */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-6 bg-black/50 backdrop-blur-md p-4 rounded-full opacity-0 transition-opacity duration-300 border border-white/20 shadow-xl" id="swipe-left">
           <X className="w-8 h-8 text-white" />
         </div>
-        <div className="absolute top-1/2 -translate-y-1/2 right-6 bg-white/20 backdrop-blur-md p-4 rounded-full opacity-0 transition-opacity duration-300" id="swipe-right">
+        <div className="absolute top-1/2 -translate-y-1/2 right-6 bg-black/50 backdrop-blur-md p-4 rounded-full opacity-0 transition-opacity duration-300 border border-white/20 shadow-xl" id="swipe-right">
           <Heart className="w-8 h-8 text-white" />
         </div>
       </div>
 
-      {/* Action buttons - shown on desktop */}
+      {/* Action buttons - shown on desktop with enhanced styling */}
       <div className="absolute bottom-[100px] left-1/2 -translate-x-1/2 flex gap-4 hidden md:flex">
         <Button 
           variant="outline"
           size="icon" 
-          className="rounded-full w-14 h-14 bg-white/20 backdrop-blur-md border-white/30 text-white hover:bg-white/30"
+          className="rounded-full w-16 h-16 bg-black/40 backdrop-blur-md border-white/30 text-white hover:bg-white/20 transition-all duration-300 shadow-lg"
           onClick={() => {
             setExitX(-200);
             controls.start({ x: -200, opacity: 0, rotate: -30, transition: { duration: 0.5 } }).then(onSwipeComplete);
             onSwipeLeft(item);
           }}
         >
-          <X className="w-6 h-6" />
+          <X className="w-7 h-7" />
         </Button>
         
         <Button
           variant="outline"
           size="icon"
-          className="rounded-full w-14 h-14 bg-white/20 backdrop-blur-md border-white/30 text-white hover:bg-white/30"
+          className="rounded-full w-16 h-16 bg-black/40 backdrop-blur-md border-white/30 text-white hover:bg-white/20 transition-all duration-300 shadow-lg"
           onClick={() => {
             setExitX(200);
             controls.start({ x: 200, opacity: 0, rotate: 30, transition: { duration: 0.5 } }).then(onSwipeComplete);
             onSwipeRight(item);
           }}
         >
-          <Heart className="w-6 h-6 text-white" />
+          <Heart className="w-7 h-7 text-white" />
         </Button>
         
         <Button
           variant="outline"
           size="icon"
-          className="rounded-full w-14 h-14 bg-white/20 backdrop-blur-md border-white/30 text-white hover:bg-white/30"
+          className="rounded-full w-16 h-16 bg-black/40 backdrop-blur-md border-white/30 text-white hover:bg-white/20 transition-all duration-300 shadow-lg"
           onClick={() => {
             window.location.href = `/checkout/${isDesign ? 'design' : 'outfit'}/${item.id}`;
           }}
         >
-          <ShoppingCart className="w-6 h-6" />
+          <ShoppingCart className="w-7 h-7" />
         </Button>
       </div>
     </motion.div>
