@@ -14,11 +14,11 @@
     --popover: 0 0% 3%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 295 85% 60%; /* Neon pink */
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 100%; /* White */
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 199 82% 49%; /* Electric blue */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 85%; /* Light gray */
+    --secondary-foreground: 0 0% 0%;
 
     --muted: 0 0% 15%;
     --muted-foreground: 240 5% 65%;
@@ -31,20 +31,22 @@
 
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 295 85% 60%;
+    --ring: 0 0% 100%;
 
     --radius: 1.5rem;
 
     --sidebar-background: 0 0% 3%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 295 85% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
     --sidebar-accent: 0 0% 10%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 295 85% 60%;
+    --sidebar-ring: 0 0% 100%;
   }
+}
 
+@layer base {
   * {
     @apply border-border;
   }
@@ -56,11 +58,11 @@
 
 @layer components {
   .swipestyle-gradient {
-    @apply bg-gradient-to-r from-[#D946EF] to-[#1EAEDB];
+    @apply bg-white;
   }
   
   .swipestyle-gradient-text {
-    @apply bg-gradient-to-r from-[#D946EF] to-[#1EAEDB] bg-clip-text text-transparent;
+    @apply text-white;
   }
   
   .swipe-card {

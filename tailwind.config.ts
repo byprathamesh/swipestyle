@@ -65,10 +65,9 @@ export default {
 				},
 				// SwipeStyle custom colors
 				swipestyle: {
-					'pink': '#D946EF',  // Neon pink
-					'blue': '#1EAEDB',  // Electric blue
-					'black': '#000000', // Black
-					'white': '#FFFFFF', // White
+					'white': '#FFFFFF',
+					'black': '#000000',
+					'gray': '#888888',
 				},
 			},
 			borderRadius: {
@@ -96,8 +95,8 @@ export default {
 					'100%': { opacity: '1' }
 				},
 				'pulse-glow': {
-					'0%, 100%': { filter: 'drop-shadow(0 0 0.5rem rgba(217, 70, 239, 0.5))' },
-					'50%': { filter: 'drop-shadow(0 0 1rem rgba(217, 70, 239, 0.8))' }
+					'0%, 100%': { filter: 'drop-shadow(0 0 0.5rem rgba(255, 255, 255, 0.5))' },
+					'50%': { filter: 'drop-shadow(0 0 1rem rgba(255, 255, 255, 0.8))' }
 				}
 			},
 			animation: {

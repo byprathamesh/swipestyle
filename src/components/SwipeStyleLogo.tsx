@@ -23,8 +23,8 @@ const SwipeStyleLogo = ({ className = "", size = "md", withText = true }: LogoPr
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <div className={`relative ${sizes[size]}`}>
-        <div className="absolute inset-0 bg-swipestyle-pink rounded-full animate-pulse-glow opacity-75" />
-        <div className={`${sizes[size]} rounded-full bg-gradient-to-br from-swipestyle-pink to-swipestyle-blue overflow-hidden flex items-center justify-center relative z-10`}>
+        <div className="absolute inset-0 bg-white rounded-full animate-pulse opacity-75" />
+        <div className={`${sizes[size]} rounded-full bg-black overflow-hidden flex items-center justify-center relative z-10`}>
           {/* Stylized S with swipe curve */}
           <svg 
             className="w-2/3 h-2/3" 
@@ -42,7 +42,7 @@ const SwipeStyleLogo = ({ className = "", size = "md", withText = true }: LogoPr
         </div>
       </div>
       {withText && (
-        <h1 className={`font-bold ${textSizes[size]} swipestyle-gradient-text`}>
+        <h1 className={`font-bold ${textSizes[size]} text-white`}>
           <span>SwipeStyle</span>
         </h1>
       )}

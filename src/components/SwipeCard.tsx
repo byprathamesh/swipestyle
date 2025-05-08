@@ -57,15 +57,15 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
       onDragEnd={handleDragEnd}
       animate={controls}
       initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
       exit={{ x: exitX, opacity: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      style={{
-        transformOrigin: "center center",
+      style={{ transformOrigin: "center center" }}
+      whileDrag={(values) => {
+        if (values && values.x) {
+          return { rotate: getRotation(values.x) };
+        }
+        return {};
       }}
-      whileDrag={(_, info) => ({
-        rotate: getRotation(info.offset.x),
-      })}
       ref={dragConstraints}
     >
       {/* Background Image */}
@@ -102,11 +102,11 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
               />
               <span className="font-medium">{creator.displayName}</span>
               {creator.isVerified && (
-                <span className="bg-swipestyle-blue text-white rounded-full p-0.5 w-4 h-4 flex items-center justify-center text-[10px]">✓</span>
+                <span className="bg-white text-black rounded-full p-0.5 w-4 h-4 flex items-center justify-center text-[10px]">✓</span>
               )}
             </Link>
             <div className="flex items-center gap-1">
-              <Heart className="w-4 h-4 text-swipestyle-pink" />
+              <Heart className="w-4 h-4 text-white" />
               <span className="text-sm">{likes.toLocaleString()}</span>
             </div>
           </div>
@@ -124,7 +124,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
           <X className="w-8 h-8 text-white" />
         </div>
         <div className="absolute top-1/2 -translate-y-1/2 right-6 bg-white/20 backdrop-blur-md p-4 rounded-full opacity-0 transition-opacity duration-300" id="swipe-right">
-          <Heart className="w-8 h-8 text-swipestyle-pink" />
+          <Heart className="w-8 h-8 text-white" />
         </div>
       </div>
 
@@ -153,7 +153,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
             onSwipeRight(item);
           }}
         >
-          <Heart className="w-6 h-6 text-swipestyle-pink" />
+          <Heart className="w-6 h-6 text-white" />
         </Button>
         
         <Button
