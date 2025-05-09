@@ -27,9 +27,10 @@ const SwipeStyleLogo = ({ className = "", size = "md" }: LogoProps) => {
     md: "h-10 w-10",
     lg: "h-12 w-12",
   };
-
   return (
-    <HangerSSLogoSVG className={sizes[size] + " " + className} />
+    <div className={`flex items-center justify-center rounded-full bg-black ${sizes[size]} ${className}`}>
+      <span className="text-white font-bold text-xl select-none">SS</span>
+    </div>
   );
 };
 

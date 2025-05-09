@@ -30,68 +30,32 @@ import SwipeStyleLogo from "@/components/SwipeStyleLogo";
 
 // Fashion image URLs - using random fashion images from Unsplash
 const fashionImages = [
-  // Streetwear
-  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80",
-  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80",
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
-  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80",
-  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80",
-  "https://images.unsplash.com/photo-1465101178521-c1a9136a3b41?w=800&q=80",
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
-  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
-  // Formal
-  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
-  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80",
-  "https://images.unsplash.com/photo-1517260911205-8c6b8b6b7b8b?w=800&q=80",
-  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80",
-  // Vintage
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
-  "https://images.unsplash.com/photo-1465101178521-c1a9136a3b41?w=800&q=80",
-  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80",
-  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80",
-  // Party
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
-  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
-  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
-  // Shoes
-  "https://images.unsplash.com/photo-1517260911205-8c6b8b6b7b8b?w=800&q=80",
-  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80",
-  // Outerwear
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
-  // Accessories
-  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
-  // Runway
-  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80",
-  // Editorial
-  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80",
-  // Men
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
-  // Women
-  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80",
-  // Add more links for each category as needed...
-  // ...
+  // Only fashion, clothing, outfit, or celebrity style images
+  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80", // street style
+  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80", // runway
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80", // vintage
+  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80", // editorial
+  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80", // street style
+  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80", // formal
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80", // women
+  "https://images.unsplash.com/photo-1517260911205-8c6b8b6b7b8b?w=800&q=80", // shoes
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80", // men
+  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80", // accessories
+  // Add more only if they are clearly fashion/outfit/celeb style
 ];
 
 // Video thumbnails for GRWM content
 const grwmImages = [
-  // Unsplash fashion video thumbnails
+  // Only fashion-related video thumbnails or GRWM YouTube video thumbnails
   "https://images.unsplash.com/photo-1604904612715-47bf142e7af3?w=800&q=80",
   "https://images.unsplash.com/photo-1596442127435-f4e97364cf43?w=800&q=80",
   "https://images.unsplash.com/photo-1618001789159-ffffe6f96ef2?w=800&q=80",
   "https://images.unsplash.com/photo-1627483298235-f3bac2567c1c?w=800&q=80",
   "https://images.unsplash.com/photo-1596240898540-115bc4fa9f14?w=800&q=80",
-  "https://images.unsplash.com/photo-1565052424785-6dcdf0f10c19?w=800&q=80",
-  "https://images.unsplash.com/photo-1530041539828-114de669390e?w=800&q=80",
-  "https://images.unsplash.com/photo-1511929825537-516974a253df?w=800&q=80",
-  "https://images.unsplash.com/photo-1562572159-4efc207f5aff?w=800&q=80",
-  "https://images.unsplash.com/photo-1516914589923-f105f1535f88?w=800&q=80",
-  // GRWM YouTube video links (thumbnails)
+  // Example GRWM YouTube video thumbnails (replace with real ones if available)
   "https://img.youtube.com/vi/1GRWM_VIDEO_ID1/maxresdefault.jpg",
   "https://img.youtube.com/vi/2GRWM_VIDEO_ID2/maxresdefault.jpg",
   "https://img.youtube.com/vi/3GRWM_VIDEO_ID3/maxresdefault.jpg",
-  // ...add more GRWM video thumbnails...
 ];
 
 const categories = [
