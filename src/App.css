@@ -163,3 +163,26 @@ body, html {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
 }
+
+/* Critical fix for content visibility */
+.swipe-card {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure images are visible */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Fix for layout issues */
+.max-w-md {
+  width: 100%;
+}
+
+/* Force visibility on content */
+.relative {
+  position: relative;
+  z-index: 1;
+}

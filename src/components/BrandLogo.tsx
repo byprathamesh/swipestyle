@@ -24,11 +24,9 @@ const BrandLogo = ({ className = "", size = "md", withText = true }: LogoProps) 
     <div className={`flex items-center gap-2 ${className}`}>
       <div className={`relative ${sizes[size]}`}>
         <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse-glow"></div>
-        <img 
-          src="/lovable-uploads/e7745860-5461-4457-b708-9323e360325d.png"
-          alt="Brand Logo" 
-          className={`${sizes[size]} object-cover rounded-full shadow-lg`}
-        />
+        <div className={`${sizes[size]} bg-white rounded-full flex items-center justify-center text-black font-bold`}>
+          SS
+        </div>
       </div>
       
       {withText && (

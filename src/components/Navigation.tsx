@@ -42,7 +42,7 @@ const Navigation = () => {
                   : "text-white/60 hover:text-white/80"
               }`}
             >
-              <item.icon className="h-5 w-5" strokeWidth={2.5} fill={location.pathname === item.path ? "white" : "none"} />
+              <item.icon className="h-5 w-5" strokeWidth={2} fill={location.pathname === item.path ? "white" : "none"} />
               <span className="text-xs mt-1 font-medium">{item.label}</span>
             </Link>
           ))}
@@ -73,7 +73,7 @@ const Navigation = () => {
               <div className={`p-2 rounded-xl transition-all duration-300 ${isActive ? "bg-white/10" : "hover:bg-white/5"}`}>
                 <item.icon 
                   className={`h-6 w-6 transition-transform ${isActive ? "scale-110" : "group-hover:scale-105"}`} 
-                  strokeWidth={2.5}
+                  strokeWidth={2}
                   fill={isActive ? "white" : "none"} 
                 />
               </div>

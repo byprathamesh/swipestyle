@@ -9,7 +9,7 @@ type ContentToggleProps = {
 
 const ContentToggle = ({ activeTab, onToggle }: ContentToggleProps) => {
   return (
-    <div className="bg-black/50 backdrop-blur-lg p-1 rounded-full flex border border-white/30 shadow-lg">
+    <div className="bg-black/70 backdrop-blur-lg p-1.5 rounded-full flex border border-white/30 shadow-lg">
       <Button 
         variant="ghost" 
         size="sm" 
