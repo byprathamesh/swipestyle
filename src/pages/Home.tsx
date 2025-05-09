@@ -7,7 +7,6 @@ import { FeedItem } from "@/types";
 import { toast } from "@/components/ui/sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
-  Circle,
   Sparkles,
   Heart,
   ShoppingBag,
@@ -29,6 +28,34 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+// Fashion image URLs - using random fashion images from Unsplash
+const fashionImages = [
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
+  "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80",
+  "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80",
+  "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&q=80",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
+  "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80",
+  "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&q=80",
+  "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80",
+  "https://images.unsplash.com/photo-1566206091558-7f218b696731?w=800&q=80",
+  "https://images.unsplash.com/photo-1566491888763-e71518bbe846?w=800&q=80"
+];
+
+// Video thumbnails for GRWM content
+const grwmImages = [
+  "https://images.unsplash.com/photo-1604904612715-47bf142e7af3?w=800&q=80",
+  "https://images.unsplash.com/photo-1596442127435-f4e97364cf43?w=800&q=80",
+  "https://images.unsplash.com/photo-1618001789159-ffffe6f96ef2?w=800&q=80",
+  "https://images.unsplash.com/photo-1627483298235-f3bac2567c1c?w=800&q=80",
+  "https://images.unsplash.com/photo-1596240898540-115bc4fa9f14?w=800&q=80",
+  "https://images.unsplash.com/photo-1565052424785-6dcdf0f10c19?w=800&q=80",
+  "https://images.unsplash.com/photo-1530041539828-114de669390e?w=800&q=80",
+  "https://images.unsplash.com/photo-1511929825537-516974a253df?w=800&q=80",
+  "https://images.unsplash.com/photo-1562572159-4efc207f5aff?w=800&q=80",
+  "https://images.unsplash.com/photo-1516914589923-f105f1535f88?w=800&q=80"
+];
+
 const Home = () => {
   const [currentItems, setCurrentItems] = useState<FeedItem[]>([]);
   const [savedItems, setSavedItems] = useState<FeedItem[]>([]);
@@ -37,14 +64,18 @@ const Home = () => {
   const [showAIMenu, setShowAIMenu] = useState(false);
   const isMobile = useIsMobile();
   
-  // Create a larger pool of items by duplicating and enhancing the feed items
+  // Create a larger pool of items by enhancing the feed items with our random fashion images
   const generateMoreItems = (count: number, type: "pictures" | "videos" = "pictures"): FeedItem[] => {
     const items: FeedItem[] = [];
+    const imageSource = type === "pictures" ? fashionImages : grwmImages;
     
     for (let i = 0; i < count; i++) {
       // Get a random item from feedItems and create a copy with a unique ID
       const randomIndex = Math.floor(Math.random() * feedItems.length);
       const originalItem = feedItems[randomIndex];
+      
+      // Select a random image from our collection
+      const randomImageIndex = Math.floor(Math.random() * imageSource.length);
       
       // Deep clone the item and add a unique ID
       const newItem: FeedItem = {
@@ -57,6 +88,13 @@ const Home = () => {
           rent: Math.random() > 0.6
         }
       };
+
+      // Replace the image with our random fashion image
+      if ("images" in newItem) {
+        newItem.images = [imageSource[randomImageIndex]];
+      } else if (newItem.items && newItem.items.length > 0) {
+        newItem.items[0].image = imageSource[randomImageIndex];
+      }
 
       // Add some variety to titles for videos
       if (type === "videos") {
@@ -77,10 +115,22 @@ const Home = () => {
       // Load random items initially for better variety
       setCurrentItems(generateMoreItems(15, contentType));
       setLoading(false);
-    }, 1000);
+    }, 600); // Reduced loading time for better UX
 
     return () => clearTimeout(timer);
   }, [contentType]);
+
+  // Show a toast when the page loads to guide the user
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      toast.info('Swipe right to save items you like', {
+        description: 'Discover fashion that matches your style',
+        duration: 3000,
+      });
+    }, 1500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSwipeRight = (item: FeedItem) => {
     setSavedItems([...savedItems, item]);
@@ -155,6 +205,13 @@ const Home = () => {
     }, 800);
   };
 
+  // Check if we need to load initial items when current items are empty
+  useEffect(() => {
+    if (!loading && currentItems.length === 0) {
+      setCurrentItems(generateMoreItems(15, contentType));
+    }
+  }, [currentItems.length, loading, contentType]);
+
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-4 pt-6 pb-20 min-h-screen relative">
@@ -173,12 +230,12 @@ const Home = () => {
                   className="bg-white/10 backdrop-blur-sm p-2 rounded-full flex items-center justify-center border border-white/20 group hover:bg-white/20 transition-all duration-300"
                   title="Get AI Style recommendations"
                 >
-                  <Circle className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                  <Sparkles className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-black/80 backdrop-blur-md border border-white/20 rounded-xl shadow-xl animate-fade-in text-white min-w-[180px]">
                 <div className="px-3 py-2 text-sm font-medium border-b border-white/10 flex items-center gap-2">
-                  <Circle className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4" />
                   AI Style
                 </div>
                 {['Party', 'Work', 'Casual', 'Date', 'Formal'].map(occasion => (
