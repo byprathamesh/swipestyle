@@ -30,20 +30,53 @@ import SwipeStyleLogo from "@/components/SwipeStyleLogo";
 
 // Fashion image URLs - using random fashion images from Unsplash
 const fashionImages = [
-  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
-  "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80",
-  "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80",
-  "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&q=80",
+  // Streetwear
+  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80",
+  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80",
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
+  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80",
+  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80",
+  "https://images.unsplash.com/photo-1465101178521-c1a9136a3b41?w=800&q=80",
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
   "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
-  "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80",
-  "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&q=80",
-  "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80",
-  "https://images.unsplash.com/photo-1566206091558-7f218b696731?w=800&q=80",
-  "https://images.unsplash.com/photo-1566491888763-e71518bbe846?w=800&q=80"
+  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
+  // Formal
+  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80",
+  "https://images.unsplash.com/photo-1517260911205-8c6b8b6b7b8b?w=800&q=80",
+  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80",
+  // Vintage
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
+  "https://images.unsplash.com/photo-1465101178521-c1a9136a3b41?w=800&q=80",
+  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80",
+  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80",
+  // Party
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
+  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
+  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
+  // Shoes
+  "https://images.unsplash.com/photo-1517260911205-8c6b8b6b7b8b?w=800&q=80",
+  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80",
+  // Outerwear
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
+  // Accessories
+  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
+  // Runway
+  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80",
+  // Editorial
+  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80",
+  // Men
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
+  // Women
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80",
+  // Add more links for each category as needed...
+  // ...
 ];
 
 // Video thumbnails for GRWM content
 const grwmImages = [
+  // Unsplash fashion video thumbnails
   "https://images.unsplash.com/photo-1604904612715-47bf142e7af3?w=800&q=80",
   "https://images.unsplash.com/photo-1596442127435-f4e97364cf43?w=800&q=80",
   "https://images.unsplash.com/photo-1618001789159-ffffe6f96ef2?w=800&q=80",
@@ -53,8 +86,42 @@ const grwmImages = [
   "https://images.unsplash.com/photo-1530041539828-114de669390e?w=800&q=80",
   "https://images.unsplash.com/photo-1511929825537-516974a253df?w=800&q=80",
   "https://images.unsplash.com/photo-1562572159-4efc207f5aff?w=800&q=80",
-  "https://images.unsplash.com/photo-1516914589923-f105f1535f88?w=800&q=80"
+  "https://images.unsplash.com/photo-1516914589923-f105f1535f88?w=800&q=80",
+  // GRWM YouTube video links (thumbnails)
+  "https://img.youtube.com/vi/1GRWM_VIDEO_ID1/maxresdefault.jpg",
+  "https://img.youtube.com/vi/2GRWM_VIDEO_ID2/maxresdefault.jpg",
+  "https://img.youtube.com/vi/3GRWM_VIDEO_ID3/maxresdefault.jpg",
+  // ...add more GRWM video thumbnails...
 ];
+
+const categories = [
+  "All",
+  "Streetwear",
+  "Formal",
+  "Vintage",
+  "Party",
+  "Shoes",
+  "Outerwear",
+  "Accessories",
+  "Runway",
+  "Editorial",
+  "Men",
+  "Women"
+];
+
+const categoryKeywords: Record<string, string[]> = {
+  Streetwear: ["street", "urban"],
+  Formal: ["formal", "suit", "dress"],
+  Vintage: ["vintage", "retro", "classic"],
+  Party: ["party", "night", "club"],
+  Shoes: ["shoes", "boots", "sneaker", "platform"],
+  Outerwear: ["jacket", "coat", "outerwear", "pullover"],
+  Accessories: ["accessory", "bag", "hat", "scarf"],
+  Runway: ["runway", "fashion week"],
+  Editorial: ["editorial", "magazine"],
+  Men: ["men", "male", "guy"],
+  Women: ["women", "female", "girl"]
+};
 
 const Home = () => {
   const [currentItems, setCurrentItems] = useState<FeedItem[]>([]);
@@ -63,11 +130,50 @@ const Home = () => {
   const [contentType, setContentType] = useState<"pictures" | "videos">("pictures");
   const [showAIMenu, setShowAIMenu] = useState(false);
   const isMobile = useIsMobile();
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [likedCategories, setLikedCategories] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('likedCategories') || '[]');
+    } catch {
+      return [];
+    }
+  });
+  const [uploadedImages, setUploadedImages] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('uploadedImages') || '[]');
+    } catch {
+      return [];
+    }
+  });
   
-  // Create a larger pool of items by enhancing the feed items with our random fashion images
-  const generateMoreItems = (count: number, type: "pictures" | "videos" = "pictures"): FeedItem[] => {
+  // Helper to filter images by category
+  const filterImagesByCategory = (images: string[], category: string) => {
+    if (category === "All") return images;
+    const keywords = categoryKeywords[category] || [];
+    return images.filter(url =>
+      keywords.some(kw => url.toLowerCase().includes(kw))
+    );
+  };
+
+  // Update localStorage when uploadedImages changes
+  useEffect(() => {
+    localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
+  }, [uploadedImages]);
+
+  // Add uploaded images to the image pool
+  const getImageSource = (type: "pictures" | "videos", category: string) => {
+    let base = type === "pictures" ? fashionImages : grwmImages;
+    if (uploadedImages.length > 0 && (category === 'All' || category === 'User Uploads')) {
+      base = [...uploadedImages, ...base];
+    }
+    return filterImagesByCategory(base, category);
+  };
+
+  // Updated generateMoreItems to respect selectedCategory
+  const generateMoreItems = (count: number, type: "pictures" | "videos" = "pictures", category: string = selectedCategory): FeedItem[] => {
     const items: FeedItem[] = [];
-    const imageSource = type === "pictures" ? fashionImages : grwmImages;
+    let imageSource = getImageSource(type, category);
+    if (imageSource.length === 0) imageSource = getImageSource(type, 'All');
     
     for (let i = 0; i < count; i++) {
       // Get a random item from feedItems and create a copy with a unique ID
@@ -113,12 +219,12 @@ const Home = () => {
     // Simulate loading data with a larger initial pool
     const timer = setTimeout(() => {
       // Load random items initially for better variety
-      setCurrentItems(generateMoreItems(15, contentType));
+      setCurrentItems(generateMoreItems(15, contentType, selectedCategory));
       setLoading(false);
     }, 600); // Reduced loading time for better UX
 
     return () => clearTimeout(timer);
-  }, [contentType]);
+  }, [contentType, selectedCategory]);
 
   // Show a toast when the page loads to guide the user
   useEffect(() => {
@@ -132,8 +238,45 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Update localStorage when likedCategories changes
+  useEffect(() => {
+    localStorage.setItem('likedCategories', JSON.stringify(likedCategories));
+  }, [likedCategories]);
+
+  // Helper to get a random category, favoring likedCategories
+  const getRandomCategory = () => {
+    if (likedCategories.length > 0 && Math.random() < 0.7) {
+      return likedCategories[Math.floor(Math.random() * likedCategories.length)];
+    }
+    return categories[Math.floor(Math.random() * categories.length)];
+  };
+
+  // Infinite swiping: when currentItems is low, load more
+  useEffect(() => {
+    if (!loading && currentItems.length <= 5) {
+      setCurrentItems(prev => ([
+        ...prev,
+        ...generateMoreItems(10, contentType, getRandomCategory())
+      ]));
+    }
+  }, [currentItems.length, loading, contentType, selectedCategory]);
+
+  // When user swipes right, update likedCategories
   const handleSwipeRight = (item: FeedItem) => {
     setSavedItems([...savedItems, item]);
+    // Try to infer category from image URL or tags
+    let cat = selectedCategory;
+    if (cat === 'All' && item.title) {
+      for (const c of categories) {
+        if (c !== 'All' && item.title.toLowerCase().includes(c.toLowerCase())) {
+          cat = c;
+          break;
+        }
+      }
+    }
+    if (cat !== 'All' && !likedCategories.includes(cat)) {
+      setLikedCategories([...likedCategories, cat]);
+    }
     toast.success('Added to your favorites!', {
       description: `${item.title} has been saved to your collection`,
       action: {
@@ -159,7 +302,7 @@ const Home = () => {
       
       // If we're getting low on items, add more
       if (newItems.length <= 5) {
-        const additionalItems = generateMoreItems(10, contentType);
+        const additionalItems = generateMoreItems(10, contentType, selectedCategory);
         console.log("Adding more items to the queue:", additionalItems.length);
         return [...newItems, ...additionalItems];
       }
@@ -175,7 +318,7 @@ const Home = () => {
     });
     
     // Add some new items to the queue that would be "AI recommended"
-    const newItems = generateMoreItems(3, contentType).map(item => ({
+    const newItems = generateMoreItems(3, contentType, selectedCategory).map(item => ({
       ...item,
       title: `${item.title} for ${occasion}`,
       aiRecommended: true
@@ -193,7 +336,7 @@ const Home = () => {
     
     // Reset cards and load new content
     setTimeout(() => {
-      setCurrentItems(generateMoreItems(15, type));
+      setCurrentItems(generateMoreItems(15, type, selectedCategory));
       setLoading(false);
       
       toast.info(
@@ -208,13 +351,54 @@ const Home = () => {
   // Check if we need to load initial items when current items are empty
   useEffect(() => {
     if (!loading && currentItems.length === 0) {
-      setCurrentItems(generateMoreItems(15, contentType));
+      setCurrentItems(generateMoreItems(15, contentType, selectedCategory));
     }
-  }, [currentItems.length, loading, contentType]);
+  }, [currentItems.length, loading, contentType, selectedCategory]);
+
+  // Add AI Outfit Generation logic
+  const [aiLoading, setAiLoading] = useState(false);
+  const handleAIGenerate = () => {
+    setAiLoading(true);
+    setTimeout(() => {
+      // Simulate 3 new AI-generated outfits
+      const aiItems = generateMoreItems(3, contentType, selectedCategory).map(item => ({
+        ...item,
+        title: `AI Generated: ${item.title}`,
+        aiRecommended: true
+      }));
+      setCurrentItems(prev => [...aiItems, ...prev]);
+      setAiLoading(false);
+      toast.success('AI Outfits generated!', { description: 'Check out your new AI-inspired looks!' });
+      // Haptic feedback
+      if (window.navigator.vibrate) window.navigator.vibrate(100);
+    }, 1200);
+  };
+
+  // Add haptic feedback and subtle swipe animation for mobile
+  const handleSwipeRightWithHaptics = (item: FeedItem) => {
+    if (window.navigator.vibrate) window.navigator.vibrate(50);
+    handleSwipeRight(item);
+  };
+  const handleSwipeLeftWithHaptics = (item: FeedItem) => {
+    if (window.navigator.vibrate) window.navigator.vibrate(30);
+    handleSwipeLeft(item);
+  };
 
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-4 pt-6 pb-20 min-h-screen relative">
+        {/* Category selection UI */}
+        <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              className={`px-4 py-1.5 rounded-full font-medium text-sm whitespace-nowrap border transition-all duration-200 ${selectedCategory === cat ? 'bg-white text-black border-white shadow' : 'bg-black/30 text-white/80 border-white/20 hover:bg-white/10'}`}
+              onClick={() => { setSelectedCategory(cat); setLoading(true); }}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-white flex items-center gap-2">
             Explore
@@ -229,12 +413,12 @@ const Home = () => {
                   aria-label="AI Style Menu"
                   type="button"
                 >
-                  <SwipeStyleLogo size="sm" withText={false} />
+                  <SwipeStyleLogo size="sm" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-black/80 backdrop-blur-md border border-white/20 rounded-xl shadow-xl animate-fade-in text-white min-w-[180px]">
                 <div className="px-3 py-2 text-sm font-medium border-b border-white/10 flex items-center gap-2">
-                  <SwipeStyleLogo size="sm" withText={false} />
+                  <SwipeStyleLogo size="sm" />
                   AI Style
                 </div>
                 {["Party", "Work", "Casual", "Date", "Formal"].map(occasion => (
@@ -262,6 +446,38 @@ const Home = () => {
           </div>
         </div>
         
+        {/* User upload button */}
+        <div className="mb-2 flex gap-2 items-center">
+          <label className="inline-block px-4 py-1.5 rounded-full font-medium text-sm bg-white text-black border border-white shadow cursor-pointer">
+            Upload Outfit Image
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={e => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = ev => {
+                    if (typeof ev.target?.result === 'string') {
+                      setUploadedImages(prev => [ev.target!.result as string, ...prev]);
+                    }
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+          </label>
+          <button
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
+            onClick={handleAIGenerate}
+            disabled={aiLoading}
+          >
+            <Sparkles className="w-4 h-4" />
+            {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
+          </button>
+        </div>
+        
         {loading ? (
           <div className="h-[70vh] flex flex-col items-center justify-center">
             <div className="w-16 h-16 relative">
@@ -277,8 +493,8 @@ const Home = () => {
                 <SwipeCard
                   key={`${item.id}-${index}`}
                   item={item}
-                  onSwipeLeft={handleSwipeLeft}
-                  onSwipeRight={handleSwipeRight}
+                  onSwipeLeft={handleSwipeLeftWithHaptics}
+                  onSwipeRight={handleSwipeRightWithHaptics}
                   onSwipeComplete={handleSwipeComplete}
                 />
               )).slice(0, 3).reverse() // Only render top 3 cards for performance
@@ -288,7 +504,7 @@ const Home = () => {
                 <Button 
                   className="mt-4 px-6 py-3 bg-gradient-to-r from-white to-white/90 text-black rounded-full font-medium shadow-lg hover:shadow-xl transition-all"
                   onClick={() => {
-                    const newItems = generateMoreItems(20, contentType);
+                    const newItems = generateMoreItems(20, contentType, selectedCategory);
                     setCurrentItems(newItems);
                     toast.success('Fresh styles loaded!');
                   }}
