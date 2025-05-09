@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { feedItems } from "@/data/mockData";
@@ -36,22 +35,38 @@ const Detail = () => {
   const creator = foundItem.creator;
   const price = isDesign ? foundItem.price : foundItem.items.reduce((sum, item) => sum + item.price, 0);
   
+  // Replace random Unsplash images with local images
+  const localFashionImages = [
+    "/assets/fashion/fashion1.jpg",
+    "/assets/fashion/fashion2.jpg",
+    "/assets/fashion/fashion3.jpg",
+    "/assets/fashion/fashion4.jpg",
+    "/assets/fashion/fashion5.jpg",
+    "/assets/fashion/fashion6.jpg",
+    "/assets/fashion/fashion7.jpg",
+    "/assets/fashion/fashion8.jpg",
+    "/assets/fashion/fashion9.jpg",
+    "/assets/fashion/fashion10.jpg",
+    "/assets/fashion/fashion11.jpg",
+    "/assets/fashion/fashion12.jpg",
+  ];
+
   // Generate mock similar items with price comparisons
   const similarItems = [
     {
-      image: `https://source.unsplash.com/random/300x450?fashion&1`,
+      image: localFashionImages[0],
       price: price * 0.8,
       source: "FashionMart",
       url: "#"
     },
     {
-      image: `https://source.unsplash.com/random/300x450?fashion&2`,
+      image: localFashionImages[1],
       price: price * 1.2,
       source: "StyleHub",
       url: "#"
     },
     {
-      image: `https://source.unsplash.com/random/300x450?fashion&3`,
+      image: localFashionImages[2],
       price: price * 0.65,
       source: "ThriftFinder",
       isThrift: true,

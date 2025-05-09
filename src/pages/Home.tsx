@@ -28,34 +28,33 @@ import {
 } from "@/components/ui/carousel";
 import SwipeStyleLogo from "@/components/SwipeStyleLogo";
 
-// Fashion image URLs - using random fashion images from Unsplash
+// Fashion image URLs - using only local fashion images
 const fashionImages = [
-  // Only fashion, clothing, outfit, or celebrity style images
-  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80", // street style
-  "https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=800&q=80", // runway
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80", // vintage
-  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80", // editorial
-  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80", // street style
-  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80", // formal
-  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80", // women
-  "https://images.unsplash.com/photo-1517260911205-8c6b8b6b7b8b?w=800&q=80", // shoes
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80", // men
-  "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80", // accessories
-  // Add more only if they are clearly fashion/outfit/celeb style
+  "/assets/fashion/fashion1.jpg",
+  "/assets/fashion/fashion2.jpg",
+  "/assets/fashion/fashion3.jpg",
+  "/assets/fashion/fashion4.jpg",
+  "/assets/fashion/fashion5.jpg",
+  "/assets/fashion/fashion6.jpg",
+  "/assets/fashion/fashion7.jpg",
+  "/assets/fashion/fashion8.jpg",
+  "/assets/fashion/fashion9.jpg",
+  "/assets/fashion/fashion10.jpg",
+  "/assets/fashion/fashion11.jpg",
+  "/assets/fashion/fashion12.jpg",
+  "/assets/fashion/fashion13.jpg",
+  "/assets/fashion/fashion14.jpg",
 ];
 
-// Video thumbnails for GRWM content
+// Video thumbnails for GRWM content - also using local fashion images
 const grwmImages = [
-  // Only fashion-related video thumbnails or GRWM YouTube video thumbnails
-  "https://images.unsplash.com/photo-1604904612715-47bf142e7af3?w=800&q=80",
-  "https://images.unsplash.com/photo-1596442127435-f4e97364cf43?w=800&q=80",
-  "https://images.unsplash.com/photo-1618001789159-ffffe6f96ef2?w=800&q=80",
-  "https://images.unsplash.com/photo-1627483298235-f3bac2567c1c?w=800&q=80",
-  "https://images.unsplash.com/photo-1596240898540-115bc4fa9f14?w=800&q=80",
-  // Example GRWM YouTube video thumbnails (replace with real ones if available)
-  "https://img.youtube.com/vi/1GRWM_VIDEO_ID1/maxresdefault.jpg",
-  "https://img.youtube.com/vi/2GRWM_VIDEO_ID2/maxresdefault.jpg",
-  "https://img.youtube.com/vi/3GRWM_VIDEO_ID3/maxresdefault.jpg",
+  "/assets/fashion/fashion1.jpg",
+  "/assets/fashion/fashion2.jpg",
+  "/assets/fashion/fashion3.jpg",
+  "/assets/fashion/fashion4.jpg",
+  "/assets/fashion/fashion5.jpg",
+  "/assets/fashion/fashion6.jpg",
+  "/assets/fashion/fashion7.jpg",
 ];
 
 const categories = [
@@ -495,13 +494,13 @@ const Home = () => {
           </h2>
           <Carousel className="w-full">
             <CarouselContent className="-ml-2">
-              {Array.from({ length: 5 }).map((_, i) => (
+              {[...Array(5)].map((_, i) => (
                 <CarouselItem key={i} className="pl-2 basis-1/3 md:basis-1/3">
                   <div className="flex-shrink-0 rounded-xl overflow-hidden border border-white/10 animate-fade-in">
                     <div className="aspect-[2/3] bg-black/60 relative">
                       <img 
-                        src={`https://source.unsplash.com/random/300x450?fashion,celebrity&${i}`}
-                        alt="Celebrity outfit"
+                        src={`/assets/fashion/fashion${(i % 14) + 1}.jpg`}
+                        alt={`Celebrity outfit ${i+1}`}
                         className="w-full h-full object-cover opacity-80"
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm p-2">
