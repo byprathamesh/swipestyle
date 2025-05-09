@@ -11,6 +11,7 @@ import Discover from "./pages/Discover";
 import Profile from "./pages/Profile";
 import Navigation from "./components/Navigation";
 import "./App.css";
+import { useState } from "react";
 
 // Create pages for the new navigation items
 const Saved = () => (
@@ -49,30 +50,32 @@ const Notifications = () => (
   </div>
 );
 
-const queryClient = new QueryClient();
+const App = () => {
+  const [queryClient] = useState(() => new QueryClient());
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/saved" element={<Saved />} />
-          <Route path="/celebrity" element={<Celebrity />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/designs/:id" element={<Detail key="design" />} />
-          <Route path="/outfits/:id" element={<Detail key="outfit" />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/discover" element={<Discover />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/saved" element={<Saved />} />
+            <Route path="/celebrity" element={<Celebrity />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/designs/:id" element={<Detail key="design" />} />
+            <Route path="/outfits/:id" element={<Detail key="outfit" />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
