@@ -44,8 +44,13 @@
 }
 
 /* Enhanced button animations */
+.action-button {
+  transition: all 0.2s ease;
+}
+
 .action-button:hover {
   transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 /* Enhanced action indicators */
@@ -61,4 +66,52 @@
 .swipe-card:hover #swipe-right {
   opacity: 0.8;
   transform: translateX(-5px) translateY(-50%);
+}
+
+/* Enhanced page transitions */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: fade-in 0.3s ease forwards;
+}
+
+/* Animated background effects */
+.animated-gradient {
+  background: linear-gradient(270deg, rgba(255,255,255,0.05), rgba(255,255,255,0), rgba(255,255,255,0.05));
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Pulse glow animation for elements */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.8;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
 }

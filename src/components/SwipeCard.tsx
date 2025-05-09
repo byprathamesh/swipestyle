@@ -1,7 +1,7 @@
 
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Heart, X, ShoppingCart } from "lucide-react";
+import { Heart, X, ThumbsUp, Sparkles } from "lucide-react";
 import { Design, Outfit, FeedItem } from "@/types";
 import { motion, PanInfo, useAnimation } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -57,7 +57,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
       onDragEnd={handleDragEnd}
       animate={controls}
       initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1, transition: { duration: 0.3 } }}
+      animate={{ scale: 1, opacity: 1 }}
       exit={{ x: exitX, opacity: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       style={{ transformOrigin: "center center" }}
@@ -157,17 +157,6 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
           }}
         >
           <Heart className="w-7 h-7 text-white" />
-        </Button>
-        
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full w-16 h-16 bg-black/40 backdrop-blur-md border-white/30 text-white hover:bg-white/20 transition-all duration-300 shadow-lg"
-          onClick={() => {
-            window.location.href = `/checkout/${isDesign ? 'design' : 'outfit'}/${item.id}`;
-          }}
-        >
-          <ShoppingCart className="w-7 h-7" />
         </Button>
       </div>
     </motion.div>

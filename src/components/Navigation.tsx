@@ -5,10 +5,10 @@ import {
   Home, 
   Search, 
   Heart, 
-  ShoppingCart, 
   User, 
-  Bell, 
-  MessageSquare 
+  Bell,
+  MessageSquare,
+  Star
 } from "lucide-react";
 import SwipeStyleLogo from "./SwipeStyleLogo";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -22,7 +22,7 @@ const Navigation = () => {
     { icon: Search, label: "Discover", path: "/discover" },
     { icon: MessageSquare, label: "Messages", path: "/messages" },
     { icon: Heart, label: "Saved", path: "/saved" },
-    { icon: ShoppingCart, label: "Cart", path: "/cart" },
+    { icon: Star, label: "Celebrity", path: "/celebrity" },
     { icon: Bell, label: "Notifications", path: "/notifications" },
     { icon: User, label: "Profile", path: "/profile" },
   ];
@@ -51,7 +51,7 @@ const Navigation = () => {
     );
   }
 
-  // For desktop, show side navigation
+  // For desktop, show side navigation with enhanced styling
   return (
     <div className="fixed top-0 left-0 h-full w-16 bg-background border-r border-border flex flex-col items-center py-6 z-50">
       <SwipeStyleLogo withText={false} className="mb-8" />
@@ -70,13 +70,13 @@ const Navigation = () => {
           >
             <item.icon className="h-6 w-6" />
             
-            {/* Active indicator */}
+            {/* Active indicator with animation */}
             {location.pathname === item.path && (
-              <span className="absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full" />
+              <span className="absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full animate-pulse" />
             )}
             
-            {/* Tooltip */}
-            <span className="absolute left-14 whitespace-nowrap bg-background px-3 py-1.5 rounded-md border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all text-sm">
+            {/* Enhanced tooltip */}
+            <span className="absolute left-14 whitespace-nowrap bg-background px-3 py-1.5 rounded-md border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all text-sm shadow-lg">
               {item.label}
             </span>
           </Link>

@@ -5,7 +5,7 @@ import { feedItems } from "@/data/mockData";
 import { FeedItem } from "@/types";
 import { toast } from "@/components/ui/sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Sparkles } from "lucide-react";
+import { Circle, Sparkles } from "lucide-react";
 
 const Home = () => {
   const [currentItems, setCurrentItems] = useState<FeedItem[]>([]);
@@ -81,6 +81,22 @@ const Home = () => {
     });
   };
 
+  const handleAIOutfit = (occasion: string) => {
+    toast.success(`AI Style for ${occasion} generated!`, {
+      description: "Creating personalized outfit recommendations...",
+      duration: 3000,
+    });
+    
+    // Add some new items to the queue that would be "AI recommended"
+    const newItems = generateMoreItems(3).map(item => ({
+      ...item,
+      title: `${item.title} for ${occasion}`,
+      aiRecommended: true
+    }));
+    
+    setCurrentItems(prev => [...newItems, ...prev]);
+  };
+
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-4 pt-6 pb-20 min-h-screen relative">
@@ -89,12 +105,40 @@ const Home = () => {
             Explore
             <Sparkles className="w-5 h-5 text-white/70 animate-pulse" />
           </h1>
-          <div className="flex gap-2">
+          
+          <div className="flex gap-2 items-center">
+            <button 
+              onClick={() => handleAIOutfit('party')}
+              className="bg-white/10 backdrop-blur-sm p-2 rounded-full flex items-center justify-center border border-white/20 group hover:bg-white/20 transition-all duration-300"
+              title="Get AI Style recommendations"
+            >
+              <Circle className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+            </button>
+            
             {savedItems.length > 0 && (
               <div className="bg-white/10 backdrop-blur-sm p-2 rounded-full text-xs font-medium border border-white/20">
                 {savedItems.length} saved
               </div>
             )}
+          </div>
+        </div>
+        
+        {/* AI Style Menu - Popup style */}
+        <div className="absolute top-20 right-4 z-20 bg-black/80 backdrop-blur-md border border-white/20 rounded-xl p-4 w-52 shadow-xl animate-fade-in">
+          <h3 className="font-medium text-white mb-3 flex items-center gap-2">
+            <Circle className="w-4 h-4" />
+            AI Style
+          </h3>
+          <div className="space-y-2">
+            {['Party', 'Work', 'Casual', 'Date', 'Formal'].map(occasion => (
+              <button
+                key={occasion} 
+                onClick={() => handleAIOutfit(occasion.toLowerCase())}
+                className="w-full text-left py-2 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-white/10 text-white"
+              >
+                {occasion}
+              </button>
+            ))}
           </div>
         </div>
         
@@ -117,7 +161,7 @@ const Home = () => {
                   onSwipeRight={handleSwipeRight}
                   onSwipeComplete={handleSwipeComplete}
                 />
-              )).reverse()
+              )).slice(0, 3).reverse() // Only render top 3 cards for performance
             ) : (
               <div className="h-full flex flex-col items-center justify-center">
                 <p className="text-xl text-white/70">No more designs to show!</p>
@@ -136,12 +180,39 @@ const Home = () => {
             
             {/* Add engaging element at the bottom */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-              <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full text-white/70 text-sm border border-white/10">
+              <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full text-white/70 text-sm border border-white/10 animate-pulse-glow">
                 Swipe to explore amazing styles
               </div>
             </div>
           </div>
         )}
+        
+        {/* Celebrity Outfits Carousel */}
+        <div className="mt-8">
+          <h2 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+            <Sparkles className="w-4 h-4" />
+            Celebrity Spotted
+          </h2>
+          <div className="overflow-x-auto pb-4">
+            <div className="flex space-x-4">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="flex-shrink-0 w-36 rounded-xl overflow-hidden border border-white/10 animate-pulse-glow">
+                  <div className="aspect-[2/3] bg-black/60 relative">
+                    <img 
+                      src={`https://source.unsplash.com/random/300x450?fashion&${i}`}
+                      alt="Celebrity outfit"
+                      className="w-full h-full object-cover opacity-80"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm p-2">
+                      <p className="text-xs font-medium text-white">Celebrity {i+1}</p>
+                      <p className="text-[10px] text-white/70">$299 to recreate</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
