@@ -1,10 +1,11 @@
 
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Heart, X, ThumbsUp, Sparkles } from "lucide-react";
+import { Heart, X, ThumbsUp, Sparkles, Tag, ShoppingBag, Recycle } from "lucide-react";
 import { Design, Outfit, FeedItem } from "@/types";
 import { motion, PanInfo, useAnimation } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 type SwipeCardProps = {
   item: FeedItem;
@@ -26,6 +27,13 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
   const likes = item.likes;
   const price = isDesign ? item.price : item.items.reduce((sum, item) => sum + item.price, 0);
   const detailPath = isDesign ? `/designs/${item.id}` : `/outfits/${item.id}`;
+  
+  // Shopping options with availability
+  const shoppingOptions = item.shoppingOptions || {
+    buy: true,
+    thrift: Math.random() > 0.3, // Randomly available
+    rent: Math.random() > 0.6,   // Less commonly available
+  };
 
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 100;
@@ -81,22 +89,38 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
           <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-white/0 via-white/50 to-white/0 animate-pulse"></div>
         </div>
         
-        {/* Content with improved styling */}
-        <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+        {/* Type badge with improved styling */}
+        <div className="absolute top-4 left-4 flex items-center gap-2">
           {isDesign ? (
-            <div className="inline-block px-3 py-1 bg-white text-black rounded-full text-xs font-medium mb-2 shadow-lg">
+            <Badge variant="outline" className="bg-white/90 text-black py-1.5 px-3 font-medium text-xs backdrop-blur-sm animate-fade-in">
               Design
-            </div>
+            </Badge>
           ) : (
-            <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm text-white rounded-full text-xs font-medium mb-2 shadow-lg border border-white/30">
+            <Badge variant="outline" className="bg-black/70 text-white py-1.5 px-3 font-medium text-xs backdrop-blur-sm border-white/30 animate-fade-in">
               Outfit
-            </div>
+            </Badge>
           )}
           
+          {item.aiRecommended && (
+            <Badge variant="outline" className="bg-white/20 text-white py-1.5 px-3 font-medium text-xs backdrop-blur-sm border-white/30 animate-fade-in flex items-center gap-1">
+              <Sparkles className="w-3 h-3" />
+              AI Pick
+            </Badge>
+          )}
+          
+          {item.isVideo && (
+            <Badge variant="outline" className="bg-white/20 text-white py-1.5 px-3 font-medium text-xs backdrop-blur-sm border-white/30 animate-fade-in">
+              GRWM
+            </Badge>
+          )}
+        </div>
+        
+        {/* Content with improved styling */}
+        <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
           <h2 className="text-3xl font-bold mb-2 drop-shadow-md">{title}</h2>
           
           <div className="flex items-center justify-between mb-3 backdrop-blur-sm bg-black/30 p-2 rounded-lg">
-            <Link to={`/creator/${creator.id}`} className="flex items-center gap-2">
+            <Link to={`/creator/${creator.id}`} className="flex items-center gap-2 hover:bg-white/10 px-2 py-1 rounded-full transition-colors">
               <img 
                 src={creator.avatar} 
                 alt={creator.displayName} 
@@ -113,9 +137,38 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
             </div>
           </div>
           
+          {/* Shopping options */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {shoppingOptions.buy && (
+              <Badge className="bg-white text-black py-1.5 px-3 font-medium text-xs flex items-center gap-1">
+                <ShoppingBag className="w-3 h-3" />
+                Buy ${price.toFixed(2)}
+              </Badge>
+            )}
+            
+            {shoppingOptions.thrift && (
+              <Badge variant="outline" className="bg-black/40 text-white py-1.5 px-3 font-medium text-xs flex items-center gap-1 border-white/20">
+                <Recycle className="w-3 h-3" />
+                Thrift ~${(price * 0.4).toFixed(2)}
+              </Badge>
+            )}
+            
+            {shoppingOptions.rent && (
+              <Badge variant="outline" className="bg-black/40 text-white py-1.5 px-3 font-medium text-xs flex items-center gap-1 border-white/20">
+                <Tag className="w-3 h-3" />
+                Rent ${(price * 0.15).toFixed(2)}/day
+              </Badge>
+            )}
+          </div>
+          
           <div className="flex justify-between items-center mt-4 backdrop-blur-sm bg-black/40 p-3 rounded-lg">
-            <span className="text-xl font-bold bg-white/10 px-3 py-1 rounded-full">${price.toFixed(2)}</span>
-            <Link to={detailPath} className="bg-white text-black font-semibold py-2 px-6 rounded-full hover:bg-white/90 transition-colors shadow-lg">
+            <span className="text-xl font-bold bg-white/10 px-3 py-1 rounded-full">
+              ${price.toFixed(2)}
+            </span>
+            <Link 
+              to={detailPath} 
+              className="bg-white text-black font-semibold py-2 px-6 rounded-full hover:bg-white/90 transition-colors shadow-lg flex items-center gap-2"
+            >
               View Details
             </Link>
           </div>

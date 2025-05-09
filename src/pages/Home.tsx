@@ -1,20 +1,44 @@
 
 import React, { useState, useEffect } from "react";
 import SwipeCard from "@/components/SwipeCard";
+import ContentToggle from "@/components/ContentToggle";
 import { feedItems } from "@/data/mockData";
 import { FeedItem } from "@/types";
 import { toast } from "@/components/ui/sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Circle, Sparkles } from "lucide-react";
+import {
+  Circle,
+  Sparkles,
+  Heart,
+  ShoppingBag,
+  Tag
+} from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Home = () => {
   const [currentItems, setCurrentItems] = useState<FeedItem[]>([]);
   const [savedItems, setSavedItems] = useState<FeedItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [contentType, setContentType] = useState<"pictures" | "videos">("pictures");
+  const [showAIMenu, setShowAIMenu] = useState(false);
   const isMobile = useIsMobile();
   
-  // Create a larger pool of items by duplicating the feed items multiple times with unique keys
-  const generateMoreItems = (count: number): FeedItem[] => {
+  // Create a larger pool of items by duplicating and enhancing the feed items
+  const generateMoreItems = (count: number, type: "pictures" | "videos" = "pictures"): FeedItem[] => {
     const items: FeedItem[] = [];
     
     for (let i = 0; i < count; i++) {
@@ -26,7 +50,20 @@ const Home = () => {
       const newItem: FeedItem = {
         ...JSON.parse(JSON.stringify(originalItem)),
         id: `${originalItem.id}-${i}-${Date.now() + Math.random()}`,
+        isVideo: type === "videos",
+        shoppingOptions: {
+          buy: true,
+          thrift: Math.random() > 0.3,
+          rent: Math.random() > 0.6
+        }
       };
+
+      // Add some variety to titles for videos
+      if (type === "videos") {
+        const prefixes = ["GRWM:", "Get Ready With Me:", "Styling:", "My Look:"];
+        const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+        newItem.title = `${randomPrefix} ${newItem.title}`;
+      }
       
       items.push(newItem);
     }
@@ -37,13 +74,13 @@ const Home = () => {
   useEffect(() => {
     // Simulate loading data with a larger initial pool
     const timer = setTimeout(() => {
-      // Load 15 random items initially for better variety
-      setCurrentItems(generateMoreItems(15));
+      // Load random items initially for better variety
+      setCurrentItems(generateMoreItems(15, contentType));
       setLoading(false);
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [contentType]);
 
   const handleSwipeRight = (item: FeedItem) => {
     setSavedItems([...savedItems, item]);
@@ -72,7 +109,7 @@ const Home = () => {
       
       // If we're getting low on items, add more
       if (newItems.length <= 5) {
-        const additionalItems = generateMoreItems(10);
+        const additionalItems = generateMoreItems(10, contentType);
         console.log("Adding more items to the queue:", additionalItems.length);
         return [...newItems, ...additionalItems];
       }
@@ -88,57 +125,86 @@ const Home = () => {
     });
     
     // Add some new items to the queue that would be "AI recommended"
-    const newItems = generateMoreItems(3).map(item => ({
+    const newItems = generateMoreItems(3, contentType).map(item => ({
       ...item,
       title: `${item.title} for ${occasion}`,
       aiRecommended: true
     }));
     
     setCurrentItems(prev => [...newItems, ...prev]);
+    setShowAIMenu(false);
+  };
+
+  const handleContentToggle = (type: "pictures" | "videos") => {
+    if (type === contentType) return;
+    
+    setContentType(type);
+    setLoading(true);
+    
+    // Reset cards and load new content
+    setTimeout(() => {
+      setCurrentItems(generateMoreItems(15, type));
+      setLoading(false);
+      
+      toast.info(
+        type === "pictures" 
+          ? "Showing outfit inspirations" 
+          : "Showing Get Ready With Me videos",
+        { duration: 2000 }
+      );
+    }, 800);
   };
 
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-4 pt-6 pb-20 min-h-screen relative">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-white flex items-center gap-2">
             Explore
             <Sparkles className="w-5 h-5 text-white/70 animate-pulse" />
           </h1>
           
-          <div className="flex gap-2 items-center">
-            <button 
-              onClick={() => handleAIOutfit('party')}
-              className="bg-white/10 backdrop-blur-sm p-2 rounded-full flex items-center justify-center border border-white/20 group hover:bg-white/20 transition-all duration-300"
-              title="Get AI Style recommendations"
-            >
-              <Circle className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
-            </button>
+          <div className="flex gap-3 items-center">
+            {/* AI Style Button with your logo */}
+            <DropdownMenu open={showAIMenu} onOpenChange={setShowAIMenu}>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost"
+                  className="bg-white/10 backdrop-blur-sm p-2 rounded-full flex items-center justify-center border border-white/20 group hover:bg-white/20 transition-all duration-300"
+                  title="Get AI Style recommendations"
+                >
+                  <Circle className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-black/80 backdrop-blur-md border border-white/20 rounded-xl shadow-xl animate-fade-in text-white min-w-[180px]">
+                <div className="px-3 py-2 text-sm font-medium border-b border-white/10 flex items-center gap-2">
+                  <Circle className="w-4 h-4" />
+                  AI Style
+                </div>
+                {['Party', 'Work', 'Casual', 'Date', 'Formal'].map(occasion => (
+                  <DropdownMenuItem 
+                    key={occasion}
+                    className="py-2 text-sm cursor-pointer hover:bg-white/10 focus:bg-white/10"
+                    onClick={() => handleAIOutfit(occasion.toLowerCase())}
+                  >
+                    {occasion}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            {/* Content type toggle */}
+            <ContentToggle 
+              activeTab={contentType} 
+              onToggle={handleContentToggle} 
+            />
             
             {savedItems.length > 0 && (
-              <div className="bg-white/10 backdrop-blur-sm p-2 rounded-full text-xs font-medium border border-white/20">
-                {savedItems.length} saved
+              <div className="bg-white/10 backdrop-blur-sm p-2 rounded-full text-xs font-medium border border-white/20 flex items-center gap-1">
+                <Heart className="w-3 h-3" />
+                {savedItems.length}
               </div>
             )}
-          </div>
-        </div>
-        
-        {/* AI Style Menu - Popup style */}
-        <div className="absolute top-20 right-4 z-20 bg-black/80 backdrop-blur-md border border-white/20 rounded-xl p-4 w-52 shadow-xl animate-fade-in">
-          <h3 className="font-medium text-white mb-3 flex items-center gap-2">
-            <Circle className="w-4 h-4" />
-            AI Style
-          </h3>
-          <div className="space-y-2">
-            {['Party', 'Work', 'Casual', 'Date', 'Formal'].map(occasion => (
-              <button
-                key={occasion} 
-                onClick={() => handleAIOutfit(occasion.toLowerCase())}
-                className="w-full text-left py-2 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-white/10 text-white"
-              >
-                {occasion}
-              </button>
-            ))}
           </div>
         </div>
         
@@ -165,16 +231,16 @@ const Home = () => {
             ) : (
               <div className="h-full flex flex-col items-center justify-center">
                 <p className="text-xl text-white/70">No more designs to show!</p>
-                <button 
+                <Button 
                   className="mt-4 px-6 py-3 bg-gradient-to-r from-white to-white/90 text-black rounded-full font-medium shadow-lg hover:shadow-xl transition-all"
                   onClick={() => {
-                    const newItems = generateMoreItems(20);
+                    const newItems = generateMoreItems(20, contentType);
                     setCurrentItems(newItems);
                     toast.success('Fresh styles loaded!');
                   }}
                 >
                   Discover More Styles
-                </button>
+                </Button>
               </div>
             )}
             
@@ -193,25 +259,36 @@ const Home = () => {
             <Sparkles className="w-4 h-4" />
             Celebrity Spotted
           </h2>
-          <div className="overflow-x-auto pb-4">
-            <div className="flex space-x-4">
+          <Carousel className="w-full">
+            <CarouselContent className="-ml-2">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="flex-shrink-0 w-36 rounded-xl overflow-hidden border border-white/10 animate-pulse-glow">
-                  <div className="aspect-[2/3] bg-black/60 relative">
-                    <img 
-                      src={`https://source.unsplash.com/random/300x450?fashion&${i}`}
-                      alt="Celebrity outfit"
-                      className="w-full h-full object-cover opacity-80"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm p-2">
-                      <p className="text-xs font-medium text-white">Celebrity {i+1}</p>
-                      <p className="text-[10px] text-white/70">$299 to recreate</p>
+                <CarouselItem key={i} className="pl-2 basis-1/3 md:basis-1/3">
+                  <div className="flex-shrink-0 rounded-xl overflow-hidden border border-white/10 animate-fade-in">
+                    <div className="aspect-[2/3] bg-black/60 relative">
+                      <img 
+                        src={`https://source.unsplash.com/random/300x450?fashion,celebrity&${i}`}
+                        alt="Celebrity outfit"
+                        className="w-full h-full object-cover opacity-80"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm p-2">
+                        <p className="text-xs font-medium text-white">Celebrity {i+1}</p>
+                        <div className="flex items-center justify-between mt-1">
+                          <p className="text-[10px] text-white/70">$299</p>
+                          <Button variant="link" size="sm" className="text-[10px] h-auto p-0 text-white/90">
+                            Details
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </CarouselItem>
               ))}
+            </CarouselContent>
+            <div className="flex items-center justify-end gap-1 mt-2">
+              <CarouselPrevious className="relative static left-0 right-auto h-7 w-7" />
+              <CarouselNext className="relative static right-0 h-7 w-7" />
             </div>
-          </div>
+          </Carousel>
         </div>
       </div>
     </div>

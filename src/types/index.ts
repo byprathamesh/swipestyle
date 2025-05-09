@@ -28,6 +28,19 @@ export type Design = {
   createdAt: string;
   category: string;
   tags: string[];
+  isVideo?: boolean;
+  aiRecommended?: boolean;
+  shoppingOptions?: {
+    buy: boolean;
+    thrift: boolean;
+    rent: boolean;
+  };
+  similarItems?: Array<{
+    image: string;
+    price: number;
+    source: string;
+    url: string;
+  }>;
 };
 
 export type Comment = {
@@ -57,6 +70,19 @@ export type Outfit = {
   comments: number;
   createdAt: string;
   tags: string[];
+  isVideo?: boolean;
+  aiRecommended?: boolean;
+  shoppingOptions?: {
+    buy: boolean;
+    thrift: boolean;
+    rent: boolean;
+  };
+  similarItems?: Array<{
+    image: string;
+    price: number;
+    source: string;
+    url: string;
+  }>;
 };
 
 export type Contest = {

@@ -10,7 +10,7 @@ import {
   MessageSquare,
   Star
 } from "lucide-react";
-import SwipeStyleLogo from "./SwipeStyleLogo";
+import BrandLogo from "./BrandLogo";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navigation = () => {
@@ -54,7 +54,7 @@ const Navigation = () => {
   // For desktop, show side navigation with enhanced styling
   return (
     <div className="fixed top-0 left-0 h-full w-16 bg-background border-r border-border flex flex-col items-center py-6 z-50">
-      <SwipeStyleLogo withText={false} className="mb-8" />
+      <BrandLogo withText={false} className="mb-8" />
       
       <div className="flex flex-col items-center space-y-8 mt-4">
         {navItems.map((item) => (
