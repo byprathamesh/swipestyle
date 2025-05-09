@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -12,6 +11,7 @@ import Discover from "./pages/Discover";
 import Profile from "./pages/Profile";
 import Navigation from "./components/Navigation";
 import "./App.css";
+import { designs } from "@/data/mockData";
 
 // Create more detailed pages for the navigation items
 const Saved = () => (
@@ -23,14 +23,14 @@ const Saved = () => (
           <div key={i} className="bg-black/30 rounded-xl overflow-hidden border border-white/10 animate-fade-in">
             <div className="aspect-[2/3] relative">
               <img 
-                src={`https://source.unsplash.com/random/300x450?fashion&${i}`}
-                alt="Saved outfit"
+                src={designs[i % designs.length].images[0]}
+                alt={designs[i % designs.length].title}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent">
                 <div className="absolute bottom-0 p-3">
-                  <p className="text-sm font-semibold text-white">Saved Look #{i+1}</p>
-                  <p className="text-xs text-white/70">$199.99</p>
+                  <p className="text-sm font-semibold text-white">{designs[i % designs.length].title}</p>
+                  <p className="text-xs text-white/70">${designs[i % designs.length].price}</p>
                 </div>
               </div>
             </div>
@@ -50,13 +50,13 @@ const Celebrity = () => (
           <div key={i} className="bg-black/30 rounded-xl overflow-hidden border border-white/10 flex animate-fade-in shadow-lg">
             <div className="aspect-[3/4] w-1/3 relative">
               <img 
-                src={`https://source.unsplash.com/random/300x450?celebrity&${i}`}
-                alt="Celebrity"
+                src={designs[i % designs.length].images[0]}
+                alt={designs[i % designs.length].title}
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="p-4 flex-1">
-              <h3 className="font-bold text-lg">Celebrity Name #{i+1}</h3>
+              <h3 className="font-bold text-lg">{designs[i % designs.length].title}</h3>
               <p className="text-sm text-white/70 mb-2">Spotted at Fashion Week</p>
               <div className="flex flex-wrap gap-2 mb-3">
                 {Array.from({ length: 3 }).map((_, j) => (
@@ -86,13 +86,13 @@ const Messages = () => (
             <div className="flex gap-3 items-center">
               <div className="w-10 h-10 rounded-full bg-white/10 overflow-hidden">
                 <img 
-                  src={`https://source.unsplash.com/random/100x100?person&${i}`}
-                  alt="Contact"
+                  src={designs[i % designs.length].images[0]}
+                  alt={designs[i % designs.length].title}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="flex-1">
-                <h3 className="font-bold">Fashion Stylist #{i+1}</h3>
+                <h3 className="font-bold">{designs[i % designs.length].title}</h3>
                 <p className="text-sm text-white/70">Check out this new collection!</p>
               </div>
               <div className="text-xs text-white/50">
