@@ -1,4 +1,3 @@
-
 import { User, Design, Outfit, Contest, Notification } from "../types";
 
 // Mock Users
@@ -89,99 +88,263 @@ export const users: User[] = [
 export const designs: Design[] = [
   {
     id: "d1",
-    title: "Neon Dreams Jacket",
-    description: "Urban-inspired jacket with reflective detailing and neon pink accents. Perfect for night outings.",
-    images: [
-      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&h=700&fit=crop",
-      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&h=700&fit=crop"
-    ],
-    price: 129.99,
+    title: "Zendaya at Met Gala",
+    description: "Zendaya in a stunning silver gown at the Met Gala.",
+    images: ["https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=700&fit=crop"],
+    price: 299.99,
     creator: users[0],
-    likes: 2480,
-    comments: 184,
-    createdAt: "2023-11-10",
-    category: "outerwear",
-    tags: ["neon", "urban", "reflective", "jacket"]
+    likes: 4120,
+    comments: 210,
+    createdAt: "2024-04-01",
+    category: "dress",
+    tags: ["celebrity", "gown", "Met Gala"]
   },
   {
     id: "d2",
-    title: "Minimalist Cargo Pants",
-    description: "Functional yet stylish cargo pants with clean lines and sustainable fabric.",
-    images: [
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&h=700&fit=crop",
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&h=700&fit=crop"
-    ],
-    price: 89.99,
-    creator: users[3],
-    likes: 1756,
-    comments: 92,
-    createdAt: "2023-12-05",
-    category: "bottom",
-    tags: ["minimal", "sustainable", "cargo", "pants"]
+    title: "Street Style in Paris",
+    description: "Chic street style look captured during Paris Fashion Week.",
+    images: ["https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500&h=700&fit=crop"],
+    price: 109.99,
+    creator: users[1],
+    likes: 3200,
+    comments: 150,
+    createdAt: "2024-04-02",
+    category: "outerwear",
+    tags: ["streetwear", "Paris", "fashion week"]
   },
   {
     id: "d3",
-    title: "Electric Blue Crop Top",
-    description: "Vibrant crop top with geometric patterns and comfort stretch material.",
-    images: [
-      "https://images.unsplash.com/photo-1603217192634-61068e4d4bf9?w=500&h=700&fit=crop",
-      "https://images.unsplash.com/photo-1603217192634-61068e4d4bf9?w=500&h=700&fit=crop"
-    ],
-    price: 45.99,
+    title: "Runway Metallic Suit",
+    description: "Futuristic metallic suit from the latest runway show.",
+    images: ["https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=500&h=700&fit=crop"],
+    price: 399.99,
     creator: users[2],
-    likes: 3542,
-    comments: 287,
-    createdAt: "2024-01-12",
-    category: "top",
-    tags: ["crop", "blue", "vibrant", "geometric"]
+    likes: 2780,
+    comments: 120,
+    createdAt: "2024-04-03",
+    category: "suit",
+    tags: ["runway", "metallic", "futuristic"]
   },
   {
     id: "d4",
-    title: "Vintage Rework Denim",
-    description: "Upcycled vintage denim with modern patchwork details. Eco-friendly and one-of-a-kind.",
-    images: [
-      "https://images.unsplash.com/photo-1608317300026-dc7ef4eb5829?w=500&h=700&fit=crop",
-      "https://images.unsplash.com/photo-1608317300026-dc7ef4eb5829?w=500&h=700&fit=crop"
-    ],
-    price: 109.99,
-    creator: users[4],
-    likes: 1890,
-    comments: 105,
-    createdAt: "2024-02-08",
-    category: "bottom",
-    tags: ["vintage", "denim", "upcycled", "sustainable"]
+    title: "Minimalist White Dress",
+    description: "Chic minimalist white dress for summer.",
+    images: ["https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=700&fit=crop"],
+    price: 89.99,
+    creator: users[3],
+    likes: 1980,
+    comments: 90,
+    createdAt: "2024-04-04",
+    category: "dress",
+    tags: ["minimalist", "white", "summer"]
   },
   {
     id: "d5",
-    title: "Futuristic Platform Boots",
-    description: "Statement platform boots with holographic accents and chunky heels.",
-    images: [
-      "https://images.unsplash.com/photo-1605812860427-4024433a70fd?w=500&h=700&fit=crop",
-      "https://images.unsplash.com/photo-1605812860427-4024433a70fd?w=500&h=700&fit=crop"
-    ],
-    price: 159.99,
-    creator: users[0],
-    likes: 2760,
-    comments: 231,
-    createdAt: "2024-03-15",
-    category: "shoes",
-    tags: ["platform", "boots", "holographic", "statement"]
+    title: "Fashion Week Statement Coat",
+    description: "Bold statement coat from Fashion Week.",
+    images: ["https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=500&h=700&fit=crop"],
+    price: 259.99,
+    creator: users[4],
+    likes: 3500,
+    comments: 180,
+    createdAt: "2024-04-05",
+    category: "outerwear",
+    tags: ["fashion week", "statement", "coat"]
   },
   {
     id: "d6",
-    title: "Gradient Mesh Pullover",
-    description: "Lightweight mesh pullover with color gradient effect. Perfect for layering.",
-    images: [
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&h=700&fit=crop",
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&h=700&fit=crop"
-    ],
-    price: 79.99,
+    title: "Accessories Pop Look",
+    description: "Colorful accessories to complete your look.",
+    images: ["https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&h=700&fit=crop"],
+    price: 39.99,
+    creator: users[0],
+    likes: 1200,
+    comments: 60,
+    createdAt: "2024-04-06",
+    category: "accessory",
+    tags: ["accessory", "colorful", "pop"]
+  },
+  {
+    id: "d7",
+    title: "Hailey Bieber Street Style",
+    description: "Hailey Bieber in a casual chic street look.",
+    images: ["https://images.unsplash.com/photo-1517260911205-8c6b8b6b7b8b?w=500&h=700&fit=crop"],
+    price: 129.99,
     creator: users[1],
-    likes: 1458,
-    comments: 87,
-    createdAt: "2024-03-25",
-    category: "top",
-    tags: ["gradient", "mesh", "pullover", "layering"]
+    likes: 2100,
+    comments: 80,
+    createdAt: "2024-04-07",
+    category: "streetwear",
+    tags: ["celebrity", "street style", "Hailey Bieber"]
+  },
+  {
+    id: "d8",
+    title: "Classic Black Tuxedo",
+    description: "Timeless black tuxedo as seen on the red carpet.",
+    images: ["https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=500&h=700&fit=crop"],
+    price: 199.99,
+    creator: users[2],
+    likes: 1800,
+    comments: 70,
+    createdAt: "2024-04-08",
+    category: "suit",
+    tags: ["tuxedo", "red carpet", "classic"]
+  },
+  {
+    id: "d9",
+    title: "Gigi Hadid Runway Look",
+    description: "Gigi Hadid in a bold runway ensemble.",
+    images: ["https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&h=700&fit=crop"],
+    price: 349.99,
+    creator: users[3],
+    likes: 2500,
+    comments: 110,
+    createdAt: "2024-04-09",
+    category: "runway",
+    tags: ["celebrity", "runway", "Gigi Hadid"]
+  },
+  {
+    id: "d10",
+    title: "Vintage Denim Jacket",
+    description: "Retro-inspired denim jacket for everyday style.",
+    images: ["https://images.unsplash.com/photo-1608317300026-dc7ef4eb5829?w=500&h=700&fit=crop"],
+    price: 99.99,
+    creator: users[4],
+    likes: 1700,
+    comments: 65,
+    createdAt: "2024-04-10",
+    category: "outerwear",
+    tags: ["vintage", "denim", "jacket"]
+  },
+  {
+    id: "d11",
+    title: "Bella Hadid Editorial",
+    description: "Bella Hadid in a high-fashion editorial shoot.",
+    images: ["https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=700&fit=crop"],
+    price: 299.99,
+    creator: users[0],
+    likes: 2200,
+    comments: 95,
+    createdAt: "2024-04-11",
+    category: "editorial",
+    tags: ["celebrity", "editorial", "Bella Hadid"]
+  },
+  {
+    id: "d12",
+    title: "Men's Streetwear Layering",
+    description: "Layered streetwear look for men.",
+    images: ["https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=700&fit=crop"],
+    price: 119.99,
+    creator: users[1],
+    likes: 1600,
+    comments: 55,
+    createdAt: "2024-04-12",
+    category: "streetwear",
+    tags: ["men", "streetwear", "layering"]
+  },
+  {
+    id: "d13",
+    title: "Rihanna Met Gala Look",
+    description: "Rihanna in an iconic Met Gala outfit.",
+    images: ["https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=700&fit=crop"],
+    price: 399.99,
+    creator: users[2],
+    likes: 3300,
+    comments: 140,
+    createdAt: "2024-04-13",
+    category: "celebrity",
+    tags: ["Rihanna", "Met Gala", "celebrity"]
+  },
+  {
+    id: "d14",
+    title: "Summer Boho Dress",
+    description: "Flowy boho dress perfect for summer festivals.",
+    images: ["https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=700&fit=crop"],
+    price: 79.99,
+    creator: users[3],
+    likes: 1400,
+    comments: 50,
+    createdAt: "2024-04-14",
+    category: "dress",
+    tags: ["boho", "summer", "festival"]
+  },
+  {
+    id: "d15",
+    title: "Classic Trench Coat",
+    description: "Timeless beige trench coat for all seasons.",
+    images: ["https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=500&h=700&fit=crop"],
+    price: 149.99,
+    creator: users[4],
+    likes: 2100,
+    comments: 85,
+    createdAt: "2024-04-15",
+    category: "outerwear",
+    tags: ["trench coat", "classic", "timeless"]
+  },
+  {
+    id: "d16",
+    title: "Evening Glamour Dress",
+    description: "Elegant evening dress with sequin details.",
+    images: ["https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=700&fit=crop"],
+    price: 259.99,
+    creator: users[0],
+    likes: 2700,
+    comments: 100,
+    createdAt: "2024-04-16",
+    category: "dress",
+    tags: ["evening", "glamour", "sequin"]
+  },
+  {
+    id: "d17",
+    title: "Kendall Jenner Street Style",
+    description: "Kendall Jenner in a trendy streetwear look.",
+    images: ["https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500&h=700&fit=crop"],
+    price: 139.99,
+    creator: users[1],
+    likes: 1900,
+    comments: 75,
+    createdAt: "2024-04-17",
+    category: "streetwear",
+    tags: ["Kendall Jenner", "street style", "celebrity"]
+  },
+  {
+    id: "d18",
+    title: "Men's Classic Suit",
+    description: "Sharp classic suit for formal occasions.",
+    images: ["https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=500&h=700&fit=crop"],
+    price: 189.99,
+    creator: users[2],
+    likes: 1750,
+    comments: 65,
+    createdAt: "2024-04-18",
+    category: "suit",
+    tags: ["men", "classic", "suit"]
+  },
+  {
+    id: "d19",
+    title: "Festival Fringe Jacket",
+    description: "Statement fringe jacket for music festivals.",
+    images: ["https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&h=700&fit=crop"],
+    price: 119.99,
+    creator: users[3],
+    likes: 1300,
+    comments: 45,
+    createdAt: "2024-04-19",
+    category: "outerwear",
+    tags: ["festival", "fringe", "jacket"]
+  },
+  {
+    id: "d20",
+    title: "Chic Plaid Skirt Outfit",
+    description: "Trendy plaid skirt paired with a fitted top.",
+    images: ["https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=500&h=700&fit=crop"],
+    price: 69.99,
+    creator: users[4],
+    likes: 1100,
+    comments: 40,
+    createdAt: "2024-04-20",
+    category: "skirt",
+    tags: ["plaid", "skirt", "chic"]
   }
 ];
 
