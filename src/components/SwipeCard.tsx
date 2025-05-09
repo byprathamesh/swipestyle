@@ -57,7 +57,6 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
       onDragEnd={handleDragEnd}
       animate={controls}
       initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
       exit={{ x: exitX, opacity: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       style={{ transformOrigin: "center center" }}
