@@ -23,11 +23,11 @@ const BrandLogo = ({ className = "", size = "md", withText = true }: LogoProps) 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <div className={`relative ${sizes[size]}`}>
-        <div className="absolute inset-0 rounded-full animate-pulse-glow"></div>
+        <div className="absolute inset-0 rounded-full bg-white/10 animate-pulse-glow"></div>
         <img 
-          src="/lovable-uploads/62e0c286-cba3-441c-b80c-49c38e2de939.png"
+          src="/lovable-uploads/e7745860-5461-4457-b708-9323e360325d.png"
           alt="Brand Logo" 
-          className={`${sizes[size]} object-contain`}
+          className={`${sizes[size]} object-contain rounded-full`}
         />
       </div>
       
@@ -35,7 +35,7 @@ const BrandLogo = ({ className = "", size = "md", withText = true }: LogoProps) 
         <h1 className={`font-bold ${textSizes[size]} text-white tracking-tight relative`}>
           <span className="bg-clip-text bg-gradient-to-r from-white to-white/80">Swipe</span>
           <span className="text-white">Style</span>
-          <span className="absolute -top-1 -right-4 text-xs bg-white text-black px-1 rounded-sm transform rotate-12">PRO</span>
+          <span className="absolute -top-1 -right-4 text-xs bg-white text-black px-1 rounded-sm transform rotate-12 font-bold">PRO</span>
         </h1>
       )}
     </div>

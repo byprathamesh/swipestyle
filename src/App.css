@@ -65,3 +65,70 @@
 .text-balance {
   text-wrap: balance;
 }
+
+/* Fix for black screen issue */
+body, html {
+  background-color: #000;
+  color: #fff;
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+/* Enhanced button glow effects */
+.glow-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.glow-button:hover::after {
+  opacity: 1;
+}
+
+/* Enhanced navigation styling */
+.nav-item-active {
+  position: relative;
+}
+
+.nav-item-active::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.3));
+  border-radius: 4px;
+}
+
+/* Enhanced card styling */
+.content-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
