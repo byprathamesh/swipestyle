@@ -373,10 +373,10 @@ const Home = () => {
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-2 pt-4 pb-20 min-h-screen relative">
         {/* Centered header: ContentToggle and AI Outfit Generation button */}
-        <div className="flex flex-row flex-wrap items-center justify-center gap-2 mb-8 w-full sm:gap-4">
+        <div className="flex flex-row flex-wrap items-center justify-center gap-1 mb-8 w-full sm:gap-4">
           <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
           <button
-            className="flex items-center gap-2 px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
+            className="flex items-center gap-2 px-2 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
             onClick={handleAIGenerate}
             disabled={aiLoading}
           >
@@ -421,12 +421,6 @@ const Home = () => {
                 </Button>
               </div>
             )}
-            {/* Add engaging element at the bottom */}
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-              <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full text-white/70 text-sm border border-white/10 animate-pulse-glow">
-                Swipe to explore amazing styles
-              </div>
-            </div>
           </div>
         )}
         {/* Celebrity Outfits Carousel - larger images, reveal on scroll */}

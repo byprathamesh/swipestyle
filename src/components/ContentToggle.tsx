@@ -12,7 +12,7 @@ const ContentToggle = ({ activeTab, onToggle }: ContentToggleProps) => {
       <Button 
         variant="ghost" 
         size="sm" 
-        className={`rounded-full px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm font-medium transition-all duration-300 ${
+        className={`rounded-full px-2 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm font-medium transition-all duration-300 ${
           activeTab === "pictures" 
             ? "bg-white text-black shadow-inner" 
             : "text-white hover:bg-white/20"
@@ -24,7 +24,7 @@ const ContentToggle = ({ activeTab, onToggle }: ContentToggleProps) => {
       <Button 
         variant="ghost" 
         size="sm" 
-        className={`rounded-full px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm font-medium transition-all duration-300 ${
+        className={`rounded-full px-2 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm font-medium transition-all duration-300 ${
           activeTab === "videos" 
             ? "bg-white text-black shadow-inner" 
             : "text-white hover:bg-white/20"
