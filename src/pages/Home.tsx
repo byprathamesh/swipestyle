@@ -376,7 +376,7 @@ const Home = () => {
         <div className="flex flex-row flex-wrap items-center justify-center gap-1 mb-8 w-full sm:gap-4">
           <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
           <button
-            className="flex items-center gap-2 px-2 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
+            className="flex items-center gap-2 px-2 py-1 text-[10px] leading-none sm:text-sm sm:px-4 sm:py-1.5 rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
             onClick={handleAIGenerate}
             disabled={aiLoading}
           >
