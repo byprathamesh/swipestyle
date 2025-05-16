@@ -350,8 +350,13 @@ const Home = () => {
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-4 pt-6 pb-20 min-h-screen relative">
-        {/* Top bar with only AI Outfit Generation button on the right */}
-        <div className="flex items-center justify-end mb-8"> {/* Only right-aligned */}
+        {/* Top bar: Explore/Logo/ContentToggle left, AI Outfit Generation right */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-bold text-white flex items-center gap-2">Explore</h1>
+            <SwipeStyleLogo size="sm" />
+            <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
+          </div>
           <button
             className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
             onClick={handleAIGenerate}
@@ -361,9 +366,9 @@ const Home = () => {
             {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
           </button>
         </div>
-        {/* Removed Explore/ContentToggle/Logo and Upload/AI buttons section */}
+        {/* Swipe card area, more mobile friendly */}
         {loading ? (
-          <div className="h-[70vh] flex flex-col items-center justify-center">
+          <div className="h-[60vh] flex flex-col items-center justify-center">
             <div className="w-16 h-16 relative">
               <div className="absolute inset-0 bg-white/10 rounded-full animate-pulse opacity-75" />
               <div className="w-14 h-14 m-1 rounded-full border-4 border-transparent border-t-white animate-spin" />
@@ -371,7 +376,7 @@ const Home = () => {
             <p className="mt-4 text-white/70">Discovering amazing styles for you...</p>
           </div>
         ) : (
-          <div className="h-[70vh] relative">
+          <div className="h-[60vh] w-full max-w-xs sm:max-w-md mx-auto relative flex items-center justify-center">
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
                 <SwipeCard
@@ -397,7 +402,6 @@ const Home = () => {
                 </Button>
               </div>
             )}
-            
             {/* Add engaging element at the bottom */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center">
               <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full text-white/70 text-sm border border-white/10 animate-pulse-glow">
