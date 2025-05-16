@@ -350,87 +350,8 @@ const Home = () => {
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-4 pt-6 pb-20 min-h-screen relative">
-        {/* Category selection UI */}
-        <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              className={`px-4 py-1.5 rounded-full font-medium text-sm whitespace-nowrap border transition-all duration-200 ${selectedCategory === cat ? 'bg-white text-black border-white shadow' : 'bg-black/30 text-white/80 border-white/20 hover:bg-white/10'}`}
-              onClick={() => { setSelectedCategory(cat); setLoading(true); }}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-            Explore
-          </h1>
-          <div className="flex gap-3 items-center">
-            {/* AI Style Button with your logo */}
-            <DropdownMenu open={showAIMenu} onOpenChange={setShowAIMenu}>
-              <DropdownMenuTrigger asChild>
-                <button
-                  className="bg-white/10 backdrop-blur-sm p-1.5 rounded-full flex items-center justify-center border border-white/20 group hover:bg-white/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/30"
-                  title="Get AI Style recommendations"
-                  aria-label="AI Style Menu"
-                  type="button"
-                >
-                  <SwipeStyleLogo size="sm" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-black/80 backdrop-blur-md border border-white/20 rounded-xl shadow-xl animate-fade-in text-white min-w-[180px]">
-                <div className="px-3 py-2 text-sm font-medium border-b border-white/10 flex items-center gap-2">
-                  <SwipeStyleLogo size="sm" />
-                  AI Style
-                </div>
-                {["Party", "Work", "Casual", "Date", "Formal"].map(occasion => (
-                  <DropdownMenuItem
-                    key={occasion}
-                    className="py-2 text-sm cursor-pointer hover:bg-white/10 focus:bg-white/10"
-                    onClick={() => handleAIOutfit(occasion.toLowerCase())}
-                  >
-                    {occasion}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            {/* Content type toggle */}
-            <ContentToggle
-              activeTab={contentType}
-              onToggle={handleContentToggle}
-            />
-            {savedItems.length > 0 && (
-              <div className="bg-white/10 backdrop-blur-sm p-2 rounded-full text-xs font-medium border border-white/20 flex items-center gap-1">
-                <Heart className="w-3 h-3" />
-                {savedItems.length}
-              </div>
-            )}
-          </div>
-        </div>
-        
-        {/* User upload button */}
-        <div className="mb-2 flex gap-2 items-center">
-          <label className="inline-block px-4 py-1.5 rounded-full font-medium text-sm bg-white text-black border border-white shadow cursor-pointer">
-            Upload Outfit Image
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={e => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = ev => {
-                    if (typeof ev.target?.result === 'string') {
-                      setUploadedImages(prev => [ev.target!.result as string, ...prev]);
-                    }
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
-            />
-          </label>
+        {/* Top bar with only AI Outfit Generation button on the right */}
+        <div className="flex items-center justify-end mb-8"> {/* Only right-aligned */}
           <button
             className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
             onClick={handleAIGenerate}
@@ -440,7 +361,7 @@ const Home = () => {
             {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
           </button>
         </div>
-        
+        {/* Removed Explore/ContentToggle/Logo and Upload/AI buttons section */}
         {loading ? (
           <div className="h-[70vh] flex flex-col items-center justify-center">
             <div className="w-16 h-16 relative">
