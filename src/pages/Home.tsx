@@ -371,7 +371,7 @@ const Home = () => {
 
   return (
     <div className={`min-h-screen bg-background flex flex-col ${!isMobile ? 'pl-16' : 'pb-16'}`}>
-      <div className="max-w-md mx-auto px-2 pt-4 pb-20 h-full w-full relative flex flex-col">
+      <div className="max-w-md mx-auto px-2 pt-4 h-full w-full relative flex flex-col">
         {/* Header: ContentToggle and AI Fit button, each taking half width */}
         <div className="flex w-full items-center justify-center gap-1 mb-4 sm:mb-8">
           <div className="w-1/2">
@@ -430,7 +430,7 @@ const Home = () => {
         {/* Celebrity Outfits Carousel - larger images, reveal on scroll */}
         <div
           ref={celebSectionRef}
-          className={`mt-12 transition-all duration-700 ease-out ${showCeleb ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none'}`}
+          className={`mt-12 transition-all duration-700 ease-out ${showCeleb ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none hidden'}`}
         >
           <h2 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
             <Sparkles className="w-4 h-4" />
