@@ -372,27 +372,17 @@ const Home = () => {
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-2 pt-4 pb-20 min-h-screen relative">
-        {/* Top bar: Explore/Logo/ContentToggle left, AI Outfit Generation right, mobile-friendly */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8 w-full">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 w-full">
-            <div className="flex items-center gap-2">
-              <h1 className="text-3xl font-bold text-white">Explore</h1>
-              <SwipeStyleLogo size="sm" />
-            </div>
-            <div className="flex justify-start sm:justify-center w-full">
-              <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
-            </div>
-          </div>
-          <div className="flex justify-end w-full sm:w-auto">
-            <button
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
-              onClick={handleAIGenerate}
-              disabled={aiLoading}
-            >
-              <Sparkles className="w-4 h-4" />
-              {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
-            </button>
-          </div>
+        {/* Centered header: ContentToggle and AI Outfit Generation button */}
+        <div className="flex flex-col items-center justify-center gap-4 mb-8 w-full sm:flex-row sm:gap-6">
+          <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
+          <button
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
+            onClick={handleAIGenerate}
+            disabled={aiLoading}
+          >
+            <Sparkles className="w-4 h-4" />
+            {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
+          </button>
         </div>
         {/* Swipe card area, more mobile friendly and larger */}
         {loading ? (
