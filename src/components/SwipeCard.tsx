@@ -84,7 +84,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete, indexInSt
 
   return (
     <motion.div
-      className="swipe-card absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-sm rounded-3xl overflow-hidden shadow-xl cursor-grab active:cursor-grabbing"
+      className="swipe-card absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-sm rounded-3xl overflow-hidden shadow-xl cursor-grab active:cursor-grabbing"
       drag={isTopCard ? "x" : false}
       dragConstraints={dragConstraints}
       dragElastic={0.7}
@@ -97,7 +97,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete, indexInSt
         transformOrigin: "center center",
         zIndex: 100 - indexInStack
       }}
-      whileDrag={isTopCard ? { scale: 1.02 } : {}}
+      whileDrag={isTopCard ? { scale: 1.02, opacity: 0.85 } : {}}
       dragTransition={isTopCard ? {
         power: 0.2,
         timeConstant: 200,
