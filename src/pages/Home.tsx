@@ -401,7 +401,7 @@ const Home = () => {
           <div ref={swipeAreaRef} className="flex-grow w-full flex items-center justify-center relative">
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
-                <div key={`${item.id}-${index}`} className="w-full max-w-sm aspect-[3/4] mx-auto flex items-center justify-center absolute inset-0">
+                <div key={`${item.id}-${index}`} className="w-full h-full max-w-sm mx-auto flex items-center justify-center absolute inset-0">
                   <SwipeCard
                     item={item}
                     onSwipeLeft={handleSwipeLeftWithHaptics}
