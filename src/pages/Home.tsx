@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SwipeCard from "@/components/SwipeCard";
 import ContentToggle from "@/components/ContentToggle";
 import { feedItems } from "@/data/mockData";
@@ -108,6 +108,10 @@ const Home = () => {
       return [];
     }
   });
+  
+  const swipeAreaRef = useRef<HTMLDivElement>(null);
+  const celebSectionRef = useRef<HTMLDivElement>(null);
+  const [showCeleb, setShowCeleb] = useState(false);
   
   // Helper to filter images by category
   const filterImagesByCategory = (images: string[], category: string) => {
@@ -347,28 +351,52 @@ const Home = () => {
     handleSwipeLeft(item);
   };
 
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        setShowCeleb(entry.isIntersecting === false);
+      },
+      {
+        root: null,
+        threshold: 0.1,
+      }
+    );
+    if (swipeAreaRef.current) {
+      observer.observe(swipeAreaRef.current);
+    }
+    return () => {
+      if (swipeAreaRef.current) observer.unobserve(swipeAreaRef.current);
+    };
+  }, []);
+
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
-      <div className="max-w-md mx-auto px-4 pt-6 pb-20 min-h-screen relative">
-        {/* Top bar: Explore/Logo/ContentToggle left, AI Outfit Generation right */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold text-white flex items-center gap-2">Explore</h1>
-            <SwipeStyleLogo size="sm" />
-            <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
+      <div className="max-w-md mx-auto px-2 pt-4 pb-20 min-h-screen relative">
+        {/* Top bar: Explore/Logo/ContentToggle left, AI Outfit Generation right, mobile-friendly */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8 w-full">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 w-full">
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl font-bold text-white">Explore</h1>
+              <SwipeStyleLogo size="sm" />
+            </div>
+            <div className="flex justify-start sm:justify-center w-full">
+              <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
+            </div>
           </div>
-          <button
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
-            onClick={handleAIGenerate}
-            disabled={aiLoading}
-          >
-            <Sparkles className="w-4 h-4" />
-            {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
-          </button>
+          <div className="flex justify-end w-full sm:w-auto">
+            <button
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
+              onClick={handleAIGenerate}
+              disabled={aiLoading}
+            >
+              <Sparkles className="w-4 h-4" />
+              {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
+            </button>
+          </div>
         </div>
-        {/* Swipe card area, more mobile friendly */}
+        {/* Swipe card area, more mobile friendly and larger */}
         {loading ? (
-          <div className="h-[60vh] flex flex-col items-center justify-center">
+          <div ref={swipeAreaRef} className="h-[70vh] sm:h-[80vh] flex flex-col items-center justify-center">
             <div className="w-16 h-16 relative">
               <div className="absolute inset-0 bg-white/10 rounded-full animate-pulse opacity-75" />
               <div className="w-14 h-14 m-1 rounded-full border-4 border-transparent border-t-white animate-spin" />
@@ -376,16 +404,17 @@ const Home = () => {
             <p className="mt-4 text-white/70">Discovering amazing styles for you...</p>
           </div>
         ) : (
-          <div className="h-[60vh] w-full max-w-xs sm:max-w-md mx-auto relative flex items-center justify-center">
+          <div ref={swipeAreaRef} className="h-[70vh] sm:h-[80vh] w-full flex items-center justify-center relative">
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
-                <SwipeCard
-                  key={`${item.id}-${index}`}
-                  item={item}
-                  onSwipeLeft={handleSwipeLeftWithHaptics}
-                  onSwipeRight={handleSwipeRightWithHaptics}
-                  onSwipeComplete={handleSwipeComplete}
-                />
+                <div key={`${item.id}-${index}`} className="w-full max-w-sm aspect-[3/4] mx-auto flex items-center justify-center absolute inset-0">
+                  <SwipeCard
+                    item={item}
+                    onSwipeLeft={handleSwipeLeftWithHaptics}
+                    onSwipeRight={handleSwipeRightWithHaptics}
+                    onSwipeComplete={handleSwipeComplete}
+                  />
+                </div>
               )).slice(0, 3).reverse() // Only render top 3 cards for performance
             ) : (
               <div className="h-full flex flex-col items-center justify-center">
@@ -410,9 +439,11 @@ const Home = () => {
             </div>
           </div>
         )}
-        
-        {/* Celebrity Outfits Carousel */}
-        <div className="mt-8">
+        {/* Celebrity Outfits Carousel - larger images, reveal on scroll */}
+        <div
+          ref={celebSectionRef}
+          className={`mt-12 transition-all duration-700 ease-out ${showCeleb ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none'}`}
+        >
           <h2 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
             <Sparkles className="w-4 h-4" />
             Celebrity Spotted
@@ -420,9 +451,9 @@ const Home = () => {
           <Carousel className="w-full">
             <CarouselContent className="-ml-2">
               {[...Array(5)].map((_, i) => (
-                <CarouselItem key={i} className="pl-2 basis-1/3 md:basis-1/3">
+                <CarouselItem key={i} className="pl-2 basis-2/3 sm:basis-1/3">
                   <div className="flex-shrink-0 rounded-xl overflow-hidden border border-white/10 animate-fade-in">
-                    <div className="aspect-[2/3] bg-black/60 relative">
+                    <div className="aspect-[2/3] w-full h-auto bg-black/60 relative">
                       <img 
                         src={`/assets/fashion/fashion${(i % 14) + 1}.jpg`}
                         alt={`Celebrity outfit ${i+1}`}
