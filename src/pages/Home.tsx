@@ -371,22 +371,26 @@ const Home = () => {
 
   return (
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
-      <div className="max-w-md mx-auto px-2 pt-4 pb-20 min-h-screen relative">
-        {/* Centered header: ContentToggle and AI Outfit Generation button */}
-        <div className="flex flex-row flex-wrap items-center justify-center gap-1 mb-8 w-full sm:gap-4">
-          <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
-          <button
-            className="flex items-center gap-2 px-2 py-1 text-[10px] leading-none sm:text-sm sm:px-4 sm:py-1.5 rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
-            onClick={handleAIGenerate}
-            disabled={aiLoading}
-          >
-            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
-            {aiLoading ? 'Generating...' : 'AI Fit'}
-          </button>
+      <div className="max-w-md mx-auto px-2 pt-4 pb-20 min-h-screen relative flex flex-col">
+        {/* Header: ContentToggle and AI Fit button, each taking half width */}
+        <div className="flex w-full items-center justify-center gap-1 mb-4 sm:mb-8">
+          <div className="w-1/2">
+            <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
+          </div>
+          <div className="w-1/2">
+            <button
+              className="flex w-full items-center justify-center gap-2 px-2 py-2 text-xs sm:text-sm rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
+              onClick={handleAIGenerate}
+              disabled={aiLoading}
+            >
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+              {aiLoading ? 'Generating...' : 'AI Fit'}
+            </button>
+          </div>
         </div>
-        {/* Swipe card area, more mobile friendly and larger */}
+        {/* Swipe card area - grows to fill available space */}
         {loading ? (
-          <div ref={swipeAreaRef} className="h-[70vh] sm:h-[80vh] flex flex-col items-center justify-center">
+          <div ref={swipeAreaRef} className="flex-grow flex flex-col items-center justify-center">
             <div className="w-16 h-16 relative">
               <div className="absolute inset-0 bg-white/10 rounded-full animate-pulse opacity-75" />
               <div className="w-14 h-14 m-1 rounded-full border-4 border-transparent border-t-white animate-spin" />
@@ -394,7 +398,7 @@ const Home = () => {
             <p className="mt-4 text-white/70">Discovering amazing styles for you...</p>
           </div>
         ) : (
-          <div ref={swipeAreaRef} className="h-[70vh] sm:h-[80vh] w-full flex items-center justify-center relative">
+          <div ref={swipeAreaRef} className="flex-grow w-full flex items-center justify-center relative">
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
                 <div key={`${item.id}-${index}`} className="w-full max-w-sm aspect-[3/4] mx-auto flex items-center justify-center absolute inset-0">
