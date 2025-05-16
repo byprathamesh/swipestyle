@@ -373,7 +373,7 @@ const Home = () => {
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-2 pt-4 pb-20 min-h-screen relative">
         {/* Centered header: ContentToggle and AI Outfit Generation button */}
-        <div className="flex flex-col items-center justify-center gap-4 mb-8 w-full sm:flex-row sm:gap-6">
+        <div className="flex flex-row flex-wrap items-center justify-center gap-4 mb-8 w-full sm:gap-6">
           <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
           <button
             className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
