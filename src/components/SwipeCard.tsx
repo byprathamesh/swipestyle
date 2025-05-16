@@ -84,7 +84,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete, indexInSt
 
   return (
     <motion.div
-      className="swipe-card absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-sm rounded-3xl overflow-hidden shadow-xl cursor-grab active:cursor-grabbing"
+      className="swipe-card absolute inset-y-0 left-0 w-full rounded-3xl overflow-hidden shadow-xl cursor-grab active:cursor-grabbing"
       drag={isTopCard ? "x" : false}
       dragConstraints={dragConstraints}
       dragElastic={0.7}
