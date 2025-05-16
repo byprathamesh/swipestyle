@@ -398,17 +398,16 @@ const Home = () => {
             <p className="mt-4 text-white/70">Discovering amazing styles for you...</p>
           </div>
         ) : (
-          <div ref={swipeAreaRef} className="flex-grow w-full flex items-center justify-center relative">
+          <div ref={swipeAreaRef} className="flex-grow w-full relative flex items-center justify-center">
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
-                <div key={`${item.id}-${index}`} className="w-full h-full max-w-sm mx-auto relative">
-                  <SwipeCard
-                    item={item}
-                    onSwipeLeft={handleSwipeLeftWithHaptics}
-                    onSwipeRight={handleSwipeRightWithHaptics}
-                    onSwipeComplete={handleSwipeComplete}
-                  />
-                </div>
+                <SwipeCard
+                  key={`${item.id}-${index}`}
+                  item={item}
+                  onSwipeLeft={handleSwipeLeftWithHaptics}
+                  onSwipeRight={handleSwipeRightWithHaptics}
+                  onSwipeComplete={handleSwipeComplete}
+                />
               )).slice(0, 3).reverse() // Only render top 3 cards for performance
             ) : (
               <div className="h-full flex flex-col items-center justify-center">

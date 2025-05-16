@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Heart, X, ThumbsUp, Sparkles, Tag, ShoppingBag, Recycle } from "lucide-react";
@@ -18,6 +17,18 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
   const [exitX, setExitX] = useState(0);
   const controls = useAnimation();
   const dragConstraints = useRef(null);
+
+  // Add useEffect for initial animation
+  React.useEffect(() => {
+    controls.start({
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+      rotate: 0,
+      transition: { type: "spring", stiffness: 300, damping: 25, duration: 0.3 }
+    });
+  }, [controls, item]); // Rerun if item changes to reset card appearance
 
   // Check if the item is a Design or an Outfit
   const isDesign = "images" in item;
@@ -58,7 +69,7 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
 
   return (
     <motion.div
-      className="swipe-card absolute top-0 left-0 w-full h-full rounded-3xl overflow-hidden shadow-xl cursor-grab active:cursor-grabbing"
+      className="swipe-card absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-sm rounded-3xl overflow-hidden shadow-xl cursor-grab active:cursor-grabbing"
       drag="x"
       dragConstraints={dragConstraints}
       dragElastic={0.7}
