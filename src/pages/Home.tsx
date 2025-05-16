@@ -373,15 +373,15 @@ const Home = () => {
     <div className={`min-h-screen bg-background ${!isMobile ? 'pl-16' : 'pb-16'}`}>
       <div className="max-w-md mx-auto px-2 pt-4 pb-20 min-h-screen relative">
         {/* Centered header: ContentToggle and AI Outfit Generation button */}
-        <div className="flex flex-row flex-wrap items-center justify-center gap-4 mb-8 w-full sm:gap-6">
+        <div className="flex flex-row flex-wrap items-center justify-center gap-2 mb-8 w-full sm:gap-4">
           <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
           <button
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full font-medium text-sm bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
+            className="flex items-center gap-2 px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
             onClick={handleAIGenerate}
             disabled={aiLoading}
           >
-            <Sparkles className="w-4 h-4" />
-            {aiLoading ? 'Generating...' : 'AI Outfit Generation'}
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+            {aiLoading ? 'Generating...' : 'AI Fit'}
           </button>
         </div>
         {/* Swipe card area, more mobile friendly and larger */}
