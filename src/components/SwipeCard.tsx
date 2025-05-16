@@ -11,24 +11,39 @@ type SwipeCardProps = {
   onSwipeLeft: (item: FeedItem) => void;
   onSwipeRight: (item: FeedItem) => void;
   onSwipeComplete: () => void;
+  indexInStack: number;
 };
 
-const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCardProps) => {
+const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete, indexInStack }: SwipeCardProps) => {
   const [exitX, setExitX] = useState(0);
   const controls = useAnimation();
   const dragConstraints = useRef(null);
 
-  // Add useEffect for initial animation
+  const isTopCard = indexInStack === 0;
+
+  // Initial animation state based on stack position
+  const initialAnimState = {
+    opacity: isTopCard ? 0 : Math.max(0, 0.8 - indexInStack * 0.3), // Underlying cards start more transparent
+    scale: isTopCard ? 0.95 : Math.max(0.8, 1 - indexInStack * 0.05), // Underlying cards start smaller
+    y: indexInStack * 12, // Apply vertical offset for stacking
+    x: 0,
+    rotate: 0,
+  };
+
   React.useEffect(() => {
+    const targetOpacity = isTopCard ? 1 : Math.max(0, 0.8 - indexInStack * 0.3);
+    const targetScale = isTopCard ? 1 : Math.max(0.85, 1 - indexInStack * 0.04); // Slightly larger resting for stacked cards
+    const targetY = indexInStack * 10; // Resting Y offset for stack
+
     controls.start({
-      opacity: 1,
-      scale: 1,
+      opacity: targetOpacity,
+      scale: targetScale,
+      y: targetY,
       x: 0,
-      y: 0,
       rotate: 0,
-      transition: { type: "spring", stiffness: 300, damping: 25, duration: 0.3 }
+      transition: { type: "spring", stiffness: 300, damping: isTopCard ? 25 : 20, duration: 0.3 }
     });
-  }, [controls, item]); // Rerun if item changes to reset card appearance
+  }, [controls, item, indexInStack, isTopCard]);
 
   // Check if the item is a Design or an Outfit
   const isDesign = "images" in item;
@@ -70,21 +85,24 @@ const SwipeCard = ({ item, onSwipeLeft, onSwipeRight, onSwipeComplete }: SwipeCa
   return (
     <motion.div
       className="swipe-card absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-sm rounded-3xl overflow-hidden shadow-xl cursor-grab active:cursor-grabbing"
-      drag="x"
+      drag={isTopCard ? "x" : false}
       dragConstraints={dragConstraints}
       dragElastic={0.7}
-      onDragEnd={handleDragEnd}
+      onDragEnd={isTopCard ? handleDragEnd : undefined}
       animate={controls}
-      initial={{ scale: 0.95, opacity: 0 }}
+      initial={initialAnimState}
       exit={{ x: exitX, opacity: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      style={{ transformOrigin: "center center" }}
-      whileDrag={{ scale: 1.02 }}
-      dragTransition={{
+      style={{ 
+        transformOrigin: "center center",
+        zIndex: 100 - indexInStack
+      }}
+      whileDrag={isTopCard ? { scale: 1.02 } : {}}
+      dragTransition={isTopCard ? {
         power: 0.2,
         timeConstant: 200,
         modifyTarget: (target) => getRotation(target)
-      }}
+      } : undefined}
       ref={dragConstraints}
     >
       {/* Background Image with enhanced overlay */}
