@@ -86,6 +86,78 @@ app.put('/preferences', (req, res) => {
     res.json({ message: 'Update preferences successful (placeholder)', preferences: req.body });
 });
 
+// Utility to run Python scripts
+const { spawn } = require('child_process');
+const path = require('path');
+
+function runPythonScript(scriptPath, args, callback) {
+  const pythonExecutable = process.env.PYTHON_EXECUTABLE || 'python'; // or 'python3'
+  const fullScriptPath = path.join(__dirname, '..', scriptPath); // Assumes scriptPath is relative to project root like 'ai/script.py'
+  
+  const process = spawn(pythonExecutable, [fullScriptPath, ...args]);
+  let dataString = '';
+  let errorString = '';
+
+  process.stdout.on('data', (data) => {
+    dataString += data.toString();
+  });
+
+  process.stderr.on('data', (data) => {
+    errorString += data.toString();
+  });
+
+  process.on('close', (code) => {
+    if (code !== 0) {
+      console.error(`Python script ${fullScriptPath} exited with code ${code}`);
+      console.error('stderr:', errorString);
+      return callback(new Error(`Script error: ${errorString || 'Unknown error'}`), null);
+    }
+    try {
+      const jsonData = JSON.parse(dataString);
+      callback(null, jsonData);
+    } catch (parseError) {
+      console.error(`Error parsing JSON from ${fullScriptPath}:`, parseError);
+      console.error('stdout:', dataString);
+      callback(new Error('Error parsing script output'), null);
+    }
+  });
+}
+
+// AI Outfit Generation Endpoint
+app.post('/ai/generate-outfit', (req, res) => {
+  const { prompt, image_url, service } = req.body;
+  if (!prompt) {
+    return res.status(400).json({ message: 'Prompt is required' });
+  }
+  const scriptArgs = ['--prompt', prompt];
+  if (image_url) scriptArgs.push('--image_url', image_url);
+  if (service) scriptArgs.push('--service', service);
+
+  runPythonScript('ai/sample_outfit_generator.py', scriptArgs, (error, data) => {
+    if (error) {
+      return res.status(500).json({ message: error.message, details: error.stderr });
+    }
+    res.json(data);
+  });
+});
+
+// Price Comparison Endpoint
+app.post('/price-compare', (req, res) => {
+  const { query } = req.body;
+  if (!query) {
+    return res.status(400).json({ message: 'Product query is required' });
+  }
+  const scriptArgs = ['--query', query];
+  // Add --target_country 'in' if needed explicitly by script, or handle in script
+
+  runPythonScript('price-compare/sample_price_scraper.py', scriptArgs, (error, data) => {
+    if (error) {
+      return res.status(500).json({ message: error.message, details: error.stderr });
+    }
+    res.json(data);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Backend server listening at http://localhost:${port}`);
 }); 

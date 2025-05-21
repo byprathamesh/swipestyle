@@ -1,5 +1,7 @@
 # Placeholder for AI Outfit Generation
 import os
+import json
+import argparse
 # from openart.client import OpenArt
 # from replicate.client import Replicate
 
@@ -10,9 +12,9 @@ import os
 
 def generate_outfit_openart(prompt: str, base_image_url: str = None):
     """Generates an outfit using a hypothetical OpenArt AI integration."""
-    print(f"[OpenArt] Generating outfit for prompt: '{prompt}'")
-    if base_image_url:
-        print(f"[OpenArt] Using base image: {base_image_url}")
+    # print(f"[OpenArt] Generating outfit for prompt: '{prompt}'")
+    # if base_image_url:
+    #     print(f"[OpenArt] Using base image: {base_image_url}")
     # client = OpenArt(api_key=OPENART_API_KEY)
     # response = client.create_image(
     #     prompt=f"fashion model wearing {prompt}, full body shot, high fashion, photorealistic",
@@ -21,14 +23,13 @@ def generate_outfit_openart(prompt: str, base_image_url: str = None):
     #     # control="garment", # If using controlnet for clothes
     # )
     # return response.get("output_url")
-    print("[OpenArt] Placeholder: Outfit image URL would be returned here.")
-    return "/placeholder_openart_outfit.jpg"
+    return {"source": "OpenArt", "prompt": prompt, "base_image_url": base_image_url, "output_url": "/placeholder_openart_outfit.jpg", "message": "Placeholder OpenArt AI outfit suggestion."}
 
 def generate_outfit_replicate(prompt: str, base_image_url: str = None):
     """Generates an outfit using a hypothetical Replicate.com model."""
-    print(f"[Replicate] Generating outfit for prompt: '{prompt}'")
-    if base_image_url:
-        print(f"[Replicate] Using base image: {base_image_url}")
+    # print(f"[Replicate] Generating outfit for prompt: '{prompt}'")
+    # if base_image_url:
+    #     print(f"[Replicate] Using base image: {base_image_url}")
     # client = Replicate(api_token=REPLICATE_API_TOKEN)
     # model_id = "replicate/fashion-ai-model:version-hash" # Replace with actual model
     # input_data = {
@@ -38,31 +39,31 @@ def generate_outfit_replicate(prompt: str, base_image_url: str = None):
     #     input_data["image"] = base_image_url # For virtual try-on type models
     # output = client.run(model_id, input=input_data)
     # return output[0] if output else None
-    print("[Replicate] Placeholder: Outfit image URL would be returned here.")
-    return "/placeholder_replicate_outfit.jpg"
+    return {"source": "Replicate", "prompt": prompt, "base_image_url": base_image_url, "output_url": "/placeholder_replicate_outfit.jpg", "message": "Placeholder Replicate.com outfit suggestion."}
 
 if __name__ == "__main__":
-    print("AI Outfit Generation Script")
-    
-    user_prompt = "a stylish summer outfit for a beach party"
-    
-    print("\nAttempting OpenArt generation...")
-    openart_result = generate_outfit_openart(user_prompt)
-    if openart_result:
-        print(f"OpenArt Suggested Outfit Image URL: {openart_result}")
-    else:
-        print("OpenArt generation failed or no result.")
+    parser = argparse.ArgumentParser(description="Generate AI outfit suggestions.")
+    parser.add_argument("--prompt", type=str, required=True, help="Text prompt describing the desired outfit or style.")
+    parser.add_argument("--image_url", type=str, help="Optional URL of a base image for virtual try-on or reference.")
+    parser.add_argument("--service", type=str, default="openart", choices=["openart", "replicate"], help="AI service to use.")
 
-    print("\nAttempting Replicate generation...")
-    # Example for a virtual try-on with Replicate, assuming a base image of a person
-    # base_garment_image = "https://example.com/garments/summer_dress.jpg"
-    # replicate_prompt = "person wearing this summer dress"
-    # replicate_result = generate_outfit_replicate(replicate_prompt, base_image_url=base_garment_image)
-    replicate_result = generate_outfit_replicate(user_prompt)
-    if replicate_result:
-        print(f"Replicate Suggested Outfit Image URL: {replicate_result}")
-    else:
-        print("Replicate generation failed or no result.")
+    args = parser.parse_args()
+
+    results = []
+    # For simplicity, just call one service based on argument, or a default
+    if args.service == "openart":
+        result = generate_outfit_openart(args.prompt, args.image_url)
+        results.append(result)
+    elif args.service == "replicate":
+        result = generate_outfit_replicate(args.prompt, args.image_url)
+        results.append(result)
+    else: # Default or if more complex logic needed
+        # Could try multiple, or have a preferred one
+        openart_res = generate_outfit_openart(args.prompt, args.image_url)
+        results.append(openart_res)
+
+    # Output results as JSON string to stdout
+    print(json.dumps(results))
 
     print("\nNote: This script uses placeholder functions. ")
     print("Uncomment and configure API clients (OpenArt, Replicate) with your API keys to use actual AI models.")

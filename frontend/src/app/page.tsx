@@ -189,6 +189,12 @@ export default function HomePage() {
         <div>
           <a href="/preferences" className="text-purple-600 hover:underline p-2 font-semibold">User Preferences</a>
         </div>
+        <div>
+          <a href="/ai-stylist" className="text-teal-600 hover:underline p-2 font-semibold">AI Stylist</a>
+        </div>
+        <div>
+          <a href="/price-checker" className="text-orange-600 hover:underline p-2 font-semibold">Price Checker</a>
+        </div>
       </nav>
     </div>
   );
