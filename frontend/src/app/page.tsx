@@ -1,45 +1,98 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSwipeable } from 'react-swipeable';
+import { SwapItem, User } from '@/lib/types'; // Import from local lib
 
-interface CardData {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-}
+// interface CardData { // Replace with SwapItem
+//   id: number; // id will be string in SwapItem
+//   title: string;
+//   description: string;
+//   imageUrl: string;
+// }
 
-const initialCards: CardData[] = [
+const initialCards: SwapItem[] = [
   {
-    id: 1,
+    id: "1",
+    userId: "user_placeholder_1",
     title: "Vintage Denim Jacket",
     description: "Size M, good condition. Worn a few times.",
     imageUrl: "/assets/fashion/jacket.jpg", // Placeholder image
+    category: "outerwear",
+    condition: "good",
+    availability: "available",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
   {
-    id: 2,
+    id: "2",
+    userId: "user_placeholder_2",
     title: "Floral Summer Dress",
     description: "Size S, brand new with tags. Never worn.",
     imageUrl: "/assets/fashion/dress.jpg", // Placeholder image
+    category: "dresses",
+    condition: "new",
+    availability: "available",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
+  // ... Add more initial cards matching SwapItem structure
   {
-    id: 3,
+    id: "3",
+    userId: "user_placeholder_3",
     title: "Leather Ankle Boots",
     description: "Size 38, used but in great shape. Comfortable.",
-    imageUrl: "/assets/fashion/boots.jpg", // Placeholder image
+    imageUrl: "/assets/fashion/boots.jpg",
+    category: "shoes",
+    condition: "used",
+    availability: "available",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
   {
-    id: 4,
+    id: "4",
+    userId: "user_placeholder_4",
     title: "Striped Cotton Shirt",
     description: "Size L, excellent condition. Soft cotton.",
-    imageUrl: "/assets/fashion/shirt.jpg", // Placeholder image
+    imageUrl: "/assets/fashion/shirt.jpg",
+    category: "tops",
+    condition: "good",
+    availability: "available",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 ];
 
 export default function HomePage() {
-  const [cards, setCards] = useState<CardData[]>(initialCards);
+  const [cards, setCards] = useState<SwapItem[]>(initialCards);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true); // Set to true initially
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch('/api/proxy/items'); 
+        if (!response.ok) {
+          throw new Error(`Failed to fetch items: ${response.statusText} (${response.status})`);
+        }
+        const data = await response.json();
+        // Ensure data is an array, and map to SwapItem if necessary (though backend should send correct structure)
+        const fetchedCards: SwapItem[] = Array.isArray(data) ? data : (data.items || []); // Adjust based on actual backend response
+        
+        setCards(fetchedCards.length > 0 ? fetchedCards : initialCards); // Use fetched data or fallback
+      } catch (err: any) {
+        setError(err.message);
+        setCards(initialCards); // Fallback to initial cards on error
+        console.error("Error fetching items:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchItems();
+  }, []);
 
   const handleSwipe = (direction: string) => {
     console.log(`Swiped ${direction}`);
@@ -57,6 +110,24 @@ export default function HomePage() {
     preventScrollOnSwipe: true,
     trackMouse: true,
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <h1 className="text-2xl font-bold mb-4">Loading items...</h1>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <h1 className="text-2xl font-bold mb-4 text-red-600">Error loading items!</h1>
+        <p>{error}</p>
+        <p className="mt-2">Showing default items.</p>
+      </div>
+    );
+  }
 
   if (cards.length === 0 || currentIndex >= cards.length) {
     return (
@@ -107,9 +178,17 @@ export default function HomePage() {
         </button>
       </div>
       <p className="mt-4 text-sm text-gray-500">{`Card ${currentIndex + 1} of ${cards.length}`}</p>
-       <nav className="mt-8">
-        <a href="/login" className="text-blue-500 hover:underline p-2">Login</a>
-        <a href="/signup" className="text-blue-500 hover:underline p-2">Signup</a>
+      <nav className="mt-8 flex flex-col items-center space-y-2">
+        <div>
+          <a href="/login" className="text-blue-500 hover:underline p-2">Login</a>
+          <a href="/signup" className="text-blue-500 hover:underline p-2">Signup</a>
+        </div>
+        <div>
+          <a href="/list-item" className="text-green-600 hover:underline p-2 font-semibold">List an Item for Swap</a>
+        </div>
+        <div>
+          <a href="/preferences" className="text-purple-600 hover:underline p-2 font-semibold">User Preferences</a>
+        </div>
       </nav>
     </div>
   );
