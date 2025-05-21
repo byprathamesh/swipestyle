@@ -1,3 +1,39 @@
+# SwipeStyle Monorepo
+
+This monorepo contains the frontend, backend, AI, and price comparison services for SwipeStyle.
+
+## Project Structure
+
+- **/frontend**: Next.js application for the user interface.
+- **/backend**: Node.js Express server / Supabase for backend logic and API.
+- **/ai**: Python scripts for AI-powered features like outfit generation and virtual try-on.
+- **/price-compare**: Python scripts for price scraping and comparison.
+- **/shared**: Shared utilities, types, and constants.
+
+## Development
+
+To get started with local development:
+
+1.  **Clone the repository.**
+2.  **Install dependencies for each service:**
+    *   Frontend: `cd frontend && npm install`
+    *   Backend: `cd backend && npm install` (if you set up a Node.js backend)
+    *   AI & Price Compare: Set up Python virtual environments and install dependencies from `requirements.txt` in their respective folders (`ai/requirements.txt`, `price-compare/requirements.txt`).
+
+3.  **Set up environment variables:**
+    *   Create `.env` files in `frontend`, `backend`, `ai`, and `price-compare` directories as needed, based on their respective `README.md` files or example `.env.example` files (you may need to create these).
+    *   For AI and Price Comparison scripts, you'll typically need API keys for services like OpenArt, Replicate, SerpAPI, Cuelinks, etc.
+
+4.  **Run the development servers/scripts:**
+    *   Frontend (Next.js): `cd frontend && npm run dev` (usually runs on `http://localhost:3000`)
+    *   Backend (Node.js/Express): `cd backend && npm run dev` (usually runs on `http://localhost:3001`)
+    *   AI Scripts: `cd ai && python your_script_name.py`
+    *   Price Comparison Scripts: `cd price-compare && python your_script_name.py`
+
+## Deployment
+
+(Details about deployment to Vercel and Railway will be added here)
+
 ## MVP Features
 
 - User authentication (Supabase)
