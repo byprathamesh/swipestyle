@@ -1,159 +1,231 @@
 # SwipeStyle Monorepo
 
-This monorepo contains the frontend, backend, AI, and price comparison services for SwipeStyle.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) <!-- Add a badge if you choose a license -->
+
+**SwipeStyle is a fashion discovery platform that helps users find and create outfits they love.** This monorepo contains the frontend, backend, AI, and price comparison services.
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
+- [Development Setup](#development-setup)
+- [Key Features](#key-features)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Free Tier Strategy](#free-tier-strategy)
+- [Potential Upgrades & Paid Alternatives](#potential-upgrades--paid-alternatives)
+
+## Quick Start
+
+New to SwipeStyle? Here's how to get a local development environment running:
+
+1.  **Clone the repository:** `git clone https://github.com/your-username/swipestyle-8.git` (Replace with your actual repo URL)
+2.  **Navigate to the project directory:** `cd swipestyle-8`
+3.  **Install dependencies for each service:**
+    *   Frontend: `cd frontend && npm install`
+    *   Backend (if using Node.js): `cd backend && npm install`
+    *   AI & Price Compare: Set up Python virtual environments and install from `requirements.txt` in `ai/` and `price-compare/`.
+4.  **Set up environment variables:** Create `.env` files in each service directory based on `.env.example` files (you may need to create these).
+5.  **Run services:**
+    *   Frontend: `cd frontend && npm run dev`
+    *   Backend (Node.js): `cd backend && npm run dev`
+    *   AI/Price Scripts: `cd ai && python your_script.py`
 
 ## Project Structure
 
-- **/frontend**: Next.js application for the user interface.
-- **/backend**: Node.js Express server / Supabase for backend logic and API.
-- **/ai**: Python scripts for AI-powered features like outfit generation and virtual try-on.
-- **/price-compare**: Python scripts for price scraping and comparison.
-- **/shared**: Shared utilities, types, and constants.
+The monorepo is organized as follows:
 
-## Development
+-   `/.github/workflows/`: CI/CD workflows (e.g., for automated testing and deployment).
+-   `/ai/`: Python scripts for AI-powered features like outfit generation and virtual try-on.
+-   `/backend/`: Node.js Express server / Supabase for backend logic and API.
+-   `/frontend/`: Next.js application for the user interface.
+    -   `frontend/public/`: Static assets for the frontend.
+    -   `frontend/src/app/`: Core application code.
+        -   `ai-stylist/`: Components related to the AI stylist feature.
+        -   `api/proxy/`: API proxy routes.
+        -   `list-item/`: Components for displaying list items.
+        -   `login/`, `signup/`, `profile/`: User authentication and profile management pages.
+        -   `preferences/`: User preference settings.
+        -   `price-checker/`: Components for the price checking feature.
+    -   `frontend/src/lib/`: Utility functions and libraries for the frontend.
+-   `/price-compare/`: Python scripts for price scraping and comparison.
+-   `/public/`: Global public assets (distinct from `frontend/public`).
+-   `/shared/`: Shared utilities, types, and constants used across multiple services.
+-   `/src/`: (Assuming this is for a potential shared UI library or another distinct module - clarify if needed)
+    - `components/ui/`: Shared UI components.
+    - `data/`: Shared data structures or mock data.
+    - `hooks/`: Shared custom React hooks.
+    - `lib/`: Shared utility functions.
+    - `pages/api/`: API routes (if this `src` is for a separate Next.js app or similar).
+    - `types/`: Shared TypeScript type definitions.
 
-To get started with local development:
+## Technologies Used
 
-1.  **Clone the repository.**
-2.  **Install dependencies for each service:**
-    *   Frontend: `cd frontend && npm install`
-    *   Backend: `cd backend && npm install` (if you set up a Node.js backend)
-    *   AI & Price Compare: Set up Python virtual environments and install dependencies from `requirements.txt` in their respective folders (`ai/requirements.txt`, `price-compare/requirements.txt`).
+-   **Frontend:** Next.js, React, Tailwind CSS, TypeScript
+-   **Backend:** Node.js with Express (optionally), Supabase (PostgreSQL, Auth, Edge Functions)
+-   **AI:** Python, OpenArt AI, Flux AI, The New Black AI, Replicate
+-   **Price Comparison:** Python, SerpAPI, Cuelinks
+-   **CI/CD:** GitHub Actions
+-   **Design:** Figma, Canva
+-   **Development Tools:** Cursor Premium, Bun
 
-3.  **Set up environment variables:**
-    *   Create `.env` files in `frontend`, `backend`, `ai`, and `price-compare` directories as needed, based on their respective `README.md` files or example `.env.example` files (you may need to create these).
-    *   For AI and Price Comparison scripts, you'll typically need API keys for services like OpenArt, Replicate, SerpAPI, Cuelinks, etc.
+## Development Setup
 
-4.  **Run the development servers/scripts:**
-    *   Frontend (Next.js): `cd frontend && npm run dev` (usually runs on `http://localhost:3000`)
-    *   Backend (Node.js/Express): `cd backend && npm run dev` (usually runs on `http://localhost:3001`)
-    *   AI Scripts: `cd ai && python your_script_name.py`
-    *   Price Comparison Scripts: `cd price-compare && python your_script_name.py`
+Follow these steps to set up your local development environment:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/swipestyle-8.git # Replace with your actual repo URL
+    cd swipestyle-8
+    ```
+
+2.  **Install Dependencies:**
+    *   **Frontend (Next.js):**
+        ```bash
+        cd frontend
+        npm install
+        # or yarn install or pnpm install or bun install
+        ```
+    *   **Backend (Node.js/Express - if applicable):**
+        ```bash
+        cd backend
+        npm install
+        # or yarn install or pnpm install or bun install
+        ```
+    *   **AI & Price Comparison (Python):**
+        For each directory (`ai`, `price-compare`):
+        ```bash
+        cd ai  # or price-compare
+        python -m venv venv
+        source venv/bin/activate  # On Windows: venv\Scripts\activate
+        pip install -r requirements.txt
+        ```
+
+3.  **Set Up Environment Variables:**
+    *   Create `.env` files in the root of `frontend`, `backend`, `ai`, and `price-compare`.
+    *   Populate these files with necessary API keys and configuration variables. Refer to any `.env.example` files or specific service documentation within their respective READMEs (if they exist).
+    *   **Key variables might include:**
+        *   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (for Frontend & Supabase)
+        *   `DATABASE_URL` (for Backend if using a separate DB)
+        *   API keys for OpenArt, Replicate, SerpAPI, Cuelinks, etc. (for AI & Price Compare).
+
+4.  **Run Development Servers/Scripts:**
+    *   **Frontend (Next.js):**
+        ```bash
+        cd frontend
+        npm run dev
+        ```
+        (Usually accessible at `http://localhost:3000`)
+    *   **Backend (Node.js/Express - if applicable):**
+        ```bash
+        cd backend
+        npm run dev
+        ```
+        (Usually accessible at `http://localhost:3001`)
+    *   **AI Scripts:**
+        ```bash
+        cd ai
+        source venv/bin/activate # If not already active
+        python your_script_name.py
+        ```
+    *   **Price Comparison Scripts:**
+        ```bash
+        cd price-compare
+        source venv/bin/activate # If not already active
+        python your_script_name.py
+        ```
+
+## Key Features
+
+-   User authentication and management (Supabase)
+-   Browse, search, and list clothing items.
+-   AI-powered outfit suggestions and virtual try-on capabilities.
+-   Affiliate links for purchasing similar items.
+-   Mobile-first, responsive user interface.
+-   Price comparison tools.
 
 ## Deployment
 
-(Details about deployment to Vercel and Railway will be added here)
+*(This section will be updated with detailed deployment instructions for services like Vercel (frontend) and Railway/Supabase Functions (backend/AI tasks).)*
 
-## MVP Features
+Currently, the primary deployment targets are:
+- **Frontend:** Vercel
+- **Backend & Database:** Supabase
+- **AI Scripts:** Potentially serverless functions (e.g., Supabase Edge Functions, Vercel Functions) or containerized services.
 
-- User authentication (Supabase)
-- List, browse, and search clothing swaps
-- Request swaps and basic messaging
-- AI-powered outfit suggestions/virtual try-on (OpenArt AI, Flux AI, The New Black)
-- Affiliate links for shopping similar looks (Cuelinks, Amazon, Myntra, etc.)
-- Minimal, mobile-first UI
+## Contributing
 
-## Free Tools & Services
+We welcome contributions! Please follow these steps:
 
-- **Coding & Automation:** Cursor Premium
-- **Frontend:** Next.js, Tailwind CSS
-- **Backend & Auth:** Supabase (free tier)
-- **AI/Virtual Try-On:** OpenArt AI Clothes Changer, Flux AI, The New Black AI (free credits)
-- **Affiliate:** Cuelinks, Amazon Associates India, Myntra Affiliate, Ajio Affiliate, Flipkart Affiliate
-- **Design:** Figma, Canva
-- **Hosting:** Vercel (free), Netlify (free)
-- **Community:** Discord, Slack, Google Forms
-- **File Sharing:** Google Drive, Google Photos
+1.  Fork the repository.
+2.  Create a new branch (`git checkout -b feature/your-feature-name`).
+3.  Make your changes.
+4.  Commit your changes (`git commit -m 'Add some feature'`).
+5.  Push to the branch (`git push origin feature/your-feature-name`).
+6.  Open a Pull Request.
 
-This setup will let you build, launch, and iterate on your MVP with almost zero upfront cost.
-Copy-paste this into your README and update as you add more features or tools! 
+Please ensure your code adheres to existing styling and linting configurations.
 
-## Tips for Staying Free & Maximizing Potential
+## License
 
-- **Monitor Free Tier Limits:** Keep a close watch on usage dashboards for services like Supabase, Vercel, and Netlify to avoid unexpected costs. Understand the limitations of their free offerings.
-- **Optimize Media:** Compress images and videos to save on storage and bandwidth. Consider client-side image resizing before uploads.
-- **Explore Open-Source AI:** For long-term AI features, investigate open-source models (e.g., from Hugging Face) that you might be able to self-host or integrate, as free credits on proprietary services may expire.
-- **Leverage Community:** Engage your users for feedback, beta testing, and potentially contributions if you open-source components.
-- **Lean Feature Development:** Prioritize core features to manage complexity and resource consumption effectively.
-- **Implement Caching:** Use caching strategies (CDN, server, client-side) to improve performance and reduce load on backend services, helping you stay within free tier limits. 
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details (if you add one).
+*Consider adding an MIT or other open-source license file.*
 
-## Tools & Services (Initial Free Tier Focus)
+## Free Tier Strategy
 
-- **Coding & Automation:** Cursor Premium
-- **Frontend Framework:** Next.js
-- **Frontend Hosting:** Vercel (Free Tier)
-- **Styling:** Tailwind CSS
-- **Backend Framework (Option 1):** Node.js with Express
-- **Backend Hosting (Option 1 - Node.js):** Railway (Free Tier - to be configured)
-- **Backend & DB (Option 2 - Integrated):** Supabase (Free Tier - Auth, Postgres DB, Edge Functions)
-- **AI/Virtual Try-On:** OpenArt AI, Flux AI, The New Black AI (Free Credits), Replicate.com (Pay-as-you-go with initial free credits)
-- **Price Scraping/Affiliate APIs:** SerpAPI (Free Tier/Credits), Cuelinks (Commission-based)
-- **CI/CD:** GitHub Actions (Free for public repos / generous free minutes for private)
-- **Design:** Figma, Canva
-- **Community:** Discord, Slack, Google Forms
-- **File Sharing:** Google Drive, Google Photos
+This project leverages free tiers of various services to minimize initial costs.
+
+-   **Coding & Automation:** Cursor Premium
+-   **Frontend Framework & Hosting:** Next.js on Vercel (Free Tier)
+-   **Styling:** Tailwind CSS
+-   **Backend & Database:** Supabase (Free Tier for Auth, Postgres DB, Edge Functions)
+-   **AI/Virtual Try-On:** OpenArt AI, Flux AI, The New Black AI (Free Credits), Replicate.com (Pay-as-you-go with initial free credits)
+-   **Price Scraping/Affiliate APIs:** SerpAPI (Free Tier/Credits), Cuelinks (Commission-based)
+-   **CI/CD:** GitHub Actions (Free for public repos / generous free minutes for private)
+-   **Design:** Figma, Canva
+-   **Community & File Sharing:** Discord, Slack, Google Forms, Google Drive, Google Photos
+
+**Tips for Staying Free & Maximizing Potential:**
+
+-   **Monitor Free Tier Limits:** Keep a close watch on usage dashboards.
+-   **Optimize Media:** Compress images and videos.
+-   **Explore Open-Source AI:** Investigate self-hostable models for long-term AI features.
+-   **Lean Feature Development:** Prioritize core features.
+-   **Implement Caching:** Use CDN, server, and client-side caching.
 
 ## Potential Upgrades & Paid Alternatives
 
-While the free-tier services listed above are excellent for starting and scaling to a certain point, you might consider these paid alternatives as your project grows or requires more advanced features/higher limits:
+While free tiers are great for starting, consider these as your project scales:
 
 ### 1. Frontend Hosting
 -   **Current:** Vercel (Free Tier)
--   **Paid Alternatives:**
-    -   **Vercel (Pro/Enterprise):** Higher limits (bandwidth, build minutes, serverless function execution), more concurrent builds, advanced analytics, DDoS mitigation, observability, team collaboration features, faster builds, premium support.
-    -   **Netlify (Paid Tiers):** Similar to Vercel, offers robust CI/CD, edge functions, and good DX. Paid tiers increase limits and add features.
-    -   **AWS Amplify / Cloudfront + S3:** Highly scalable, integrates with the AWS ecosystem. Can be more complex to configure but offers fine-grained control.
-    -   **Google Cloud Hosting / Firebase Hosting (Paid Tiers):** Scalable hosting options within the Google Cloud ecosystem.
-    -   **Azure Static Web Apps (Paid Tiers):** Good for integration with other Azure services.
+-   **Paid Alternatives:** Vercel (Pro), Netlify (Paid), AWS Amplify, Google Cloud Hosting, Azure Static Web Apps.
 
 ### 2. Backend Hosting & Services
--   **Current (Node.js option):** Railway (Free Tier planned)
--   **Current (Integrated option):** Supabase (Free Tier for Auth, DB, Functions)
--   **Paid Alternatives:**
-    -   **Railway (Paid Tiers):** More resources (CPU, RAM, disk), higher uptime, dedicated resources, auto-scaling.
-    -   **Supabase (Paid Tiers):** Higher limits on database size, function executions, MAUs for auth, dedicated resources, better support.
-    -   **Heroku (Paid Dynos):** Mature PaaS with a good developer experience, but can be pricier for comparable resources.
-    -   **Render:** Similar to Heroku/Railway, offers auto-scaling, managed databases, and a good DX.
-    -   **Fly.io:** Deploy application servers close to your users, good for global low-latency.
-    -   **AWS (EC2, Lambda, Fargate, Elastic Beanstalk):** Extremely scalable and flexible, vast service ecosystem. Requires more operational overhead.
-    -   **Google Cloud (Cloud Run, App Engine, Compute Engine, GKE):** Powerful and scalable options similar to AWS.
-    -   **Microsoft Azure (App Service, Azure Functions, VMs):** Comprehensive cloud platform.
+-   **Current:** Supabase (Free Tier)
+-   **Paid Alternatives (if moving beyond Supabase or needing more for Node.js):** Railway (Paid), Heroku, Render, Fly.io, AWS (EC2, Lambda), Google Cloud (Cloud Run, App Engine), Azure App Service.
+-   **Supabase Paid Tiers:** Offer higher limits and dedicated resources.
 
 ### 3. Database
--   **Current (with Supabase):** Supabase Postgres (Free Tier)
--   **Paid Alternatives:**
-    -   **Supabase (Paid Tiers):** Larger storage, more connections, Point-In-Time-Recovery (PITR), higher performance, read replicas.
-    -   **Amazon RDS / Aurora (PostgreSQL, MySQL, etc.):** Highly scalable, reliable, feature-rich managed databases.
-    -   **Google Cloud SQL:** Managed MySQL, PostgreSQL, and SQL Server.
-    -   **Azure Database (for PostgreSQL, MySQL, MariaDB):** Managed database services on Azure.
-    -   **PlanetScale:** MySQL-compatible serverless database platform with branching and excellent scalability.
-    -   **Neon:** Serverless Postgres with features like branching.
-    -   **MongoDB Atlas:** Managed NoSQL document database, if your data model fits.
+-   **Current:** Supabase Postgres (Free Tier)
+-   **Paid Alternatives:** Supabase (Paid Tiers), Amazon RDS/Aurora, Google Cloud SQL, Azure Database, PlanetScale, Neon, MongoDB Atlas.
 
 ### 4. Authentication
--   **Current (with Supabase):** Supabase Auth (Free Tier)
--   **Paid Alternatives:**
-    -   **Auth0 / Okta Customer Identity Cloud:** Highly feature-rich, enterprise-grade, extensive integrations, advanced security features. Can be expensive at scale.
-    -   **AWS Cognito (Paid for higher limits/features):** Scalable, integrates with AWS.
-    -   **Firebase Auth (Paid for higher limits):** Good DX, integrates with Google Cloud.
-    -   **Clerk.dev:** Modern authentication with pre-built UI components and strong developer focus.
-    -   **Microsoft Entra ID (formerly Azure AD B2C):** For customer identity and access management.
+-   **Current:** Supabase Auth (Free Tier)
+-   **Paid Alternatives:** Auth0/Okta, AWS Cognito, Firebase Auth, Clerk.dev, Microsoft Entra ID.
 
 ### 5. AI / Virtual Try-on APIs
--   **Current:** Free credits/tiers on OpenArt AI, Replicate, etc.
--   **Paid Alternatives:**
-    -   **OpenAI API (GPT-4, DALL-E 3, etc.):** Access to state-of-the-art models for various tasks. Pay-as-you-go.
-    -   **Google Vertex AI / Google AI Studio (Gemini API):** Powerful models from Google, with various MLOps tools.
-    -   **Amazon Bedrock / SageMaker:** Access to a range of foundation models and comprehensive ML development tools.
-    -   **Replicate (Paid Tiers/Usage):** Wider model selection, faster inference, higher rate limits.
-    -   **Hugging Face (Inference Endpoints / Enterprise Hub):** Deploy open-source or custom models.
-    -   **Dedicated Fashion AI Platforms (if available with premium tiers):** Look for services specializing in virtual try-on or outfit generation that offer paid plans for higher quality, speed, or custom model training.
+-   **Current:** Free credits/tiers (OpenArt AI, Replicate, etc.)
+-   **Paid Alternatives:** OpenAI API, Google Vertex AI, Amazon Bedrock/SageMaker, Replicate (Paid), Hugging Face Inference Endpoints.
 
 ### 6. Price Scraping & Affiliate APIs
--   **Current:** SerpAPI (Free Tier/Credits), Cuelinks (Commission-based).
--   **Paid Alternatives for Scraping:**
-    -   **SerpAPI (Paid Plans):** Significantly more API calls, faster results, more SERP features.
-    -   **ScraperAPI, ScrapingBee, Zyte (formerly Scrapinghub), Bright Data:** Robust scraping services that handle proxies, CAPTCHA solving, and JavaScript rendering for complex websites. Essential for reliable large-scale scraping.
-    -   **Apify:** Platform for web scraping and automation, offers actors (pre-built scrapers) and tools to build your own.
--   **Note on Cuelinks:** While free to join, effective use and higher earnings depend on your ability to drive converting traffic. Paid marketing or SEO tools could indirectly enhance its value.
+-   **Current:** SerpAPI (Free Tier/Credits), Cuelinks.
+-   **Paid Scraping Services:** SerpAPI (Paid), ScraperAPI, ScrapingBee, Zyte, Bright Data, Apify.
 
 ### 7. CI/CD
 -   **Current:** GitHub Actions (Free Tier)
--   **Paid Alternatives:**
-    -   **GitHub Actions (Paid Tiers - GitHub Team/Enterprise):** More build minutes, larger/faster runners, more concurrent jobs.
-    -   **CircleCI (Paid Plans):** Popular, flexible, and performant CI/CD.
-    -   **GitLab CI/CD (Paid Tiers - if using GitLab):** Tightly integrated and powerful.
-    -   **Jenkins (Self-hosted - "paid" via infrastructure/maintenance):** Highly customizable.
-    -   **Buildkite:** Hybrid model, run build agents on your own infrastructure for control and speed.
+-   **Paid Alternatives:** GitHub Actions (Paid), CircleCI, GitLab CI/CD, Jenkins (Self-hosted), Buildkite.
 
-This list provides a starting point for exploring paid services. The best choice always depends on your specific requirements, budget, team expertise, and scalability needs. It's often wise to start with free tiers and upgrade as your application proves its value and outgrows the free offerings. 
+This list provides a starting point. Always evaluate based on specific needs, budget, and scalability requirements. 
