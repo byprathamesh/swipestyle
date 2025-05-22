@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) <!-- Add a badge if you choose a license -->
 
-**SwipeStyle is a fashion discovery platform that helps users find and create outfits they love.** This monorepo contains the frontend, backend, AI, and price comparison services.
+**SwipeStyle is a fashion discovery web platform that helps users find and create outfits they love.** This monorepo contains the frontend, backend, AI, and price comparison services.
 
 ## Table of Contents
 
@@ -42,7 +42,7 @@ The monorepo is organized as follows:
 -   `/backend/`: Node.js Express server / Supabase for backend logic and API.
 -   `/frontend/`: Next.js application for the user interface.
     -   `frontend/public/`: Static assets for the frontend.
-    -   `frontend/src/app/`: Core application code.
+    -   `frontend/src/app/`: Core application code for the web platform.
         -   `ai-stylist/`: Components related to the AI stylist feature.
         -   `api/proxy/`: API proxy routes.
         -   `list-item/`: Components for displaying list items.
@@ -58,7 +58,7 @@ The monorepo is organized as follows:
     - `data/`: Shared data structures or mock data.
     - `hooks/`: Shared custom React hooks.
     - `lib/`: Shared utility functions.
-    - `pages/api/`: API routes (if this `src` is for a separate Next.js app or similar).
+    - `pages/api/`: API routes (if this `src` is for a separate Next.js application or similar).
     - `types/`: Shared TypeScript type definitions.
 
 ## Technologies Used
@@ -143,7 +143,7 @@ Follow these steps to set up your local development environment:
 -   Browse, search, and list clothing items.
 -   AI-powered outfit suggestions and virtual try-on capabilities.
 -   Affiliate links for purchasing similar items.
--   Mobile-first, responsive user interface.
+-   Mobile-first, responsive user interface for the web platform.
 -   Price comparison tools.
 
 ## Deployment
@@ -153,7 +153,7 @@ Follow these steps to set up your local development environment:
 Currently, the primary deployment targets are:
 - **Frontend:** Vercel
 - **Backend & Database:** Supabase
-- **AI Scripts:** Potentially serverless functions (e.g., Supabase Edge Functions, Vercel Functions) or containerized services.
+- **AI Scripts:** Potentially serverless functions (e.g., Supabase Edge Functions, Vercel Functions) or containerized services for the web platform.
 
 ## Contributing
 
