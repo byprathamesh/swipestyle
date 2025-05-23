@@ -29,27 +29,21 @@ const Detail = () => {
   
   // Determine if it's a design or outfit
   const isDesign = "images" in foundItem;
-  const image = isDesign ? foundItem.images[0] : foundItem.items[0].image;
+  const image = isDesign ? foundItem.images[0] : (foundItem as any).items[0].image;
   const title = foundItem.title;
   const description = foundItem.description || "No description available";
   const creator = foundItem.creator;
-  const price = isDesign ? foundItem.price : foundItem.items.reduce((sum, item) => sum + item.price, 0);
+  const price = isDesign ? foundItem.price : (foundItem as any).items.reduce((sum: number, item: any) => sum + item.price, 0);
   
-  // Replace random Unsplash images with local images
-  const localFashionImages = [
-    "/assets/fashion/fashion1.jpg",
-    "/assets/fashion/fashion2.jpg",
-    "/assets/fashion/fashion3.jpg",
-    "/assets/fashion/fashion4.jpg",
-    "/assets/fashion/fashion5.jpg",
-    "/assets/fashion/fashion6.jpg",
-    "/assets/fashion/fashion7.jpg",
-    "/assets/fashion/fashion8.jpg",
-    "/assets/fashion/fashion9.jpg",
-    "/assets/fashion/fashion10.jpg",
-    "/assets/fashion/fashion11.jpg",
-    "/assets/fashion/fashion12.jpg",
-  ];
+  // Replace random Unsplash images with placeholder images
+  const localFashionImages = Array.from({ length: 12 }, (_, i) => {
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9', '#82E0AA', '#F8C471', '#AED6F1', '#F1948A'];
+    const items = ['Dress', 'Jacket', 'Shoes', 'Bag', 'Top', 'Pants', 'Skirt', 'Coat', 'Blouse', 'Jeans', 'Sweater', 'Scarf'];
+    const color = colors[i % colors.length];
+    const item = items[i % items.length];
+    
+    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400' viewBox='0 0 300 400'%3E%3Crect width='300' height='400' fill='${encodeURIComponent(color)}'/%3E%3Ctext x='150' y='180' text-anchor='middle' fill='white' font-size='24' font-family='Inter, sans-serif' font-weight='bold'%3ESimilar%3C/text%3E%3Ctext x='150' y='210' text-anchor='middle' fill='white' font-size='20' font-family='Inter, sans-serif'%3E${item}%3C/text%3E%3Ctext x='150' y='250' text-anchor='middle' fill='white' font-size='14' font-family='Inter, sans-serif'%3E$${(Math.random() * 200 + 50).toFixed(0)}%3C/text%3E%3C/svg%3E`;
+  });
 
   // Generate mock similar items with price comparisons
   const similarItems = [

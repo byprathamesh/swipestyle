@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, memo } from "react";
 import { Link } from "react-router-dom";
 import { Heart, X, Eye, Star, ShoppingBag, Recycle, Tag } from "lucide-react";
 import { Design, Outfit, FeedItem } from "@/types";
@@ -14,17 +14,44 @@ type SwipeCardProps = {
   indexInStack: number;
 };
 
-// Enhanced haptic feedback
-const triggerHapticFeedback = (type: 'light' | 'medium' | 'heavy' = 'medium') => {
-  if ('vibrate' in navigator) {
-    const patterns = {
-      light: [10],
-      medium: [20],
-      heavy: [30, 10, 30]
-    };
-    navigator.vibrate(patterns[type]);
+// Enhanced haptic feedback with better performance
+const triggerHapticFeedback = (() => {
+  let lastVibration = 0;
+  return (type: 'light' | 'medium' | 'heavy' = 'medium') => {
+    const now = Date.now();
+    if (now - lastVibration < 50) return; // Throttle vibrations
+    lastVibration = now;
+    
+    if ('vibrate' in navigator) {
+      const patterns = {
+        light: [10],
+        medium: [20],
+        heavy: [30, 10, 30]
+      };
+      navigator.vibrate(patterns[type]);
+    }
+  };
+})();
+
+// Safe number formatting function
+const formatPrice = (price: number | null | undefined): string => {
+  if (typeof price !== 'number' || isNaN(price)) {
+    return '0';
   }
+  return price.toFixed(2);
 };
+
+// Safe number formatting for likes
+const formatLikes = (likes: number | null | undefined): string => {
+  if (typeof likes !== 'number' || isNaN(likes)) {
+    return '0';
+  }
+  return likes.toLocaleString();
+};
+
+// Placeholder images as data URLs
+const PLACEHOLDER_FASHION = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%23000'/%3E%3Ctext x='200' y='300' text-anchor='middle' fill='white' font-size='24' font-family='Inter, sans-serif'%3EFashion Item%3C/text%3E%3C/svg%3E";
+const PLACEHOLDER_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23333'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='24' font-family='Inter, sans-serif'%3E👤%3C/text%3E%3C/svg%3E";
 
 const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete, indexInStack }: SwipeCardProps) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -38,17 +65,44 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
   const stackScale = useMemo(() => 1 - indexInStack * 0.05, [indexInStack]);
   const stackOpacity = useMemo(() => Math.max(0.3, 1 - indexInStack * 0.25), [indexInStack]);
 
-  // Memoized data extraction for performance
+  // Memoized data extraction for performance with safe fallbacks
   const cardData = useMemo(() => {
-    const isDesign = "images" in item;
-    const image = isDesign ? item.images[0] : item.items[0].image;
-    const title = item.title;
-    const creator = item.creator;
-    const likes = item.likes;
-    const price = isDesign ? item.price : item.items.reduce((sum, item) => sum + item.price, 0);
-    const detailPath = isDesign ? `/designs/${item.id}` : `/outfits/${item.id}`;
-    
-    return { isDesign, image, title, creator, likes, price, detailPath };
+    try {
+      const isDesign = "images" in item && Array.isArray(item.images);
+      const image = isDesign 
+        ? (item.images?.[0] || PLACEHOLDER_FASHION)
+        : ((item as Outfit).items?.[0]?.image || PLACEHOLDER_FASHION);
+      
+      const title = item.title || 'Stylish Look';
+      const creator = item.creator || { displayName: 'Anonymous', avatar: PLACEHOLDER_AVATAR };
+      const likes = item.likes || 0;
+      
+      // Safe price calculation
+      let price = 0;
+      if (isDesign) {
+        price = typeof (item as Design).price === 'number' ? (item as Design).price : 0;
+      } else {
+        price = (item as Outfit).items?.reduce((sum, item) => {
+          const itemPrice = typeof item.price === 'number' ? item.price : 0;
+          return sum + itemPrice;
+        }, 0) || 0;
+      }
+      
+      const detailPath = isDesign ? `/designs/${item.id}` : `/outfits/${item.id}`;
+      
+      return { isDesign, image, title, creator, likes, price, detailPath };
+    } catch (error) {
+      console.error('Error processing card data:', error);
+      return {
+        isDesign: true,
+        image: PLACEHOLDER_FASHION,
+        title: 'Stylish Look',
+        creator: { displayName: 'Anonymous', avatar: PLACEHOLDER_AVATAR },
+        likes: 0,
+        price: 0,
+        detailPath: `/designs/${item.id}`
+      };
+    }
   }, [item]);
 
   const shoppingOptions = useMemo(() => item.shoppingOptions || {
@@ -188,6 +242,9 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
             style={{
               filter: isDragging ? "blur(1px)" : "blur(0px)",
             }}
+            onError={(e) => {
+              e.currentTarget.src = PLACEHOLDER_FASHION;
+            }}
           />
           
           {/* Overlay - Instagram style gradient */}
@@ -208,6 +265,9 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
                   alt={cardData.creator.displayName}
                   className="w-full h-full object-cover"
                   loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = PLACEHOLDER_AVATAR;
+                  }}
                 />
               </div>
               <div>
@@ -230,11 +290,11 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
             </h3>
             <div className="flex items-center justify-between mb-3">
               <span className="text-2xl font-bold text-white">
-                ${cardData.price}
+                ${formatPrice(cardData.price)}
               </span>
               <div className="flex items-center gap-1 text-gray-300">
                 <Heart className="w-4 h-4" />
-                <span className="text-sm">{cardData.likes}</span>
+                <span className="text-sm">{formatLikes(cardData.likes)}</span>
               </div>
             </div>
           </div>

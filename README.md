@@ -1,231 +1,234 @@
-# SwipeStyle Monorepo
+# 🎨 SwipeStyle - Tinder for Fashion
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) <!-- Add a badge if you choose a license -->
+[![React](https://img.shields.io/badge/React-18.0+-blue.svg)](https://reactjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-4.0+-green.svg)](https://vitejs.dev)
+[![Tailwind](https://img.shields.io/badge/Tailwind-3.0+-blue.svg)](https://tailwindcss.com)
 
-**SwipeStyle is a fashion discovery web platform that helps users find and create outfits they love.** This monorepo contains the frontend, backend, AI, and price comparison services.
+**SwipeStyle** is a modern fashion discovery app that combines the addictive swiping mechanics of Tinder with fashion inspiration. Discover, like, and save your favorite outfits with an Instagram-inspired design and advanced features.
 
-## Table of Contents
+![SwipeStyle Preview](https://via.placeholder.com/800x400/000000/FFFFFF?text=SwipeStyle+Fashion+App)
 
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-- [Development Setup](#development-setup)
-- [Key Features](#key-features)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
-- [Free Tier Strategy](#free-tier-strategy)
-- [Potential Upgrades & Paid Alternatives](#potential-upgrades--paid-alternatives)
+## ✨ Features
 
-## Quick Start
+### 🔥 Core Functionality
+- **🎯 Swipe Mechanics**: Smooth card-based swiping with haptic feedback
+- **🤖 AI Recommendations**: Get personalized outfit suggestions
+- **📱 Responsive Design**: Perfect on mobile and desktop
+- **🌙 Dark Theme**: Instagram-inspired black & white aesthetic
+- **♿ Accessibility**: Full WCAG 2.1 AA compliance with keyboard navigation
 
-New to SwipeStyle? Here's how to get a local development environment running:
+### 📋 Complete Pages
+- **🏠 Home**: Fashion discovery with swipe interface
+- **💬 Messages**: Instagram-style messaging system
+- **🔔 Notifications**: Comprehensive notification center
+- **🔍 Discover**: Browse fashion with advanced filtering
+- **💖 Saved**: Your liked items collection
+- **⭐ Celebrity**: Celebrity fashion inspiration
+- **👤 Profile**: User profiles and statistics
+- **📊 Detail**: Complete item views with shopping options
 
-1.  **Clone the repository:** `git clone https://github.com/your-username/swipestyle-8.git` (Replace with your actual repo URL)
-2.  **Navigate to the project directory:** `cd swipestyle-8`
-3.  **Install dependencies for each service:**
-    *   Frontend: `cd frontend && npm install`
-    *   Backend (if using Node.js): `cd backend && npm install`
-    *   AI & Price Compare: Set up Python virtual environments and install from `requirements.txt` in `ai/` and `price-compare/`.
-4.  **Set up environment variables:** Create `.env` files in each service directory based on `.env.example` files (you may need to create these).
-5.  **Run services:**
-    *   Frontend: `cd frontend && npm run dev`
-    *   Backend (Node.js): `cd backend && npm run dev`
-    *   AI/Price Scripts: `cd ai && python your_script.py`
+### 🚀 Advanced Features
+- **Haptic Feedback**: Mobile vibration patterns for swipes
+- **Image Upload**: Add your own fashion photos
+- **Category Filtering**: Filter by style, occasion, and more
+- **Price Comparison**: Find similar items at different price points
+- **Shopping Options**: Buy, rent, or find thrifted alternatives
+- **Real-time Status**: Online/offline detection
+- **Error Boundaries**: Graceful error handling
+- **Performance Optimized**: Code splitting and lazy loading
 
-## Project Structure
+## 🛠️ Tech Stack
 
-The monorepo is organized as follows:
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite 4 + SWC
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Routing**: React Router DOM
+- **State Management**: React Hooks + Local Storage
+- **Mobile**: PWA-ready with responsive design
 
--   `/.github/workflows/`: CI/CD workflows (e.g., for automated testing and deployment).
--   `/ai/`: Python scripts for AI-powered features like outfit generation and virtual try-on.
--   `/backend/`: Node.js Express server / Supabase for backend logic and API.
--   `/frontend/`: Next.js application for the user interface.
-    -   `frontend/public/`: Static assets for the frontend.
-    -   `frontend/src/app/`: Core application code for the web platform.
-        -   `ai-stylist/`: Components related to the AI stylist feature.
-        -   `api/proxy/`: API proxy routes.
-        -   `list-item/`: Components for displaying list items.
-        -   `login/`, `signup/`, `profile/`: User authentication and profile management pages.
-        -   `preferences/`: User preference settings.
-        -   `price-checker/`: Components for the price checking feature.
-    -   `frontend/src/lib/`: Utility functions and libraries for the frontend.
--   `/price-compare/`: Python scripts for price scraping and comparison.
--   `/public/`: Global public assets (distinct from `frontend/public`).
--   `/shared/`: Shared utilities, types, and constants used across multiple services.
--   `/src/`: (Assuming this is for a potential shared UI library or another distinct module - clarify if needed)
-    - `components/ui/`: Shared UI components.
-    - `data/`: Shared data structures or mock data.
-    - `hooks/`: Shared custom React hooks.
-    - `lib/`: Shared utility functions.
-    - `pages/api/`: API routes (if this `src` is for a separate Next.js application or similar).
-    - `types/`: Shared TypeScript type definitions.
+## 🚀 Quick Start
 
-## Technologies Used
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
--   **Frontend:** Next.js, React, Tailwind CSS, TypeScript
--   **Backend:** Node.js with Express (optionally), Supabase (PostgreSQL, Auth, Edge Functions)
--   **AI:** Python, OpenArt AI, Flux AI, The New Black AI, Replicate
--   **Price Comparison:** Python, SerpAPI, Cuelinks
--   **CI/CD:** GitHub Actions
--   **Design:** Figma, Canva
--   **Development Tools:** Cursor Premium, Bun
+### Installation
 
-## Development Setup
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/byprathamesh/swipestyle.git
+   cd swipestyle
+   ```
 
-Follow these steps to set up your local development environment:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/swipestyle-8.git # Replace with your actual repo URL
-    cd swipestyle-8
-    ```
+3. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-2.  **Install Dependencies:**
-    *   **Frontend (Next.js):**
-        ```bash
-        cd frontend
-        npm install
-        # or yarn install or pnpm install or bun install
-        ```
-    *   **Backend (Node.js/Express - if applicable):**
-        ```bash
-        cd backend
-        npm install
-        # or yarn install or pnpm install or bun install
-        ```
-    *   **AI & Price Comparison (Python):**
-        For each directory (`ai`, `price-compare`):
-        ```bash
-        cd ai  # or price-compare
-        python -m venv venv
-        source venv/bin/activate  # On Windows: venv\Scripts\activate
-        pip install -r requirements.txt
-        ```
+4. **Open in browser**
+   ```
+   http://localhost:8081
+   ```
 
-3.  **Set Up Environment Variables:**
-    *   Create `.env` files in the root of `frontend`, `backend`, `ai`, and `price-compare`.
-    *   Populate these files with necessary API keys and configuration variables. Refer to any `.env.example` files or specific service documentation within their respective READMEs (if they exist).
-    *   **Key variables might include:**
-        *   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (for Frontend & Supabase)
-        *   `DATABASE_URL` (for Backend if using a separate DB)
-        *   API keys for OpenArt, Replicate, SerpAPI, Cuelinks, etc. (for AI & Price Compare).
+### Build for Production
 
-4.  **Run Development Servers/Scripts:**
-    *   **Frontend (Next.js):**
-        ```bash
-        cd frontend
-        npm run dev
-        ```
-        (Usually accessible at `http://localhost:3000`)
-    *   **Backend (Node.js/Express - if applicable):**
-        ```bash
-        cd backend
-        npm run dev
-        ```
-        (Usually accessible at `http://localhost:3001`)
-    *   **AI Scripts:**
-        ```bash
-        cd ai
-        source venv/bin/activate # If not already active
-        python your_script_name.py
-        ```
-    *   **Price Comparison Scripts:**
-        ```bash
-        cd price-compare
-        source venv/bin/activate # If not already active
-        python your_script_name.py
-        ```
+```bash
+# Build the app
+npm run build
 
-## Key Features
+# Preview production build
+npm run preview
+```
 
--   User authentication and management (Supabase)
--   Browse, search, and list clothing items.
--   AI-powered outfit suggestions and virtual try-on capabilities.
--   Affiliate links for purchasing similar items.
--   Mobile-first, responsive user interface for the web platform.
--   Price comparison tools.
+## 📱 Usage
 
-## Deployment
+### Basic Navigation
+- **Mobile**: Use bottom navigation bar
+- **Desktop**: Side navigation panel
 
-*(This section will be updated with detailed deployment instructions for services like Vercel (frontend) and Railway/Supabase Functions (backend/AI tasks).)*
+### Swiping
+- **👆 Swipe Right / ➡️**: Like an item
+- **👆 Swipe Left / ⬅️**: Pass on an item  
+- **🖱️ Desktop**: Use arrow keys or drag with mouse
+- **⌨️ Keyboard**: Arrow keys to swipe, Enter for details
 
-Currently, the primary deployment targets are:
-- **Frontend:** Vercel
-- **Backend & Database:** Supabase
-- **AI Scripts:** Potentially serverless functions (e.g., Supabase Edge Functions, Vercel Functions) or containerized services for the web platform.
+### AI Features
+- **✨ AI Button**: Get personalized outfit recommendations
+- **🎯 Smart Categories**: App learns your preferences
+- **📊 Analytics**: Track your style metrics
 
-## Contributing
+### Messaging
+- **💬 Conversations**: Chat with other fashion enthusiasts
+- **📞 Voice/Video**: Call buttons for future implementation
+- **📷 Media Sharing**: Send photos and attachments
 
-We welcome contributions! Please follow these steps:
+## 🎨 Design System
 
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/your-feature-name`).
-3.  Make your changes.
-4.  Commit your changes (`git commit -m 'Add some feature'`).
-5.  Push to the branch (`git push origin feature/your-feature-name`).
-6.  Open a Pull Request.
+### Color Palette
+```css
+/* Primary Colors */
+--black: #000000
+--white: #FFFFFF
+--gray-900: #111827
+--gray-800: #1F2937
+--gray-700: #374151
 
-Please ensure your code adheres to existing styling and linting configurations.
+/* Accent Colors */
+--purple-600: #9333EA
+--pink-600: #DB2777
+--blue-500: #3B82F6
+--green-500: #10B981
+--red-500: #EF4444
+```
 
-## License
+### Typography
+- **Font Family**: Inter (system fallback)
+- **Headings**: Bold, clean hierarchy
+- **Body**: Readable spacing and contrast
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details (if you add one).
-*Consider adding an MIT or other open-source license file.*
+## 📁 Project Structure
 
-## Free Tier Strategy
+```
+swipestyle/
+├── public/                 # Static assets
+├── src/
+│   ├── components/        # Reusable UI components
+│   │   ├── ui/           # shadcn/ui components
+│   │   ├── SwipeCard.tsx # Main swipe component
+│   │   └── Navigation.tsx # App navigation
+│   ├── pages/            # Page components
+│   │   ├── Home.tsx      # Main swipe interface
+│   │   ├── Messages.tsx  # Messaging system
+│   │   └── ...
+│   ├── hooks/            # Custom React hooks
+│   ├── lib/              # Utility functions
+│   ├── data/             # Mock data and types
+│   └── types/            # TypeScript definitions
+├── package.json
+└── README.md
+```
 
-This project leverages free tiers of various services to minimize initial costs.
+## 🧪 Testing
 
--   **Coding & Automation:** Cursor Premium
--   **Frontend Framework & Hosting:** Next.js on Vercel (Free Tier)
--   **Styling:** Tailwind CSS
--   **Backend & Database:** Supabase (Free Tier for Auth, Postgres DB, Edge Functions)
--   **AI/Virtual Try-On:** OpenArt AI, Flux AI, The New Black AI (Free Credits), Replicate.com (Pay-as-you-go with initial free credits)
--   **Price Scraping/Affiliate APIs:** SerpAPI (Free Tier/Credits), Cuelinks (Commission-based)
--   **CI/CD:** GitHub Actions (Free for public repos / generous free minutes for private)
--   **Design:** Figma, Canva
--   **Community & File Sharing:** Discord, Slack, Google Forms, Google Drive, Google Photos
+```bash
+# Run accessibility tests
+npm run test:a11y
 
-**Tips for Staying Free & Maximizing Potential:**
+# Performance analysis
+npm run analyze
 
--   **Monitor Free Tier Limits:** Keep a close watch on usage dashboards.
--   **Optimize Media:** Compress images and videos.
--   **Explore Open-Source AI:** Investigate self-hostable models for long-term AI features.
--   **Lean Feature Development:** Prioritize core features.
--   **Implement Caching:** Use CDN, server, and client-side caching.
+# Type checking
+npm run type-check
+```
 
-## Potential Upgrades & Paid Alternatives
+## 🔧 Configuration
 
-While free tiers are great for starting, consider these as your project scales:
+### Environment Variables
+Create a `.env` file for customization:
 
-### 1. Frontend Hosting
--   **Current:** Vercel (Free Tier)
--   **Paid Alternatives:** Vercel (Pro), Netlify (Paid), AWS Amplify, Google Cloud Hosting, Azure Static Web Apps.
+```env
+VITE_APP_TITLE=SwipeStyle
+VITE_API_URL=your-api-url
+VITE_ENABLE_ANALYTICS=true
+```
 
-### 2. Backend Hosting & Services
--   **Current:** Supabase (Free Tier)
--   **Paid Alternatives (if moving beyond Supabase or needing more for Node.js):** Railway (Paid), Heroku, Render, Fly.io, AWS (EC2, Lambda), Google Cloud (Cloud Run, App Engine), Azure App Service.
--   **Supabase Paid Tiers:** Offer higher limits and dedicated resources.
+### PWA Configuration
+The app is PWA-ready with offline support. Customize in `public/manifest.json`.
 
-### 3. Database
--   **Current:** Supabase Postgres (Free Tier)
--   **Paid Alternatives:** Supabase (Paid Tiers), Amazon RDS/Aurora, Google Cloud SQL, Azure Database, PlanetScale, Neon, MongoDB Atlas.
+## 🤝 Contributing
 
-### 4. Authentication
--   **Current:** Supabase Auth (Free Tier)
--   **Paid Alternatives:** Auth0/Okta, AWS Cognito, Firebase Auth, Clerk.dev, Microsoft Entra ID.
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature-name`
+5. Submit a pull request
 
-### 5. AI / Virtual Try-on APIs
--   **Current:** Free credits/tiers (OpenArt AI, Replicate, etc.)
--   **Paid Alternatives:** OpenAI API, Google Vertex AI, Amazon Bedrock/SageMaker, Replicate (Paid), Hugging Face Inference Endpoints.
+### Development Guidelines
+- Follow TypeScript best practices
+- Use Tailwind for styling
+- Ensure accessibility compliance
+- Add proper error handling
+- Write descriptive commit messages
 
-### 6. Price Scraping & Affiliate APIs
--   **Current:** SerpAPI (Free Tier/Credits), Cuelinks.
--   **Paid Scraping Services:** SerpAPI (Paid), ScraperAPI, ScrapingBee, Zyte, Bright Data, Apify.
+## 📝 License
 
-### 7. CI/CD
--   **Current:** GitHub Actions (Free Tier)
--   **Paid Alternatives:** GitHub Actions (Paid), CircleCI, GitLab CI/CD, Jenkins (Self-hosted), Buildkite.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-This list provides a starting point. Always evaluate based on specific needs, budget, and scalability requirements. 
+## 🙏 Acknowledgments
+
+- **Design Inspiration**: Instagram, Tinder
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Animations**: Framer Motion
+- **Fashion Data**: Mock data for demonstration
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/byprathamesh/swipestyle/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/byprathamesh/swipestyle/discussions)
+- **Email**: prathamesh@swipestyle.app
+
+## 🔮 Roadmap
+
+- [ ] Backend API integration
+- [ ] Real user authentication
+- [ ] Social features expansion
+- [ ] AI recommendation engine
+- [ ] E-commerce integration
+- [ ] Mobile app (React Native)
+- [ ] AR try-on features
+- [ ] Community marketplace
+
+---
+
+**Made with ❤️ by [Prathamesh](https://github.com/byprathamesh)**
+
+*SwipeStyle - Where Fashion Meets Technology* 🎨✨ 

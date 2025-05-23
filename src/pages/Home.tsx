@@ -43,34 +43,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-// Fashion image URLs - using only local fashion images
-const fashionImages = [
-  "/assets/fashion/fashion1.jpg",
-  "/assets/fashion/fashion2.jpg",
-  "/assets/fashion/fashion3.jpg",
-  "/assets/fashion/fashion4.jpg",
-  "/assets/fashion/fashion5.jpg",
-  "/assets/fashion/fashion6.jpg",
-  "/assets/fashion/fashion7.jpg",
-  "/assets/fashion/fashion8.jpg",
-  "/assets/fashion/fashion9.jpg",
-  "/assets/fashion/fashion10.jpg",
-  "/assets/fashion/fashion11.jpg",
-  "/assets/fashion/fashion12.jpg",
-  "/assets/fashion/fashion13.jpg",
-  "/assets/fashion/fashion14.jpg",
-];
+// Fashion image URLs - using placeholder generators
+const fashionImagePlaceholders = Array.from({ length: 20 }, (_, i) => {
+  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9', '#82E0AA', '#F8C471'];
+  const styles = ['Casual', 'Formal', 'Street', 'Chic', 'Boho', 'Vintage', 'Modern', 'Classic', 'Trendy', 'Elegant'];
+  const color = colors[i % colors.length];
+  const style = styles[i % styles.length];
+  
+  return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='${encodeURIComponent(color)}'/%3E%3Ctext x='200' y='280' text-anchor='middle' fill='white' font-size='32' font-family='Inter, sans-serif' font-weight='bold'%3E${style}%3C/text%3E%3Ctext x='200' y='320' text-anchor='middle' fill='white' font-size='18' font-family='Inter, sans-serif'%3EFashion %23${i + 1}%3C/text%3E%3C/svg%3E`;
+});
 
 // Video thumbnails for GRWM content
-const grwmImages = [
-  "/assets/fashion/fashion1.jpg",
-  "/assets/fashion/fashion2.jpg",
-  "/assets/fashion/fashion3.jpg",
-  "/assets/fashion/fashion4.jpg",
-  "/assets/fashion/fashion5.jpg",
-  "/assets/fashion/fashion6.jpg",
-  "/assets/fashion/fashion7.jpg",
-];
+const grwmImages = Array.from({ length: 15 }, (_, i) => {
+  const colors = ['#E74C3C', '#9B59B6', '#3498DB', '#1ABC9C', '#F39C12', '#27AE60', '#E67E22', '#34495E'];
+  const themes = ['GRWM', 'Outfit', 'Style', 'Look', 'Fashion', 'Trend', 'Vibe', 'Mood'];
+  const color = colors[i % colors.length];
+  const theme = themes[i % themes.length];
+  
+  return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='${encodeURIComponent(color)}'/%3E%3Ccircle cx='200' cy='200' r='40' fill='white' opacity='0.8'/%3E%3Cpolygon points='185,180 185,220 220,200' fill='${encodeURIComponent(color)}'/%3E%3Ctext x='200' y='340' text-anchor='middle' fill='white' font-size='28' font-family='Inter, sans-serif' font-weight='bold'%3E${theme} Video%3C/text%3E%3Ctext x='200' y='380' text-anchor='middle' fill='white' font-size='16' font-family='Inter, sans-serif'%3EClick to play%3C/text%3E%3C/svg%3E`;
+});
 
 const categories = [
   "All",
@@ -290,7 +281,7 @@ const Home = () => {
 
   // Add uploaded images to the image pool
   const getImageSource = useCallback((type: "pictures" | "videos", category: string) => {
-    let base = type === "pictures" ? fashionImages : grwmImages;
+    let base = type === "pictures" ? fashionImagePlaceholders : grwmImages;
     if (uploadedImages.length > 0 && (category === 'All' || category === 'User Uploads')) {
       base = [...uploadedImages, ...base];
     }
