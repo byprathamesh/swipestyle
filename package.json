@@ -3,8 +3,8 @@
   "private": true,
   "version": "2.0.0",
   "type": "module",
-  "description": "SwipeStyle - Tinder for Fashion. A modern fashion discovery app with swipe mechanics, AI recommendations, and Instagram-inspired design.",
-  "keywords": ["fashion", "swipe", "tinder", "react", "typescript", "vite", "tailwind", "instagram", "ai", "discovery"],
+  "description": "SwipeStyle - AI-Powered Fashion Discovery App. Original concept by Prathamesh combining Tinder-style swipe mechanics with AI styling, virtual try-on, community marketplace, and price comparison.",
+  "keywords": ["fashion", "swipe", "tinder", "react", "typescript", "vite", "tailwind", "instagram", "ai", "discovery", "proprietary", "copyright"],
   "author": {
     "name": "Prathamesh",
     "email": "prathamesh@swipestyle.app",
@@ -18,7 +18,7 @@
     "url": "https://github.com/byprathamesh/swipestyle/issues"
   },
   "homepage": "https://swipestyle.app",
-  "license": "MIT",
+  "license": "PROPRIETARY",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 8081",
     "build": "tsc && vite build",

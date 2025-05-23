@@ -1,10 +1,25 @@
 # 👗 SwipeStyle - AI-Powered Fashion Discovery
 
-> **Tinder for Fashion** meets **AI Styling** + **Community Marketplace**
+> **Tinder for Fashion** meets **AI Styling** + **Community Marketplace**  
+> **© 2024 Prathamesh - Original Concept & Implementation**
 
 A mobile-first fashion app that combines AI-powered outfit suggestions, virtual try-on, and a community-driven clothing swap marketplace with smart price comparison.
 
-![SwipeStyle](https://img.shields.io/badge/React-18+-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue) ![Mobile First](https://img.shields.io/badge/Mobile-First-green)
+![SwipeStyle](https://img.shields.io/badge/React-18+-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue) ![Mobile First](https://img.shields.io/badge/Mobile-First-green) ![Copyright](https://img.shields.io/badge/©%202024%20Prathamesh-All%20Rights%20Reserved-red)
+
+---
+
+## ⚖️ **Important Legal Notice**
+
+**🔒 This is a proprietary concept and implementation. All rights reserved.**
+
+- **Original Concept**: The idea of combining AI-powered fashion discovery, virtual try-on, community swap marketplace, and price comparison is the intellectual property of **Prathamesh**.
+- **Protected Implementation**: This codebase and business concept are protected under copyright law.
+- **No Unauthorized Use**: Commercial use, copying, or redistribution without explicit permission is strictly prohibited.
+
+**For licensing, collaboration, or permission requests**: prathamesh@swipestyle.app
+
+---
 
 ## 🎯 **The Idea**
 
@@ -108,6 +123,8 @@ npm run dev
 
 ## 🤝 **Contributing**
 
+**Note**: This is a proprietary project. Contributions are welcome but will become part of the intellectual property.
+
 1. Fork the repository
 2. Create feature branch: `git checkout -b feature-name`
 3. Commit changes: `git commit -m 'Add feature'`
@@ -118,10 +135,24 @@ npm run dev
 
 ## 📄 **License**
 
-MIT License - feel free to use this project for your own fashion app!
+**All Rights Reserved** - See [LICENSE](LICENSE) file for full terms.
+
+This project is protected under copyright law. Commercial use, copying, or redistribution without explicit permission is strictly prohibited.
 
 ---
 
-**Made with ❤️ for sustainable fashion and AI-powered style discovery**
+## 📞 **Contact**
 
-*SwipeStyle - Where Fashion Meets Technology* ✨ 
+**Prathamesh** - Original Creator & Owner
+- **Email**: prathamesh@swipestyle.app
+- **GitHub**: [@byprathamesh](https://github.com/byprathamesh)
+- **Repository**: https://github.com/byprathamesh/swipestyle
+
+For business inquiries, licensing, or collaboration: prathamesh@swipestyle.app
+
+---
+
+**© 2024 Prathamesh. All Rights Reserved.**  
+**SwipeStyle™ - AI-Powered Fashion Discovery**
+
+*Where Fashion Meets Technology* ✨ 
