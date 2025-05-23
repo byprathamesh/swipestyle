@@ -1,4 +1,0 @@
-python-dotenv
-# Add other price comparison related Python libraries here, for example:
-# google-search-results
-# requests 
