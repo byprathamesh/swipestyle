@@ -21,8 +21,8 @@
     <meta name="twitter:image" content="/assets/twitter-image.png" />
     
     <!-- Theme and Color -->
-    <meta name="theme-color" content="#8b5cf6" />
-    <meta name="msapplication-TileColor" content="#8b5cf6" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-TileColor" content="#000000" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -44,14 +44,14 @@
     
     <!-- Accessibility -->
     <style>
-      /* Loading screen styles */
+      /* Loading screen styles - Instagram dark theme */
       .loading-screen {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #1e293b 0%, #7c3aed 50%, #1e293b 100%);
+        background: #000000;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -63,13 +63,14 @@
       .loading-logo {
         width: 80px;
         height: 80px;
-        background: linear-gradient(45deg, #8b5cf6, #ec4899);
+        background: linear-gradient(45deg, #ffffff, #d1d5db);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         animation: pulse 2s infinite;
         margin-bottom: 24px;
+        border: 2px solid #333333;
       }
       
       .loading-text {
@@ -80,7 +81,7 @@
       }
       
       .loading-subtitle {
-        color: rgba(255, 255, 255, 0.7);
+        color: #9ca3af;
         font-size: 16px;
         text-align: center;
         max-width: 300px;
@@ -89,8 +90,8 @@
       .loading-spinner {
         width: 40px;
         height: 40px;
-        border: 4px solid rgba(255, 255, 255, 0.2);
-        border-top: 4px solid #8b5cf6;
+        border: 4px solid #333333;
+        border-top: 4px solid #ffffff;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin-top: 24px;
@@ -129,7 +130,7 @@
     <div id="loading-screen" class="loading-screen">
       <div class="loading-logo">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="white"/>
+          <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="black"/>
         </svg>
       </div>
       <div class="loading-text">SwipeStyle</div>

@@ -130,7 +130,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
 
   const getSwipeIndicatorOpacity = () => {
     if (Math.abs(dragOffset.x) > 50) {
-      return dragOffset.x > 0 ? 'bg-green-500/30' : 'bg-red-500/30';
+      return dragOffset.x > 0 ? 'bg-white/20' : 'bg-gray-900/40';
     }
     return 'bg-transparent';
   };
@@ -177,7 +177,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
         damping: 30,
       }}
     >
-      <div className="relative w-full h-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+      <div className="relative w-full h-full bg-black rounded-3xl overflow-hidden shadow-2xl border border-gray-800">
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
@@ -190,9 +190,9 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
             }}
           />
           
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 via-transparent to-pink-900/20" />
+          {/* Overlay - Instagram style gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
         </div>
 
         {/* Swipe Indicators */}
@@ -202,7 +202,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
         <div className="absolute top-0 left-0 right-0 p-4 z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full border-2 border-white/30 overflow-hidden bg-white/10 backdrop-blur-sm">
+              <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-900/50 backdrop-blur-sm">
                 <img
                   src={cardData.creator.avatar}
                   alt={cardData.creator.displayName}
@@ -213,8 +213,8 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
               <div>
                 <p className="text-white font-semibold text-sm">{cardData.creator.displayName}</p>
                 <div className="flex items-center gap-1">
-                  <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                  <span className="text-white/70 text-xs">4.9</span>
+                  <Star className="w-3 h-3 text-white fill-current" />
+                  <span className="text-gray-300 text-xs">4.9</span>
                 </div>
               </div>
             </div>
@@ -232,7 +232,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
               <span className="text-2xl font-bold text-white">
                 ${cardData.price}
               </span>
-              <div className="flex items-center gap-1 text-white/70">
+              <div className="flex items-center gap-1 text-gray-300">
                 <Heart className="w-4 h-4" />
                 <span className="text-sm">{cardData.likes}</span>
               </div>
@@ -242,19 +242,19 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
           {/* Shopping Options */}
           <div className="flex gap-2 mb-4 flex-wrap">
             {shoppingOptions.buy && (
-              <Badge variant="secondary" className="bg-green-500/20 text-green-300 border-green-500/30">
+              <Badge variant="secondary" className="bg-white/10 text-white border-white/20 backdrop-blur-sm">
                 <ShoppingBag className="w-3 h-3 mr-1" />
                 Buy
               </Badge>
             )}
             {shoppingOptions.thrift && (
-              <Badge variant="secondary" className="bg-orange-500/20 text-orange-300 border-orange-500/30">
+              <Badge variant="secondary" className="bg-gray-800/60 text-gray-200 border-gray-600/30 backdrop-blur-sm">
                 <Recycle className="w-3 h-3 mr-1" />
                 Thrift
               </Badge>
             )}
             {shoppingOptions.rent && (
-              <Badge variant="secondary" className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+              <Badge variant="secondary" className="bg-gray-700/60 text-gray-200 border-gray-500/30 backdrop-blur-sm">
                 <Tag className="w-3 h-3 mr-1" />
                 Rent
               </Badge>
@@ -266,7 +266,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
             <Button
               size="lg"
               variant="outline"
-              className="rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+              className="rounded-full bg-gray-900/60 border-gray-600/40 text-white hover:bg-gray-800/80 backdrop-blur-sm transition-all duration-200"
               onClick={() => {
                 onSwipeLeft(item);
                 onSwipeComplete();
@@ -280,7 +280,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                className="rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-200"
                 aria-label="View item details"
               >
                 <Eye className="w-5 h-5" />
@@ -290,7 +290,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
             <Button
               size="lg"
               variant="outline"
-              className="rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+              className="rounded-full bg-white/90 border-white text-black hover:bg-white hover:text-black backdrop-blur-sm transition-all duration-200"
               onClick={() => {
                 onSwipeRight(item);
                 onSwipeComplete();
@@ -303,7 +303,7 @@ const SwipeCard = React.memo(({ item, onSwipeLeft, onSwipeRight, onSwipeComplete
         </div>
 
         {/* Focus outline for accessibility */}
-        <div className="absolute inset-0 rounded-3xl ring-2 ring-blue-500 ring-opacity-0 focus-within:ring-opacity-100 transition-all duration-200 pointer-events-none" />
+        <div className="absolute inset-0 rounded-3xl ring-2 ring-white ring-opacity-0 focus-within:ring-opacity-50 transition-all duration-200 pointer-events-none" />
       </div>
     </motion.div>
   );
