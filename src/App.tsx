@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
@@ -17,24 +16,14 @@ import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 
 const App = () => {
-  // Fix: Properly initialize QueryClient using useState
-  const [queryClient] = useState(() => new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000,
-        refetchOnWindowFocus: false,
-      },
-    },
-  }));
-
   return (
     <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Navigation />
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Navigation />
+          <div id="main-content" role="main">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/discover" element={<Discover />} />
@@ -47,9 +36,9 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
     </React.StrictMode>
   );
 };

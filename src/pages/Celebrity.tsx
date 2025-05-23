@@ -1,41 +1,23 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabaseClient";
-// import { designs as mockDesigns } from "@/data/mockData"; // No longer needed
+import { designs as mockDesigns } from "@/data/mockData";
 
-// Assuming a similar Design type as in Saved.tsx
+// Using the Design interface from our mock data
 interface Design {
   id: string;
-  title: string | null;
-  images: string[] | null;
-  price: number | null;
-  // You might want to add fields like 'spotted_location' or 'celebrity_name'
-  // if your 'designs' table or a related table supports this.
-  // For now, we'll rely on title and the general 'design' structure.
+  title: string;
+  images: string[];
+  price: number;
+  creator: {
+    displayName: string;
+    avatar: string;
+  };
 }
 
-const fetchCelebrityStyles = async (): Promise<Design[]> => {
-  // Placeholder: Fetch a few designs.
-  // In a real scenario, you'd have a way to identify "celebrity" styles,
-  // e.g., a specific tag, a boolean column 'is_celebrity_style', or a separate table.
-  const { data, error } = await supabase
-    .from("designs") // Replace 'designs' with your actual table name
-    .select("id, title, images, price") // Add other relevant fields
-    .order("created_at", { ascending: false }) // Example: show newest first
-    .limit(6); // Match the mock data length
-
-  if (error) {
-    console.error("Error fetching celebrity styles:", error);
-    throw new Error(error.message);
-  }
-  return data || [];
-};
-
 const Celebrity = () => {
-  const { data: celebrityStyles, isLoading, isError, error } = useQuery<Design[], Error>({
-    queryKey: ["celebrityStyles"],
-    queryFn: fetchCelebrityStyles,
-  });
+  // Use mock data for celebrity styles
+  const celebrityStyles = mockDesigns.slice(0, 6);
+  const isLoading = false;
+  const isError = false;
 
   if (isLoading) {
     return (
@@ -48,12 +30,12 @@ const Celebrity = () => {
   if (isError) {
     return (
       <div className="min-h-screen bg-background pl-16 pt-8 flex justify-center items-center">
-        <p>Error loading styles: {error?.message}</p>
+        <p>Error loading styles</p>
       </div>
     );
   }
 
-   if (!celebrityStyles || celebrityStyles.length === 0) {
+  if (!celebrityStyles || celebrityStyles.length === 0) {
     return (
       <div className="min-h-screen bg-background pl-16 pt-8">
         <div className="max-w-4xl mx-auto px-4">
@@ -80,18 +62,21 @@ const Celebrity = () => {
               </div>
               <div className="p-4 flex-1">
                 <h3 className="font-bold text-lg">{style.title || 'Stylish Look'}</h3>
-                {/* This part was static, you might want to make it dynamic from Supabase data */}
                 <p className="text-sm text-white/70 mb-2">Spotted at Fashion Week</p>
+                <p className="text-sm text-white/60 mb-2">by {style.creator.displayName}</p>
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {/* This was also static, placeholder items */}
-                  {Array.from({ length: 3 }).map((_, j) => (
-                    <div key={j} className="bg-black/50 px-2 py-1 rounded text-xs text-white/70">
-                      Item #{j + 1}
-                    </div>
-                  ))}
+                  <div className="bg-black/50 px-2 py-1 rounded text-xs text-white/70">
+                    Designer
+                  </div>
+                  <div className="bg-black/50 px-2 py-1 rounded text-xs text-white/70">
+                    Trending
+                  </div>
+                  <div className="bg-black/50 px-2 py-1 rounded text-xs text-white/70">
+                    Celebrity
+                  </div>
                 </div>
-                <button className="bg-white text-black text-sm font-medium px-3 py-1 rounded-full">
-                  Shop Now
+                <button className="bg-white text-black text-sm font-medium px-3 py-1 rounded-full hover:bg-gray-100 transition-colors">
+                  Shop Now - ${style.price}
                 </button>
               </div>
             </div>

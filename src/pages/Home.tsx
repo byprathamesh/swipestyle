@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense } from "react";
 import SwipeCard from "@/components/SwipeCard";
 import ContentToggle from "@/components/ContentToggle";
 import { feedItems } from "@/data/mockData";
@@ -9,7 +9,19 @@ import {
   Sparkles,
   Heart,
   ShoppingBag,
-  Tag
+  Tag,
+  Filter,
+  TrendingUp,
+  Camera,
+  Upload,
+  Zap,
+  Shuffle,
+  Star,
+  Search,
+  Settings,
+  X,
+  RefreshCw,
+  AlertCircle
 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import {
@@ -27,6 +39,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import SwipeStyleLogo from "@/components/SwipeStyleLogo";
+import { motion, AnimatePresence } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 // Fashion image URLs - using only local fashion images
 const fashionImages = [
@@ -46,7 +61,7 @@ const fashionImages = [
   "/assets/fashion/fashion14.jpg",
 ];
 
-// Video thumbnails for GRWM content - also using local fashion images
+// Video thumbnails for GRWM content
 const grwmImages = [
   "/assets/fashion/fashion1.jpg",
   "/assets/fashion/fashion2.jpg",
@@ -86,12 +101,132 @@ const categoryKeywords: Record<string, string[]> = {
   Women: ["women", "female", "girl"]
 };
 
+// Error Boundary Component
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean; error?: Error }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('SwipeStyle Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-red-900 to-gray-900 p-6">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-center"
+          >
+            <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-white mb-4">Oops! Something went wrong</h1>
+            <p className="text-white/70 mb-6">We're working to fix this issue</p>
+            <Button 
+              onClick={() => window.location.reload()} 
+              className="bg-red-600 hover:bg-red-700"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Refresh App
+            </Button>
+          </motion.div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// Enhanced loading component
+const LoadingScreen = ({ contentType }: { contentType: string }) => (
+  <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    {/* Animated background elements */}
+    <div className="absolute inset-0">
+      {[...Array(30)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 bg-white/20 rounded-full"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [-20, -100],
+            opacity: [0, 1, 0],
+            scale: [0, 1, 0]
+          }}
+          transition={{
+            duration: 3,
+            delay: i * 0.1,
+            repeat: Infinity,
+            ease: "easeOut"
+          }}
+        />
+      ))}
+    </div>
+    
+    <motion.div
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="relative z-10"
+    >
+      <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-white/20">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          className="w-16 h-16 mx-auto mb-6"
+        >
+          <Sparkles className="w-full h-full text-white" />
+        </motion.div>
+        
+        <motion.h1 
+          className="text-3xl font-bold text-white text-center mb-4"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          Loading Your Style Feed
+        </motion.h1>
+        
+        <motion.div 
+          className="w-64 h-2 bg-white/20 rounded-full overflow-hidden"
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 1.5 }}
+        >
+          <motion.div 
+            className="h-full bg-gradient-to-r from-pink-500 to-purple-500"
+            animate={{ x: ["-100%", "100%"] }}
+            transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+        
+        <p className="text-white/70 text-center mt-4">
+          Curating {contentType} just for you...
+        </p>
+      </div>
+    </motion.div>
+  </div>
+);
+
 const Home = () => {
   const [currentItems, setCurrentItems] = useState<FeedItem[]>([]);
   const [savedItems, setSavedItems] = useState<FeedItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [contentType, setContentType] = useState<"pictures" | "videos">("pictures");
   const [showAIMenu, setShowAIMenu] = useState(false);
+  const [showCategoryFilter, setShowCategoryFilter] = useState(false);
   const isMobile = useIsMobile();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [likedCategories, setLikedCategories] = useState<string[]>(() => {
@@ -110,366 +245,631 @@ const Home = () => {
   });
   
   const swipeAreaRef = useRef<HTMLDivElement>(null);
-  const celebSectionRef = useRef<HTMLDivElement>(null);
-  const [showCeleb, setShowCeleb] = useState(false);
+  const [swipeStats, setSwipeStats] = useState({ likes: 0, passes: 0 });
+  const [streakCount, setStreakCount] = useState(0);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   
-  // Helper to filter images by category
-  const filterImagesByCategory = (images: string[], category: string) => {
+  // Performance optimization: Memoize heavy calculations
+  const filterImagesByCategory = useCallback((images: string[], category: string) => {
     if (category === "All") return images;
     const keywords = categoryKeywords[category] || [];
     return images.filter(url =>
       keywords.some(kw => url.toLowerCase().includes(kw))
     );
-  };
+  }, []);
+
+  // Network status monitoring
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      toast.success('Back online! 🌐');
+    };
+    
+    const handleOffline = () => {
+      setIsOnline(false);
+      toast.error('You\'re offline. Some features may not work.');
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   // Update localStorage when uploadedImages changes
   useEffect(() => {
-    localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
+    try {
+      localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
+    } catch (error) {
+      console.warn('Failed to save uploaded images to localStorage:', error);
+    }
   }, [uploadedImages]);
 
   // Add uploaded images to the image pool
-  const getImageSource = (type: "pictures" | "videos", category: string) => {
+  const getImageSource = useCallback((type: "pictures" | "videos", category: string) => {
     let base = type === "pictures" ? fashionImages : grwmImages;
     if (uploadedImages.length > 0 && (category === 'All' || category === 'User Uploads')) {
       base = [...uploadedImages, ...base];
     }
     return filterImagesByCategory(base, category);
-  };
+  }, [uploadedImages, filterImagesByCategory]);
 
-  // Updated generateMoreItems to respect selectedCategory
-  const generateMoreItems = (count: number, type: "pictures" | "videos" = "pictures", category: string = selectedCategory): FeedItem[] => {
-    const items: FeedItem[] = [];
-    let imageSource = getImageSource(type, category);
-    if (imageSource.length === 0) imageSource = getImageSource(type, 'All');
-    
-    for (let i = 0; i < count; i++) {
-      // Get a random item from feedItems and create a copy with a unique ID
-      const randomIndex = Math.floor(Math.random() * feedItems.length);
-      const originalItem = feedItems[randomIndex];
+  // Enhanced generateMoreItems with error handling
+  const generateMoreItems = useCallback((count: number, type: "pictures" | "videos" = "pictures", category: string = selectedCategory): FeedItem[] => {
+    try {
+      const items: FeedItem[] = [];
+      let imageSource = getImageSource(type, category);
+      if (imageSource.length === 0) imageSource = getImageSource(type, 'All');
       
-      // Select a random image from our collection
-      const randomImageIndex = Math.floor(Math.random() * imageSource.length);
-      
-      // Deep clone the item and add a unique ID
-      const newItem: FeedItem = {
-        ...JSON.parse(JSON.stringify(originalItem)),
-        id: `${originalItem.id}-${i}-${Date.now() + Math.random()}`,
-        isVideo: type === "videos",
-        shoppingOptions: {
-          buy: true,
-          thrift: Math.random() > 0.3,
-          rent: Math.random() > 0.6
+      for (let i = 0; i < count; i++) {
+        const randomIndex = Math.floor(Math.random() * feedItems.length);
+        const originalItem = feedItems[randomIndex];
+        const randomImageIndex = Math.floor(Math.random() * imageSource.length);
+        
+        const newItem: FeedItem = {
+          ...JSON.parse(JSON.stringify(originalItem)),
+          id: `${originalItem.id}-${i}-${Date.now() + Math.random()}`,
+          isVideo: type === "videos",
+          aiRecommended: Math.random() > 0.7, // 30% chance of AI recommendation
+          shoppingOptions: {
+            buy: true,
+            thrift: Math.random() > 0.3,
+            rent: Math.random() > 0.6
+          }
+        };
+
+        if ("images" in newItem) {
+          newItem.images = [imageSource[randomImageIndex]];
+        } else if (newItem.items && newItem.items.length > 0) {
+          newItem.items[0].image = imageSource[randomImageIndex];
         }
-      };
 
-      // Replace the image with our random fashion image
-      if ("images" in newItem) {
-        newItem.images = [imageSource[randomImageIndex]];
-      } else if (newItem.items && newItem.items.length > 0) {
-        newItem.items[0].image = imageSource[randomImageIndex];
-      }
-
-      // Add some variety to titles for videos
-      if (type === "videos") {
-        const prefixes = ["GRWM:", "Get Ready With Me:", "Styling:", "My Look:"];
-        const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-        newItem.title = `${randomPrefix} ${newItem.title}`;
+        if (type === "videos") {
+          const prefixes = ["GRWM:", "Get Ready With Me:", "Styling:", "My Look:", "Outfit of the Day:"];
+          const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+          newItem.title = `${randomPrefix} ${newItem.title}`;
+        }
+        
+        items.push(newItem);
       }
       
-      items.push(newItem);
+      return items;
+    } catch (error) {
+      console.error('Error generating items:', error);
+      setError('Failed to load content. Please try again.');
+      return [];
     }
-    
-    return items;
-  };
+  }, [selectedCategory, getImageSource]);
 
+  // Initial content loading with error handling
   useEffect(() => {
-    // Simulate loading data with a larger initial pool
-    const timer = setTimeout(() => {
-      // Load random items initially for better variety
-      setCurrentItems(generateMoreItems(15, contentType, selectedCategory));
-      setLoading(false);
-    }, 600); // Reduced loading time for better UX
+    const loadInitialContent = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Simulate network delay for realistic experience
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        const items = generateMoreItems(20, contentType, selectedCategory);
+        if (items.length === 0) {
+          throw new Error('No content available');
+        }
+        
+        setCurrentItems(items);
+      } catch (error) {
+        console.error('Failed to load initial content:', error);
+        setError('Failed to load content. Please check your connection and try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
-  }, [contentType, selectedCategory]);
+    loadInitialContent();
+  }, [contentType, selectedCategory, generateMoreItems]);
 
-  // Show a toast when the page loads to guide the user
+  // Enhanced onboarding toast with better UX
   useEffect(() => {
-    const timer = setTimeout(() => {
-      toast.info('Swipe right to save items you like', {
-        description: 'Discover fashion that matches your style',
-        duration: 3000,
-      });
-    }, 1500);
-    
-    return () => clearTimeout(timer);
-  }, []);
+    if (!loading && currentItems.length > 0) {
+      const timer = setTimeout(() => {
+        toast.success('Welcome to SwipeStyle! 🎉', {
+          description: isMobile 
+            ? 'Swipe right to like, left to pass. Tap the AI button for recommendations!' 
+            : 'Use arrow keys or drag to swipe. Press Enter to view details.',
+          duration: 5000,
+        });
+      }, 1500);
 
-  // Update localStorage when likedCategories changes
+      return () => clearTimeout(timer);
+    }
+  }, [loading, currentItems.length, isMobile]);
+
+  // Auto-generate more content when running low with error handling
   useEffect(() => {
-    localStorage.setItem('likedCategories', JSON.stringify(likedCategories));
+    if (currentItems.length <= 3 && !loading && !error) {
+      try {
+        const newItems = generateMoreItems(15, contentType, selectedCategory);
+        setCurrentItems(prev => [...prev, ...newItems]);
+      } catch (error) {
+        console.error('Failed to generate more items:', error);
+        toast.error('Failed to load more content');
+      }
+    }
+  }, [currentItems.length, loading, error, contentType, selectedCategory, generateMoreItems]);
+
+  const getRandomCategory = useCallback(() => {
+    const weightedCategories = [
+      ...likedCategories,
+      ...likedCategories, // Double weight for liked categories
+      ...categories.filter(cat => !likedCategories.includes(cat))
+    ];
+    return weightedCategories[Math.floor(Math.random() * weightedCategories.length)];
   }, [likedCategories]);
 
-  // Helper to get a random category, favoring likedCategories
-  const getRandomCategory = () => {
-    if (likedCategories.length > 0 && Math.random() < 0.7) {
-      return likedCategories[Math.floor(Math.random() * likedCategories.length)];
-    }
-    return categories[Math.floor(Math.random() * categories.length)];
-  };
-
-  // Infinite swiping: when currentItems is low, load more
-  useEffect(() => {
-    if (!loading && currentItems.length <= 5) {
-      setCurrentItems(prev => ([
-        ...prev,
-        ...generateMoreItems(10, contentType, getRandomCategory())
-      ]));
-    }
-  }, [currentItems.length, loading, contentType, selectedCategory]);
-
-  // When user swipes right, update likedCategories
-  const handleSwipeRight = (item: FeedItem) => {
-    setSavedItems([...savedItems, item]);
-    // Try to infer category from image URL or tags
-    let cat = selectedCategory;
-    if (cat === 'All' && item.title) {
-      for (const c of categories) {
-        if (c !== 'All' && item.title.toLowerCase().includes(c.toLowerCase())) {
-          cat = c;
-          break;
+  const handleSwipeRight = useCallback((item: FeedItem) => {
+    setSavedItems(prev => [item, ...prev]);
+    setSwipeStats(prev => ({ ...prev, likes: prev.likes + 1 }));
+    setStreakCount(prev => prev + 1);
+    
+    // Learn from user preferences
+    const category = getRandomCategory();
+    if (!likedCategories.includes(category) && Math.random() > 0.7) {
+      setLikedCategories(prev => {
+        const updated = [...prev, category];
+        try {
+          localStorage.setItem('likedCategories', JSON.stringify(updated));
+        } catch (error) {
+          console.warn('Failed to save preferences:', error);
         }
-      }
+        return updated;
+      });
     }
-    if (cat !== 'All' && !likedCategories.includes(cat)) {
-      setLikedCategories([...likedCategories, cat]);
-    }
-    toast.success('Added to your favorites!', {
-      description: `${item.title} has been saved to your collection`,
-      action: {
-        label: 'View',
-        onClick: () => console.log('Viewing saved items'),
-      },
-    });
-  };
-
-  const handleSwipeLeft = (item: FeedItem) => {
-    // Item skipped, do nothing specific
-    toast.info('Item skipped', {
-      description: 'Swipe right to save items you like',
+    
+    toast.success('Added to your style collection! ❤️', {
+      description: `Streak: ${streakCount + 1} items`,
       duration: 2000,
     });
-  };
+  }, [likedCategories, getRandomCategory, streakCount]);
 
-  const handleSwipeComplete = () => {
-    // Remove the top item
-    setCurrentItems(prev => {
-      const newItems = [...prev];
-      newItems.shift();
-      
-      // If we're getting low on items, add more
-      if (newItems.length <= 5) {
-        const additionalItems = generateMoreItems(10, contentType, selectedCategory);
-        console.log("Adding more items to the queue:", additionalItems.length);
-        return [...newItems, ...additionalItems];
+  const handleSwipeLeft = useCallback((item: FeedItem) => {
+    setSwipeStats(prev => ({ ...prev, passes: prev.passes + 1 }));
+    setStreakCount(0); // Reset streak on pass
+  }, []);
+
+  const handleSwipeComplete = useCallback(() => {
+    try {
+      if (currentItems.length <= 5) {
+        const moreItems = generateMoreItems(10, contentType, selectedCategory);
+        setCurrentItems(prev => [...prev.slice(1), ...moreItems]);
+      } else {
+        setCurrentItems(prev => prev.slice(1));
       }
-      
-      return newItems;
-    });
-  };
+    } catch (error) {
+      console.error('Error completing swipe:', error);
+      setCurrentItems(prev => prev.slice(1));
+    }
+  }, [currentItems.length, generateMoreItems, contentType, selectedCategory]);
 
-  const handleAIOutfit = (occasion: string) => {
-    toast.success(`AI Style for ${occasion} generated!`, {
-      description: "Creating personalized outfit recommendations...",
+  const handleAIOutfit = useCallback((occasion: string) => {
+    setShowAIMenu(false);
+    toast.info(`Generating ${occasion} outfit...`, {
+      description: 'Our AI is creating perfect looks for you!',
       duration: 3000,
     });
     
-    // Add some new items to the queue that would be "AI recommended"
-    const newItems = generateMoreItems(3, contentType, selectedCategory).map(item => ({
-      ...item,
-      title: `${item.title} for ${occasion}`,
-      aiRecommended: true
-    }));
-    
-    setCurrentItems(prev => [...newItems, ...prev]);
-    setShowAIMenu(false);
-  };
-
-  const handleContentToggle = (type: "pictures" | "videos") => {
-    if (type === contentType) return;
-    
-    setContentType(type);
-    setLoading(true);
-    
-    // Reset cards and load new content
+    // Simulate AI generation with error handling
     setTimeout(() => {
-      setCurrentItems(generateMoreItems(15, type, selectedCategory));
-      setLoading(false);
-      
-      toast.info(
-        type === "pictures" 
-          ? "Showing outfit inspirations" 
-          : "Showing Get Ready With Me videos",
-        { duration: 2000 }
-      );
-    }, 800);
-  };
-
-  // Check if we need to load initial items when current items are empty
-  useEffect(() => {
-    if (!loading && currentItems.length === 0) {
-      setCurrentItems(generateMoreItems(15, contentType, selectedCategory));
-    }
-  }, [currentItems.length, loading, contentType, selectedCategory]);
-
-  // Add AI Outfit Generation logic
-  const [aiLoading, setAiLoading] = useState(false);
-  const handleAIGenerate = () => {
-    setAiLoading(true);
-    setTimeout(() => {
-      // Simulate 3 new AI-generated outfits
-      const aiItems = generateMoreItems(3, contentType, selectedCategory).map(item => ({
-        ...item,
-        title: `AI Generated: ${item.title}`,
-        aiRecommended: true
-      }));
-      setCurrentItems(prev => [...aiItems, ...prev]);
-      setAiLoading(false);
-      toast.success('AI Outfits generated!', { description: 'Check out your new AI-inspired looks!' });
-      // Haptic feedback
-      if (window.navigator.vibrate) window.navigator.vibrate(100);
-    }, 1200);
-  };
-
-  // Add haptic feedback and subtle swipe animation for mobile
-  const handleSwipeRightWithHaptics = (item: FeedItem) => {
-    if (window.navigator.vibrate) window.navigator.vibrate(50);
-    handleSwipeRight(item);
-  };
-  const handleSwipeLeftWithHaptics = (item: FeedItem) => {
-    if (window.navigator.vibrate) window.navigator.vibrate(30);
-    handleSwipeLeft(item);
-  };
-
-  useEffect(() => {
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        setShowCeleb(entry.isIntersecting === false);
-      },
-      {
-        root: null,
-        threshold: 0.1,
+      try {
+        const aiItems = generateMoreItems(5, "pictures", "All").map(item => ({
+          ...item,
+          aiRecommended: true,
+          title: `AI Generated: ${occasion} Look - ${item.title}`
+        }));
+        
+        setCurrentItems(prev => [...aiItems, ...prev]);
+        toast.success('AI outfit ready! ✨', {
+          description: 'Swipe through your personalized recommendations',
+        });
+      } catch (error) {
+        console.error('AI generation failed:', error);
+        toast.error('Failed to generate AI outfits. Please try again.');
       }
-    );
-    if (swipeAreaRef.current) {
-      observer.observe(swipeAreaRef.current);
+    }, 2000);
+  }, [generateMoreItems]);
+
+  const handleContentToggle = useCallback((type: "pictures" | "videos") => {
+    if (type !== contentType) {
+      setLoading(true);
+      setContentType(type);
+      setError(null);
+      
+      toast.info(`Switching to ${type}...`, {
+        description: 'Loading fresh content for you',
+        duration: 2000,
+      });
     }
-    return () => {
-      if (swipeAreaRef.current) observer.unobserve(swipeAreaRef.current);
-    };
+  }, [contentType]);
+
+  // Enhanced category selection
+  const handleCategorySelect = useCallback((category: string) => {
+    if (category !== selectedCategory) {
+      setSelectedCategory(category);
+      setLoading(true);
+      setShowCategoryFilter(false);
+      setError(null);
+      
+      toast.info(`Filtering by ${category}...`, {
+        description: 'Finding styles that match your vibe',
+        duration: 2000,
+      });
+    }
+  }, [selectedCategory]);
+
+  const handleAIGenerate = useCallback(() => {
+    setShowAIMenu(!showAIMenu);
+  }, [showAIMenu]);
+
+  const handleImageUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Image too large. Please choose a file under 5MB.');
+        return;
+      }
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please select a valid image file.');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const imageUrl = e.target?.result as string;
+          setUploadedImages(prev => [imageUrl, ...prev.slice(0, 9)]); // Limit to 10 uploaded images
+          toast.success('Image uploaded! 📸', {
+            description: 'Your photo has been added to the style feed',
+          });
+        } catch (error) {
+          console.error('Upload failed:', error);
+          toast.error('Failed to upload image. Please try again.');
+        }
+      };
+      reader.onerror = () => {
+        toast.error('Failed to read image file.');
+      };
+      reader.readAsDataURL(file);
+    }
   }, []);
 
-  return (
-    <div className={`min-h-screen bg-background flex flex-col ${!isMobile ? 'pl-16' : 'pb-16'}`}>
-      <div className="max-w-md mx-auto px-2 pt-4 h-full w-full relative flex flex-col">
-        {/* Header: ContentToggle and AI Fit button, each taking half width */}
-        <div className="flex w-full items-center justify-center gap-1 mb-4 sm:mb-8">
-          <div className="w-1/2">
-            <ContentToggle activeTab={contentType} onToggle={handleContentToggle} />
-          </div>
-          <div className="w-1/2">
-            <button
-              className="flex w-full items-center justify-center gap-2 px-2 py-2 text-xs sm:text-sm rounded-full font-medium bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow hover:scale-105 transition-transform duration-200 disabled:opacity-60"
-              onClick={handleAIGenerate}
-              disabled={aiLoading}
+  // Error state
+  if (error && !loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-red-900 to-gray-900 p-6">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-center max-w-md"
+        >
+          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-white mb-4">Something went wrong</h1>
+          <p className="text-white/70 mb-6">{error}</p>
+          
+          {!isOnline && (
+            <Alert className="mb-6 bg-orange-900/50 border-orange-500">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-orange-200">
+                You appear to be offline. Please check your internet connection.
+              </AlertDescription>
+            </Alert>
+          )}
+          
+          <div className="flex gap-4 justify-center">
+            <Button 
+              onClick={() => window.location.reload()} 
+              className="bg-red-600 hover:bg-red-700"
             >
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
-              {aiLoading ? 'Generating...' : 'AI Fit'}
-            </button>
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Refresh
+            </Button>
+            <Button 
+              onClick={() => setError(null)} 
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              Try Again
+            </Button>
           </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return <LoadingScreen contentType={contentType} />;
+  }
+
+  if (currentItems.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black p-6">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="text-center"
+        >
+          <Shuffle className="w-24 h-24 text-white/50 mx-auto mb-6" />
+          <h1 className="text-3xl font-bold text-white mb-4">No more items!</h1>
+          <p className="text-white/70 mb-6">Check back later for fresh styles</p>
+          
+          <Button 
+            onClick={() => window.location.reload()} 
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          >
+            <Shuffle className="w-4 h-4 mr-2" />
+            Refresh Feed
+          </Button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <ErrorBoundary>
+      <div 
+        className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden"
+        role="main"
+        aria-label="SwipeStyle Fashion Discovery App"
+      >
+        {/* Enhanced background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 25% 25%, #purple 2px, transparent 2px), radial-gradient(circle at 75% 75%, #pink 2px, transparent 2px)',
+            backgroundSize: '50px 50px'
+          }} />
         </div>
-        {/* Swipe card area - grows to fill available space */}
-        {loading ? (
-          <div ref={swipeAreaRef} className="flex-grow flex w-full flex-col items-center justify-center">
-            <div className="w-16 h-16 relative">
-              <div className="absolute inset-0 bg-white/10 rounded-full animate-pulse opacity-75" />
-              <div className="w-14 h-14 m-1 rounded-full border-4 border-transparent border-t-white animate-spin" />
-            </div>
-            <p className="mt-4 text-white/70">Discovering amazing styles for you...</p>
-          </div>
-        ) : (
-          <div ref={swipeAreaRef} className="flex-grow w-full max-w-sm mx-auto relative">
-            {currentItems.length > 0 ? (
-              currentItems.slice(0, 3).reverse().map((item, indexInStack) => (
-                <SwipeCard
-                  key={`${item.id}-${indexInStack}`}
-                  item={item}
-                  indexInStack={indexInStack}
-                  onSwipeLeft={handleSwipeLeftWithHaptics}
-                  onSwipeRight={handleSwipeRightWithHaptics}
-                  onSwipeComplete={handleSwipeComplete}
-                />
-              ))
-            ) : (
-              <div className="h-full flex flex-col items-center justify-center">
-                <p className="text-xl text-white/70">No more designs to show!</p>
-                <Button 
-                  className="mt-4 px-6 py-3 bg-gradient-to-r from-white to-white/90 text-black rounded-full font-medium shadow-lg hover:shadow-xl transition-all"
-                  onClick={() => {
-                    const newItems = generateMoreItems(20, contentType, selectedCategory);
-                    setCurrentItems(newItems);
-                    toast.success('Fresh styles loaded!');
-                  }}
-                >
-                  Discover More Styles
-                </Button>
-              </div>
+        
+        {/* Enhanced header with accessibility */}
+        <motion.header 
+          className="relative z-20 p-6 flex justify-between items-center backdrop-blur-md bg-black/20 border-b border-white/10"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          role="banner"
+        >
+          <div className="flex items-center gap-4">
+            <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+              <SwipeStyleLogo />
+            </motion.div>
+            
+            <motion.div 
+              className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm"
+              whileHover={{ scale: 1.05 }}
+              aria-label={`${swipeStats.likes} items liked`}
+            >
+              <TrendingUp className="w-4 h-4 text-green-400" aria-hidden="true" />
+              <span className="text-white font-semibold">{swipeStats.likes}</span>
+              <span className="text-white/60">likes</span>
+            </motion.div>
+            
+            {!isOnline && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="flex items-center gap-2 bg-orange-500/20 px-3 py-2 rounded-full border border-orange-500/30"
+              >
+                <AlertCircle className="w-4 h-4 text-orange-400" />
+                <span className="text-orange-200 text-sm">Offline</span>
+              </motion.div>
             )}
           </div>
-        )}
-        {/* Celebrity Outfits Carousel - larger images, reveal on scroll */}
-        <div
-          ref={celebSectionRef}
-          className={`mt-12 transition-all duration-700 ease-out ${showCeleb ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none hidden'}`}
+          
+          <div className="flex items-center gap-3">
+            {/* Category filter */}
+            <DropdownMenu open={showCategoryFilter} onOpenChange={setShowCategoryFilter}>
+              <DropdownMenuTrigger asChild>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm focus:ring-2 focus:ring-purple-500"
+                    aria-label={`Filter by category: ${selectedCategory}`}
+                  >
+                    <Filter className="w-4 h-4 mr-2" aria-hidden="true" />
+                    {selectedCategory}
+                  </Button>
+                </motion.div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-black/90 backdrop-blur-md border-white/20">
+                {categories.map((category) => (
+                  <DropdownMenuItem
+                    key={category}
+                    onClick={() => handleCategorySelect(category)}
+                    className="text-white hover:bg-white/10"
+                  >
+                    {category}
+                    {likedCategories.includes(category) && (
+                      <Star className="w-4 h-4 ml-auto text-yellow-400" aria-label="Favorite category" />
+                    )}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            {/* Upload button */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm focus:ring-2 focus:ring-purple-500"
+                onClick={() => document.getElementById('image-upload')?.click()}
+                aria-label="Upload your own image"
+              >
+                <Upload className="w-4 h-4" aria-hidden="true" />
+              </Button>
+            </motion.div>
+            
+            <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+              aria-label="Choose image file to upload"
+            />
+          </div>
+        </motion.header>
+
+        {/* Content type toggle */}
+        <motion.div 
+          className="relative z-20 flex justify-center py-6"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
         >
-          <h2 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
-            <Sparkles className="w-4 h-4" />
-            Celebrity Spotted
-          </h2>
-          <Carousel className="w-full">
-            <CarouselContent className="-ml-2">
-              {[...Array(5)].map((_, i) => (
-                <CarouselItem key={i} className="pl-2 basis-2/3 sm:basis-1/3">
-                  <div className="flex-shrink-0 rounded-xl overflow-hidden border border-white/10 animate-fade-in">
-                    <div className="aspect-[2/3] w-full h-auto bg-black/60 relative">
-                      <img 
-                        src={`/assets/fashion/fashion${(i % 14) + 1}.jpg`}
-                        alt={`Celebrity outfit ${i+1}`}
-                        className="w-full h-full object-cover opacity-80"
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm p-2">
-                        <p className="text-xs font-medium text-white">Celebrity {i+1}</p>
-                        <div className="flex items-center justify-between mt-1">
-                          <p className="text-[10px] text-white/70">$299</p>
-                          <Button variant="link" size="sm" className="text-[10px] h-auto p-0 text-white/90">
-                            Details
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="flex items-center justify-end gap-1 mt-2">
-              <CarouselPrevious className="relative static left-0 right-auto h-7 w-7" />
-              <CarouselNext className="relative static right-0 h-7 w-7" />
-            </div>
-          </Carousel>
+          <ContentToggle contentType={contentType} onToggle={handleContentToggle} />
+        </motion.div>
+
+        {/* Enhanced swipe area with accessibility */}
+        <div className="relative z-10 px-6 pb-32" ref={swipeAreaRef}>
+          <motion.div 
+            className="max-w-sm mx-auto h-[70vh] relative focus-within:ring-4 focus-within:ring-purple-500/50 rounded-3xl"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            role="region"
+            aria-label="Fashion items to swipe through"
+            aria-live="polite"
+          >
+            <Suspense fallback={<div>Loading cards...</div>}>
+              <AnimatePresence mode="popLayout">
+                {currentItems.slice(0, 3).map((item, index) => (
+                  <SwipeCard
+                    key={item.id}
+                    item={item}
+                    onSwipeLeft={handleSwipeLeft}
+                    onSwipeRight={handleSwipeRight}
+                    onSwipeComplete={handleSwipeComplete}
+                    indexInStack={index}
+                  />
+                ))}
+              </AnimatePresence>
+            </Suspense>
+          </motion.div>
         </div>
+
+        {/* Enhanced action buttons with accessibility */}
+        <motion.div 
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-6 z-30"
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.8 }}
+          role="group"
+          aria-label="Swipe actions"
+        >
+          {/* Pass button */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => currentItems.length > 0 && handleSwipeLeft(currentItems[0])}
+            className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-2xl hover:bg-red-500/30 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-500/50"
+            aria-label="Pass on this item (swipe left)"
+            disabled={currentItems.length === 0}
+          >
+            <X className="w-8 h-8 text-white" aria-hidden="true" />
+          </motion.button>
+          
+          {/* AI button */}
+          <DropdownMenu open={showAIMenu} onOpenChange={setShowAIMenu}>
+            <DropdownMenuTrigger asChild>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/20 hover:shadow-purple-500/25 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-purple-500/50"
+                aria-label="Get AI outfit recommendations"
+              >
+                <Sparkles className="w-10 h-10 text-white" aria-hidden="true" />
+              </motion.button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-black/90 backdrop-blur-md border-white/20 mb-4">
+              <DropdownMenuItem 
+                onClick={() => handleAIOutfit("Casual")}
+                className="text-white hover:bg-white/10"
+              >
+                <Tag className="w-4 h-4 mr-2" aria-hidden="true" />
+                Casual Look
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => handleAIOutfit("Formal")}
+                className="text-white hover:bg-white/10"
+              >
+                <Star className="w-4 h-4 mr-2" aria-hidden="true" />
+                Formal Outfit
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => handleAIOutfit("Party")}
+                className="text-white hover:bg-white/10"
+              >
+                <Zap className="w-4 h-4 mr-2" aria-hidden="true" />
+                Party Style
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
+          {/* Like button */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => currentItems.length > 0 && handleSwipeRight(currentItems[0])}
+            className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-2xl hover:bg-green-500/30 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-500/50"
+            aria-label="Like this item (swipe right)"
+            disabled={currentItems.length === 0}
+          >
+            <Heart className="w-8 h-8 text-white" aria-hidden="true" />
+          </motion.button>
+        </motion.div>
+
+        {/* Enhanced stats overlay */}
+        <AnimatePresence>
+          {streakCount > 0 && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              className="fixed top-32 right-6 z-30"
+              role="status"
+              aria-label={`Current streak: ${streakCount} items`}
+            >
+              <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 text-lg font-bold shadow-xl">
+                🔥 {streakCount} streak!
+              </Badge>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Keyboard shortcut hint for desktop */}
+        {!isMobile && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3 }}
+            className="fixed bottom-4 left-4 z-20 bg-black/60 backdrop-blur-sm rounded-lg p-3 text-white/70 text-sm"
+          >
+            <p className="mb-1">Keyboard shortcuts:</p>
+            <div className="flex gap-4 text-xs">
+              <span>← Pass</span>
+              <span>→ Like</span>
+              <span>Enter Details</span>
+            </div>
+          </motion.div>
+        )}
       </div>
-    </div>
+    </ErrorBoundary>
   );
 };
 
-export default Home;
+export default React.memo(Home);

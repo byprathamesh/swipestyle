@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SwipeStyle - AI-powered fashion discovery app with swipe-based interactions. Discover your perfect style through personalized fashion recommendations." />
+    <meta name="keywords" content="fashion, style, AI, swipe, discovery, clothing, outfit, shopping" />
+    <meta name="author" content="SwipeStyle Team" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="SwipeStyle - Fashion Discovery" />
+    <meta property="og:description" content="AI-powered fashion discovery app with swipe-based interactions" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://swipestyle.app" />
+    <meta property="og:image" content="/assets/og-image.png" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SwipeStyle - Fashion Discovery" />
+    <meta name="twitter:description" content="AI-powered fashion discovery app with swipe-based interactions" />
+    <meta name="twitter:image" content="/assets/twitter-image.png" />
+    
+    <!-- Theme and Color -->
+    <meta name="theme-color" content="#8b5cf6" />
+    <meta name="msapplication-TileColor" content="#8b5cf6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="alternate icon" href="/assets/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/assets/fashion/fashion1.jpg" as="image" />
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <title>SwipeStyle - Fashion Discovery</title>
+    
+    <!-- Accessibility -->
+    <style>
+      /* Loading screen styles */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1e293b 0%, #7c3aed 50%, #1e293b 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      }
+      
+      .loading-logo {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(45deg, #8b5cf6, #ec4899);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulse 2s infinite;
+        margin-bottom: 24px;
+      }
+      
+      .loading-text {
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+      
+      .loading-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 16px;
+        text-align: center;
+        max-width: 300px;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-top: 4px solid #8b5cf6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-top: 24px;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* High contrast mode support */
+      @media (prefers-contrast: high) {
+        .loading-screen {
+          background: black;
+        }
+        .loading-text, .loading-subtitle {
+          color: white;
+        }
+      }
+      
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        .loading-logo, .loading-spinner {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-logo">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="white"/>
+        </svg>
+      </div>
+      <div class="loading-text">SwipeStyle</div>
+      <div class="loading-subtitle">Loading your personalized fashion discovery experience</div>
+      <div class="loading-spinner"></div>
+    </div>
+
+    <!-- App Root -->
+    <div id="root"></div>
+    
+    <!-- Main Script -->
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Hide loading screen once React loads -->
+    <script>
+      // Hide loading screen once React takes over
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(() => {
+              loadingScreen.remove();
+            }, 500);
+          }
+        }, 1000);
+      });
+      
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+      
+      // Accessibility enhancements
+      document.addEventListener('DOMContentLoaded', () => {
+        // Add skip link for keyboard navigation
+        const skipLink = document.createElement('a');
+        skipLink.href = '#main-content';
+        skipLink.textContent = 'Skip to main content';
+        skipLink.style.cssText = `
+          position: absolute;
+          top: -40px;
+          left: 6px;
+          background: #000;
+          color: #fff;
+          padding: 8px;
+          text-decoration: none;
+          border-radius: 4px;
+          z-index: 10000;
+        `;
+        skipLink.addEventListener('focus', () => {
+          skipLink.style.top = '6px';
+        });
+        skipLink.addEventListener('blur', () => {
+          skipLink.style.top = '-40px';
+        });
+        document.body.insertBefore(skipLink, document.body.firstChild);
+      });
+    </script>
+  </body>
+</html> 
